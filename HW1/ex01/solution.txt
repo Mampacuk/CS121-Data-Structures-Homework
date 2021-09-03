@@ -1,0 +1,31 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    solution.txt                                       :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/09/03 22:24:21 by aisraely          #+#    #+#              #
+#    Updated: 2021/09/03 22:24:21 by aisraely         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+EXERCISE 2
+
+Let's simplify and drop the expressions:
+
+1) 48n + 5log(n)	=> 48n		=> 48n
+2) 								   4^n
+3) -8n + 2n^3					=> n^3 - 8n
+4) (9/4)^n						=> 2.25^n
+5) 2n^5							=> n^5
+6) 								   10n
+7) 2100 * 2^110					=> 1
+8) 								   60logn + 10n
+9) 3n + 2nlogn					=> nlogn
+10) 1 + logn					=> logn
+11) 2n^3						=> n^3
+12) 17n^3 + n^4					=> n^4
+
+Thus we can conclude that, in ASCENDING ORDER, the functions can be ranked as:
+	7, 10, 6, 1, 8, 9, 3, 11, 12, 5, 4, 2

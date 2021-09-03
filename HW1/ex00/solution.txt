@@ -1,0 +1,63 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    solution.txt                                       :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/09/03 22:24:28 by aisraely          #+#    #+#              #
+#    Updated: 2021/09/03 22:24:28 by aisraely         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+EXERCISE 1
+
+# for (int i = 0; i < a.length; i++)
+# {
+# 	if (a[i] < 0)
+# 		continue ;
+# 	if (a[i] != 0)
+# 		a[i] = a[i] * (−1);
+# }
+
+a) Give the total number of element comparisons (i.e. involving an element of the array)
+as a function of the length of the array (not Big-O notation).
+
+Answer:
+	Every iteration will certainly enter Line 3; thus we have a solid N comparisons,
+	in the best-case scenario (when all of the numbers are negative).
+
+	Then, if the check at Line 3 fails, then another one takes place, allowing another N
+	comparisons to happen in the worst-case scenario (when all numbers are non-negative).
+
+	Since we've agreed to judge algorithms by the worst-case scenario, the given
+	algorithm can be expressed as a function:
+							f(n) = 2n,
+		where n is the input size (the length of the array).
+
+b) Can the algorithm be improved in terms of the number of comparisons? If so, show
+how and give the total number of element comparisons in the best and worst case
+analysis for your improved version of the algorithm.
+
+Answer:
+	The check at the previous Line 5 is unnecessary:
+
+	# for (int i = 0; i < a.length; i++)
+	# 	if (a[i] < 0)
+	# 		a[i] = a[i] * (−1);
+
+	It'd just double the number of comparisons in the worst-case scenario.
+
+	Now, both in the best- and worst-case scenario, the algorithm can be
+	expressed as a linear function:
+							f(n) = n,
+		where n is the input size (the length of the array).
+
+c)  Give the Big-O estimate of the running time of the original code and the improved
+version from (b).
+
+Answer:
+	In both cases, we have a loop that traverses an array of length N.
+	Even though the old code can be two times slower, its coefficient (2) is dropped.
+
+	Both of the functions are O(n).
