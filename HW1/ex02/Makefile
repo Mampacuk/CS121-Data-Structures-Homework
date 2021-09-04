@@ -6,16 +6,12 @@
 #    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/04 13:08:17 by aisraely          #+#    #+#              #
-#    Updated: 2021/09/04 13:08:17 by aisraely         ###   ########.fr        #
+#    Updated: 2021/09/04 19:21:05 by aisraely         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-DFL			= a
+DFL			= palicount
 TEST		= test
-
-# PLEASE REPLACE THIS LINE WITH `UNIX`, OR DELETE IT,
-# IF YOU USE UNIX-LIKE SYSTEMS
-OS			= WINDOWS
 
 SRCS		= ft_count_palindromes.cpp main.cpp
 TEST_SRCS	= ft_count_palindromes.cpp tester.cpp
@@ -24,7 +20,7 @@ TEST_OBJS	= $(TEST_SRCS:.cpp=.o)
 CC			= g++
 FLAGS		= -Wall -Wextra -Werror
 
-ifeq ($(OS), WINDOWS)
+ifeq ($(OS), Windows_NT)
 	RM		= del /f /q >nul 2>&1
 else
 	RM		= rm -rf
@@ -42,7 +38,7 @@ clean:
 	@$(RM) $(OBJS)
 	@$(RM) $(TEST_OBJS)
 
-ifeq ($(OS), WINDOWS)
+ifeq ($(OS), Windows_NT)
 fclean: clean
 	@$(RM) $(addsuffix .exe,$(DFL))
 	@$(RM) $(addsuffix .exe,$(TEST))
