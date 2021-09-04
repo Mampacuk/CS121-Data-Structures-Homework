@@ -47,6 +47,8 @@ int	ft_inspect_high(int *arr, int arr_size, int high)
 /*
  * Takes in an array to be inspected and its size as the next argument; 
  * `low` is expected to be 0 whereas high is expected to be `arr_size - 1`.
+ * ATTENTION: it is assumed that `arr_size` is a positive integer;
+ * error handling is NOT implemented and it is assumed that the input is valid
  */
 int	ft_count_palindromes(int *arr, int arr_size, int low, int high)
 {
@@ -57,8 +59,23 @@ int	ft_count_palindromes(int *arr, int arr_size, int low, int high)
 		 */
 		if (arr_size >= 3)
 		{
-			if (arr[low - 1] == arr[high + 1])
-				return (-1);			
+			/*
+			 * There's one duplicate if the length is odd 
+			 */
+			if (arr_size % 2)
+			{
+				if (arr[low - 1] == arr[high + 1])
+					return (-1);					
+			}
+			/*
+			 * There are two more duplicates than usual if the
+			 * length is even 
+			 */
+			else
+			{
+				if (arr[low] == arr[high])
+					return (-3);
+			}
 		}
 		/*
 		 * To avoid a duplicate in case of [x, x] 
