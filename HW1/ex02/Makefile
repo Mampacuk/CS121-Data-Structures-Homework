@@ -53,4 +53,4 @@ endif
 
 re: fclean all
 
-.PHONY: clean fclean re all
+.PHONY: clean fclean re all test

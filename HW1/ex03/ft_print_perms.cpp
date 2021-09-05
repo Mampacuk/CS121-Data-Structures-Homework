@@ -46,6 +46,9 @@ int	ft_isvowel(e_set val)
  */
 void	ft_build_next_character(int depth, e_set selected, std::string base)
 {
+	/*
+	 * Base case; no need to go deeper, just print the assembled string 
+	 */
 	if (depth <= 0 || selected < a || selected > d)
 	{
 		std::cout << base << std::endl;
@@ -54,6 +57,9 @@ void	ft_build_next_character(int depth, e_set selected, std::string base)
 	if (ft_isvowel(selected))
 	{
 		ft_build_next_character(depth - 1, b, base + ft_convert_character(selected));
+		/*
+		 * Go deeper if it's not the last node 
+		 */
 		if (depth - 1)
 		{
 			ft_build_next_character(depth - 1, c, base + ft_convert_character(selected));
@@ -63,6 +69,9 @@ void	ft_build_next_character(int depth, e_set selected, std::string base)
 	else
 	{
 		ft_build_next_character(depth - 1, a, base + ft_convert_character(selected));
+		/*
+		 * Go deeper if it's not the last node 
+		 */
 		if (depth - 1)
 			ft_build_next_character(depth - 1, e, base + ft_convert_character(selected));
 	}

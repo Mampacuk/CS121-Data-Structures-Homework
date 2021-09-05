@@ -5,16 +5,16 @@
 #                                                     +:+ +:+         +:+      #
 #    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/09/05 11:56:39 by aisraely          #+#    #+#              #
-#    Updated: 2021/09/05 11:56:39 by aisraely         ###   ########.fr        #
+#    Created: 2021/09/05 12:22:58 by aisraely          #+#    #+#              #
+#    Updated: 2021/09/05 12:22:58 by aisraely         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-DFL			= perms
+DFL			= triangle
 TEST		= test
 
-SRCS		= ft_print_perms.cpp main.cpp
-TEST_SRCS	= ft_print_perms.cpp tester.cpp
+SRCS		= ft_draw_triangle.cpp main.cpp
+TEST_SRCS	= ft_draw_triangle.cpp tester.cpp
 OBJS		= $(SRCS:.cpp=.o)
 TEST_OBJS	= $(TEST_SRCS:.cpp=.o)
 CC			= g++
