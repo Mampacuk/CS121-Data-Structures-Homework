@@ -1,63 +1,84 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_print_perms.cpp                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/05 11:53:07 by aisraely          #+#    #+#             */
+/*   Updated: 2021/09/05 11:53:07 by aisraely         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "perms.hpp"
 
-void	ft_output_character(int val)
+/*
+ * Convert enum to string for concatenation 
+ */
+std::string	ft_convert_character(e_set val)
 {
+	std::string	character;
+
 	if (val == a)
-		std::cout << "a";
+		character = "a";
 	else if (val == b)
-		std::cout << "b";
+		character = "b";
 	else if (val == c)
-		std::cout << "c";
+		character = "c";
 	else if (val == d)
-		std::cout << "d";
+		character = "d";
 	else if (val == e)
-		std::cout << "e";
+		character = "e";
+	return (character);
 }
 
-int	ft_isvowel(int val)
+/*
+ * Find out whether the enum is a vowel 
+ */
+int	ft_isvowel(e_set val)
 {
-	return (val == a || val == b);
+	return (val == a || val == e);
 }
 
-void	ft_print_next_character(int depth, int selected, int vowel, int consonant)
+/*
+ * Takes in the depth (length), the character to start with, and the base
+ * (should be an empty string "" ideally) 
+ */
+void	ft_build_next_character(int depth, e_set selected, std::string base)
 {
-	if (depth <= 0 || vowel > e || consonant > d)
+	if (depth <= 0 || selected < a || selected > d)
+	{
+		std::cout << base << std::endl;
 		return ;
+	}
 	if (ft_isvowel(selected))
 	{
-		ft_output_character(selected); // PRINTED a
-		selected = consonant; //b
-		ft_print_next_character(depth - 1, selected, vowel, consonant + 1);
-		//ft_print_next_character(2, b, a, d);
-		//b
-		//b = a;
-		//PRINTED b
-		//ft_print_next_character(1, a, e, d);
-		//PRINTED e
-		//ft_print_next_character(0, d, e, d+1);
-
-
-
-		//abe
+		ft_build_next_character(depth - 1, b, base + ft_convert_character(selected));
+		if (depth - 1)
+		{
+			ft_build_next_character(depth - 1, c, base + ft_convert_character(selected));
+			ft_build_next_character(depth - 1, d, base + ft_convert_character(selected));
+		}
 	}
 	else
 	{
-		ft_output_character(selected);
-		selected = vowel;
-		ft_print_next_character(depth - 1, selected, vowel + 1, consonant);
+		ft_build_next_character(depth - 1, a, base + ft_convert_character(selected));
+		if (depth - 1)
+			ft_build_next_character(depth - 1, e, base + ft_convert_character(selected));
 	}
 }
 
+/*
+ * Prints result for each character with appropriate empty base 
+ */
 void	ft_print_perms(int n)
 {
-	ft_print_next_character(n, a, a, b);
-	std::cout << std::endl;
-	ft_print_next_character(n, b, a, b);
-	std::cout << std::endl;
-	ft_print_next_character(n, c, a, b);
-	std::cout << std::endl;
-	ft_print_next_character(n, d, a, b);
-	std::cout << std::endl;
-	ft_print_next_character(n, e, a, b);
-	std::cout << std::endl;
+	std::string	base;
+	
+	base = "";
+	ft_build_next_character(n, a, base);
+	ft_build_next_character(n, b, base);
+	ft_build_next_character(n, c, base);
+	ft_build_next_character(n, d, base);
+	ft_build_next_character(n, e, base);
 }

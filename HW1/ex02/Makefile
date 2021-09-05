@@ -18,21 +18,24 @@ TEST_SRCS	= ft_count_palindromes.cpp tester.cpp
 OBJS		= $(SRCS:.cpp=.o)
 TEST_OBJS	= $(TEST_SRCS:.cpp=.o)
 CC			= g++
-FLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wextra -Werror
 
 ifeq ($(OS), Windows_NT)
-	RM		= del /f /q >nul 2>&1
+	RM		= del /f >nul 2>&1
 else
 	RM		= rm -rf
 endif
 
 all: $(DFL)
 
+.cpp.o:
+	@$(CC) $(CFLAGS) -c $< -o $(<:.cpp=.o)
+
 $(DFL): $(OBJS)
-	@$(CC) $(OBJS) $(FLAGS) -o $(DFL)
+	@$(CC) $(CFLAGS) $(OBJS) -o $(DFL)
 
 test: $(TEST_OBJS)
-	@$(CC) $(TEST_OBJS) $(FLAGS) -o $(TEST)
+	@$(CC) $(CFLAGS) $(TEST_OBJS) -o $(TEST)
 
 clean:
 	@$(RM) $(OBJS)
