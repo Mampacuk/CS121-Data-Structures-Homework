@@ -1,5 +1,7 @@
 # CS121-DataStructures
 
+American University of Armenia
+
 CS121C Data Structures Course Homework Assignments by Alexander Israelyan
 
 ## Foreword
