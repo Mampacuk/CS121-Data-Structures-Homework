@@ -1,24 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sorting.hpp                                        :+:      :+:    :+:   */
+/*   stepper.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/18 17:39:28 by aisraely          #+#    #+#             */
-/*   Updated: 2021/09/18 17:39:29 by aisraely         ###   ########.fr       */
+/*   Created: 2021/09/18 18:30:36 by aisraely          #+#    #+#             */
+/*   Updated: 2021/09/18 18:30:37 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SORTING_HPP
-# define SORTING_HPP
+#ifndef STEPPER_HPP
+# define STEPPER_HPP
 
-# include <stdlib.h>
+# define KNRM  "\x1B[0m"
+# define KRED  "\x1B[31m"
+# define KGRN  "\x1B[32m"
+# define KYEL  "\x1B[33m"
+# define KBLU  "\x1B[34m"
+# define KMAG  "\x1B[35m"
+# define KCYN  "\x1B[36m"
+# define KWHT  "\x1B[37m"
+
+# include <stdio.h>
 # include <iostream>
 
-int		ft_strcmp(const char *s1, const char *s2);
-void	ft_swap(char **s1, char **s2);
-void	ft_selection_sort(char **arr);
-void	ft_insertion_sort(char **arr, char **head);
+int	ft_check_step(int *arr, int arr_size);
+int	ft_find_step(int *arr, int arr_size);
 
 #endif

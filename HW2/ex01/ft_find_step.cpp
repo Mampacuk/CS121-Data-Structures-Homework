@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sorting.hpp                                        :+:      :+:    :+:   */
+/*   ft_find_step.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/18 17:39:28 by aisraely          #+#    #+#             */
-/*   Updated: 2021/09/18 17:39:29 by aisraely         ###   ########.fr       */
+/*   Created: 2021/09/18 18:30:25 by aisraely          #+#    #+#             */
+/*   Updated: 2021/09/18 18:30:26 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SORTING_HPP
-# define SORTING_HPP
+#include "stepper.hpp"
 
-# include <stdlib.h>
-# include <iostream>
+int	ft_find_step(int *arr, int arr_size)
+{
+	int	i;
 
-int		ft_strcmp(const char *s1, const char *s2);
-void	ft_swap(char **s1, char **s2);
-void	ft_selection_sort(char **arr);
-void	ft_insertion_sort(char **arr, char **head);
-
-#endif
+	i = 0;
+	while (i < arr_size - 1)
+	{
+		if ((arr[i] - arr[i + 1]) % 2 == 0)
+			return (i);
+		i++;
+	}
+	return (-1);
+}

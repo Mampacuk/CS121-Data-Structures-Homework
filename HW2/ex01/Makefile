@@ -5,16 +5,16 @@
 #                                                     +:+ +:+         +:+      #
 #    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/09/18 17:39:24 by aisraely          #+#    #+#              #
-#    Updated: 2021/09/18 17:39:25 by aisraely         ###   ########.fr        #
+#    Created: 2021/09/18 18:30:33 by aisraely          #+#    #+#              #
+#    Updated: 2021/09/18 18:30:34 by aisraely         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-DFL			= sorting
+DFL			= stepper
 TEST		= test
 
-SRCS		= ft_selection_sort.cpp ft_insertion_sort.cpp ft_swap.cpp ft_strcmp.cpp main.cpp
-TEST_SRCS	= ft_selection_sort.cpp ft_insertion_sort.cpp ft_swap.cpp ft_strcmp.cpp tester.cpp
+SRCS		= ft_check_step.cpp ft_find_step.cpp main.cpp
+TEST_SRCS	= ft_check_step.cpp ft_find_step.cpp tester.cpp
 OBJS		= $(SRCS:.cpp=.o)
 TEST_OBJS	= $(TEST_SRCS:.cpp=.o)
 CC			= g++
