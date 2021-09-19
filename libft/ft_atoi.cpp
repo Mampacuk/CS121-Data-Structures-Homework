@@ -1,28 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize.cpp                                     :+:      :+:    :+:   */
+/*   ft_atoi.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/19 15:52:23 by aisraely          #+#    #+#             */
-/*   Updated: 2021/09/19 15:52:24 by aisraely         ###   ########.fr       */
+/*   Created: 2021/09/19 19:54:59 by aisraely          #+#    #+#             */
+/*   Updated: 2021/09/19 19:56:31 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.hpp"
 
-int	ft_lstsize(t_list *lst)
+int	ft_atoi(const char *str)
 {
-	int		i;
-	t_list	*curr;
+	int	result;
+	int	minus;
 
-	i = 0;
-	curr = lst;
-	while (curr)
+	minus = 1;
+	while (ft_isspace(*str))
+		str++;
+	if (*str == '-' || *str == '+')
 	{
-		curr = curr->next;
-		i++;
+		if (*str == '-')
+			minus *= -1;
+		str++;
 	}
-	return (i);
+	result = 0;
+	while (ft_isdigit(*str))
+	{
+		result *= 10;
+		result += (*str) - '0';
+		str++;
+	}
+	return (result * minus);
 }

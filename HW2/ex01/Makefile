@@ -6,7 +6,7 @@
 #    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/18 18:30:33 by aisraely          #+#    #+#              #
-#    Updated: 2021/09/19 14:50:03 by aisraely         ###   ########.fr        #
+#    Updated: 2021/09/19 15:37:15 by aisraely         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,11 +34,11 @@ all: $(DFL)
 
 $(DFL): $(OBJS)
 	@$(MAKE) -C ../../libft
-	@$(CC) $(CFLAGS) $(OBJS) -o $(DFL)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(DFL)
 
 test: $(TEST_OBJS)
 	@$(MAKE) -C ../../libft
-	@$(CC) $(CFLAGS) $(TEST_OBJS) -o $(TEST)
+	@$(CC) $(CFLAGS) $(TEST_OBJS) $(LIBFT) -o $(TEST)
 
 clean:
 	@$(MAKE) -C ../../libft fclean

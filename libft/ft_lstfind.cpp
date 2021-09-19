@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize.cpp                                     :+:      :+:    :+:   */
+/*   ft_lstfind.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/19 15:52:23 by aisraely          #+#    #+#             */
-/*   Updated: 2021/09/19 15:52:24 by aisraely         ###   ########.fr       */
+/*   Created: 2021/09/19 19:17:51 by aisraely          #+#    #+#             */
+/*   Updated: 2021/09/19 19:21:55 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.hpp"
 
-int	ft_lstsize(t_list *lst)
+t_list	*ft_lstfind(t_list *lst, int index)
 {
 	int		i;
 	t_list	*curr;
 
-	i = 0;
 	curr = lst;
+	i = 0;
 	while (curr)
 	{
-		curr = curr->next;
+		if (i == index)
+			return (curr);
 		i++;
+		curr = curr->next;
 	}
-	return (i);
+	return (NULL);
 }

@@ -1,10 +1,22 @@
-#include "ft_lstsplit.hpp"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lstsplit.cpp                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/19 15:54:59 by aisraely          #+#    #+#             */
+/*   Updated: 2021/09/19 21:21:33 by aisraely         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "lstsort.hpp"
 
 /*
  * `result[0]` is always the even list;
  * `result[1]` is always the odd list
  */
-t_list **ft_lstsplit(t_list **head)
+t_list	**ft_lstsplit(t_list **head)
 {
 	t_list	**result;
 	t_list	*curr;

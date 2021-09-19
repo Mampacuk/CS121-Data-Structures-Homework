@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize.cpp                                     :+:      :+:    :+:   */
+/*   ft_lstmerge_sort_split.cpp                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/19 15:52:23 by aisraely          #+#    #+#             */
-/*   Updated: 2021/09/19 15:52:24 by aisraely         ###   ########.fr       */
+/*   Created: 2021/09/19 21:20:30 by aisraely          #+#    #+#             */
+/*   Updated: 2021/09/19 21:25:48 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.hpp"
+#include "lstsort.hpp"
 
-int	ft_lstsize(t_list *lst)
+t_list	*ft_lstmerge_sort_split(t_list **head)
 {
-	int		i;
-	t_list	*curr;
+	t_list	**evenodd;
 
-	i = 0;
-	curr = lst;
-	while (curr)
-	{
-		curr = curr->next;
-		i++;
-	}
-	return (i);
+	evenodd = ft_lstsplit(head);
+	evenodd[0] = ft_lstmerge_sort(&evenodd[0]);
+	evenodd[1] = ft_lstmerge_sort(&evenodd[1]);
+	return (ft_lstmerge(&evenodd[0], &evenodd[1]));
 }

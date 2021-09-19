@@ -1,28 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize.cpp                                     :+:      :+:    :+:   */
+/*   ft_isdigit.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/19 15:52:23 by aisraely          #+#    #+#             */
-/*   Updated: 2021/09/19 15:52:24 by aisraely         ###   ########.fr       */
+/*   Created: 2021/09/19 19:55:22 by aisraely          #+#    #+#             */
+/*   Updated: 2021/09/19 20:05:49 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.hpp"
-
-int	ft_lstsize(t_list *lst)
+int	ft_isdigit(int c)
 {
-	int		i;
-	t_list	*curr;
-
-	i = 0;
-	curr = lst;
-	while (curr)
-	{
-		curr = curr->next;
-		i++;
-	}
-	return (i);
+	return (c >= '0' && c <= '9');
 }

@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize.cpp                                     :+:      :+:    :+:   */
+/*   lstsort.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/19 15:52:23 by aisraely          #+#    #+#             */
-/*   Updated: 2021/09/19 15:52:24 by aisraely         ###   ########.fr       */
+/*   Created: 2021/09/19 15:55:02 by aisraely          #+#    #+#             */
+/*   Updated: 2021/09/19 21:21:14 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.hpp"
+#ifndef LSTSORT_HPP
+# define LSTSORT_HPP
 
-int	ft_lstsize(t_list *lst)
-{
-	int		i;
-	t_list	*curr;
+# include "../../libft/libft.hpp"
 
-	i = 0;
-	curr = lst;
-	while (curr)
-	{
-		curr = curr->next;
-		i++;
-	}
-	return (i);
-}
+t_list	**ft_lstsplit(t_list **head);
+t_list	*ft_lstmerge(t_list **lst1, t_list **lst2);
+t_list	*ft_lstmerge_sort(t_list **head);
+t_list	*ft_lstmerge_sort_split(t_list **head);
+
+#endif
