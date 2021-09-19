@@ -5,16 +5,16 @@
 #                                                     +:+ +:+         +:+      #
 #    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/09/18 18:30:33 by aisraely          #+#    #+#              #
-#    Updated: 2021/09/19 14:50:03 by aisraely         ###   ########.fr        #
+#    Created: 2021/09/19 15:30:25 by aisraely          #+#    #+#              #
+#    Updated: 2021/09/19 15:31:29 by aisraely         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-DFL			= stepper
+DFL			= lstsplit
 TEST		= test
 
-SRCS		= ft_check_step.cpp ft_find_step.cpp main.cpp
-TEST_SRCS	= ft_check_step.cpp ft_find_step.cpp tester.cpp
+SRCS		= ft_lstsplit.cpp main.cpp
+TEST_SRCS	= ft_lstsplit.cpp tester.cpp
 OBJS		= $(SRCS:.cpp=.o)
 TEST_OBJS	= $(TEST_SRCS:.cpp=.o)
 CC			= g++

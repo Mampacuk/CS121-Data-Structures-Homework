@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/18 17:39:16 by aisraely          #+#    #+#             */
-/*   Updated: 2021/09/18 17:39:17 by aisraely         ###   ########.fr       */
+/*   Created: 2021/09/19 14:36:17 by aisraely          #+#    #+#             */
+/*   Updated: 2021/09/19 14:36:51 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sorting.hpp"
+#include "libft.hpp"
 
 int	ft_strcmp(const char *s1, const char *s2)
 {

@@ -5,21 +5,18 @@
 #                                                     +:+ +:+         +:+      #
 #    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/09/18 18:30:33 by aisraely          #+#    #+#              #
-#    Updated: 2021/09/19 14:50:03 by aisraely         ###   ########.fr        #
+#    Created: 2021/09/19 14:37:00 by aisraely          #+#    #+#              #
+#    Updated: 2021/09/19 14:37:01 by aisraely         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-DFL			= stepper
-TEST		= test
+NAME	= libft.a
 
-SRCS		= ft_check_step.cpp ft_find_step.cpp main.cpp
-TEST_SRCS	= ft_check_step.cpp ft_find_step.cpp tester.cpp
-OBJS		= $(SRCS:.cpp=.o)
-TEST_OBJS	= $(TEST_SRCS:.cpp=.o)
-CC			= g++
-CFLAGS		= -Wall -Wextra -Werror
-LIBFT		= ../../libft/libft.a
+CC		= g++
+CFLAGS	= -Wall -Wextra -Werror
+SRCS	= $(wildcard *.cpp)
+OBJS	= $(SRCS:.cpp=.o)
+AR		= ar rc
 
 ifeq ($(OS), Windows_NT)
 	RM		= del /f >nul 2>&1
@@ -27,34 +24,24 @@ else
 	RM		= rm -rf
 endif
 
-all: $(DFL)
+all: $(NAME)
 
-.cpp.o:
-	@$(CC) $(CFLAGS) -c $< -o $(<:.cpp=.o) 
-
-$(DFL): $(OBJS)
-	@$(MAKE) -C ../../libft
-	@$(CC) $(CFLAGS) $(OBJS) -o $(DFL)
-
-test: $(TEST_OBJS)
-	@$(MAKE) -C ../../libft
-	@$(CC) $(CFLAGS) $(TEST_OBJS) -o $(TEST)
+$(NAME): $(OBJS)
+	@$(CC) $(CFLAGS) -c $(SRCS)
+	@$(AR) $(NAME) $(OBJS)
+	@ranlib $(NAME)
 
 clean:
-	@$(MAKE) -C ../../libft fclean
 	@$(RM) $(OBJS)
-	@$(RM) $(TEST_OBJS)
 
 ifeq ($(OS), Windows_NT)
 fclean: clean
-	@$(RM) $(addsuffix .exe,$(DFL))
-	@$(RM) $(addsuffix .exe,$(TEST))
+	@$(RM) $(addsuffix .exe,$(NAME))
 else
 fclean: clean
-	@$(RM) $(DFL)
-	@$(RM) $(TEST)
+	@$(RM) $(NAME)
 endif
 
 re: fclean all
 
-.PHONY: clean fclean re all test
+.PHONY: clean fclean re all

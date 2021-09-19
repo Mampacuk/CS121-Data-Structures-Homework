@@ -7,7 +7,7 @@ CS121C Data Structures Course Homework Assignments by Alexander Israelyan
 ## Foreword
 ### Prerequisites
 *	Make sure you have the latest build of `g++`.
-*	Also it is absolutely *NECESSARY* that you have `make` in your shell.
+*	It is absolutely *NECESSARY* that you have `make` in your shell.
 ### Structure of Files
 *	At the root, folders "HW??" represent the respective homework assignments.
 *	In each of them, find respective exercise by the "ex??" folder.

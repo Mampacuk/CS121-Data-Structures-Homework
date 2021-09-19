@@ -6,19 +6,20 @@
 #    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/18 17:39:24 by aisraely          #+#    #+#              #
-#    Updated: 2021/09/18 17:39:25 by aisraely         ###   ########.fr        #
+#    Updated: 2021/09/19 14:42:01 by aisraely         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 DFL			= sorting
 TEST		= test
 
-SRCS		= ft_selection_sort.cpp ft_insertion_sort.cpp ft_swap.cpp ft_strcmp.cpp main.cpp
-TEST_SRCS	= ft_selection_sort.cpp ft_insertion_sort.cpp ft_swap.cpp ft_strcmp.cpp tester.cpp
+SRCS		= ft_selection_sort.cpp ft_insertion_sort.cpp main.cpp
+TEST_SRCS	= ft_selection_sort.cpp ft_insertion_sort.cpp tester.cpp
 OBJS		= $(SRCS:.cpp=.o)
 TEST_OBJS	= $(TEST_SRCS:.cpp=.o)
 CC			= g++
-CFLAGS		= -g -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror
+LIBFT		= ../../libft/libft.a
 
 ifeq ($(OS), Windows_NT)
 	RM		= del /f >nul 2>&1
@@ -32,12 +33,15 @@ all: $(DFL)
 	@$(CC) $(CFLAGS) -c $< -o $(<:.cpp=.o) 
 
 $(DFL): $(OBJS)
-	@$(CC) $(CFLAGS) $(OBJS) -o $(DFL)
+	@$(MAKE) -C ../../libft
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(DFL)
 
 test: $(TEST_OBJS)
-	@$(CC) $(CFLAGS) $(TEST_OBJS) -o $(TEST)
+	@$(MAKE) -C ../../libft
+	@$(CC) $(CFLAGS) $(TEST_OBJS) $(LIBFT) -o $(TEST)
 
 clean:
+	@$(MAKE) -C ../../libft fclean
 	@$(RM) $(OBJS)
 	@$(RM) $(TEST_OBJS)
 
