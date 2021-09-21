@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 18:30:29 by aisraely          #+#    #+#             */
-/*   Updated: 2021/09/18 18:30:30 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/09/21 16:54:07 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,5 @@ int	main(void)
 		std::cout << "Invalid input" << std::endl;
 		return (1);
 	}
-	std::cout << ft_find_step(arr, n) << std::endl;
+	std::cout << ft_find_step(arr, 0, n - 1, n) << std::endl;
 }

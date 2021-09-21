@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstmerge_sort_split.cpp                         :+:      :+:    :+:   */
+/*   ft_isdigitstr.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/19 21:20:30 by aisraely          #+#    #+#             */
-/*   Updated: 2021/09/19 21:25:48 by aisraely         ###   ########.fr       */
+/*   Created: 2021/09/21 20:15:56 by aisraely          #+#    #+#             */
+/*   Updated: 2021/09/21 20:15:57 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lstsort.hpp"
+#include "libft.hpp"
 
-t_list	*ft_lstmerge_sort_split(t_list **head)
+int	ft_isdigitstr(char *str)
 {
-	t_list	**evenodd;
-
-	evenodd = ft_lstsplit(head);
-	evenodd[0] = ft_lstmerge_sort(&evenodd[0]);
-	evenodd[1] = ft_lstmerge_sort(&evenodd[1]);
-	return (ft_lstmerge(&evenodd[0], &evenodd[1]));
+	while (*str)
+	{
+		if (!ft_isdigit(*str))
+			if (!(*str == '-' && ft_isdigit(*(str + 1)) && *(str + 1) != '0'))
+				return (0);
+		str++;
+	}
+	return (1);
 }

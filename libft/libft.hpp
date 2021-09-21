@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/19 14:37:27 by aisraely          #+#    #+#             */
-/*   Updated: 2021/09/19 20:10:58 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/09/21 20:16:27 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,6 @@ int		ft_isdigit(int c);
 int		ft_strcmp(const char *s1, const char *s2);
 void	ft_swap(char **s1, char **s2);
 int		ft_atoi(const char *str);
+int		ft_isdigitstr(char *str);
 
 #endif

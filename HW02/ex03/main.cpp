@@ -1,33 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_check_step.cpp                                  :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/18 18:30:21 by aisraely          #+#    #+#             */
-/*   Updated: 2021/09/21 16:58:53 by aisraely         ###   ########.fr       */
+/*   Created: 2021/09/21 20:22:48 by aisraely          #+#    #+#             */
+/*   Updated: 2021/09/21 20:27:46 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "stepper.hpp"
+#include "lstsort.hpp"
 
-int	ft_check_step(int *arr, int arr_size)
+/*
+ * Pass the numbers from command line!
+ */
+int	main(int argc, char **argv)
 {
-	int	i;
-	int	even;
-
-	i = 0;
-	even = 0;
-	while (i < arr_size - 1)
+	int		i;
+	t_list	*a;
+	
+	a = NULL;
+	i = 1;
+	while (i < argc)
 	{
-		if (!((arr[i] - arr[i + 1]) % 2))
-			even++;
-		if (even && (arr[i] - arr[i + 1]) % 2)
-			return (0);
-		i++;
+		if (!ft_isdigitstr(argv[i]))
+		{
+			std::cout << "Invalid input" << std::endl;
+			return (1);
+		}
+		ft_lstadd_back(&a, ft_atoi(argv[i]));
+		i++;	
 	}
-	if (!even)
-		return (0);
-	return (1);
+	a = ft_lstmerge_sort(&a);
+	ft_lstprint(a);
 }

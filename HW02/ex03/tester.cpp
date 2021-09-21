@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/19 15:55:08 by aisraely          #+#    #+#             */
-/*   Updated: 2021/09/19 21:30:31 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/09/21 20:23:20 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,34 +29,19 @@
 // 	ft_lstprint(c);
 // }
 
-// int	main(void)
-// {
-	// t_list	*a;
-	// t_list	*b;
-	// t_list	*c;
-	// a = NULL;
-	// b = NULL;
-	// ft_lstadd_back(&a, 1);
-	// ft_lstadd_back(&a, 2);
-	// ft_lstadd_back(&b, 3);
-	// ft_lstadd_back(&b, 4);
-	// c = ft_lstmerge(&a, &b);
-	// ft_lstprint(c);
-// }
-
-int	main(int, char **argv)
+int	main(void)
 {
 	t_list	*a;
-	argv++;
-	while (*argv)
-	{
-		ft_lstadd_back(&a, ft_atoi(*argv));
-		argv++;	
-	}
-	a = ft_lstmerge_sort(&a);
-	// segfaults on tricky inputs
-	// a = ft_lstmerge_sort_split(&a);
-	ft_lstprint(a);
+	t_list	*b;
+	t_list	*c;
+	a = NULL;
+	b = NULL;
+	ft_lstadd_back(&a, 1);
+	ft_lstadd_back(&a, 2);
+	ft_lstadd_back(&b, 3);
+	ft_lstadd_back(&b, 4);
+	c = ft_lstmerge(&a, &b);
+	ft_lstprint(c);
 }
 
 // int	main(void)

@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/19 21:06:38 by aisraely          #+#    #+#             */
-/*   Updated: 2021/09/19 21:21:55 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/09/21 20:27:39 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,17 @@
 
 t_list	*ft_lstmerge_sort(t_list **head)
 {
-	int		mid_index;
-	t_list	*mid_node;
-	t_list	*low;
-	t_list	*high;
-
-	if (!head)
+	t_list	**sublists;
+	t_list	*merged;
+	
+	if (!head || !(*head))
 		return (NULL);
 	if (!(*head)->next)
 		return (*head);
-	mid_index = ft_lstsize(*head) / 2 - 1;
-	mid_node = ft_lstfind(*head, mid_index);
-	low = *head;
-	high = mid_node->next;
-	mid_node->next = NULL;
-	low = ft_lstmerge_sort(&low);
-	high = ft_lstmerge_sort(&high);
-	return (ft_lstmerge(&low, &high));		
+	sublists = ft_lstsplit(head);
+	sublists[0] = ft_lstmerge_sort(&sublists[0]);
+	sublists[1] = ft_lstmerge_sort(&sublists[1]);
+	merged = ft_lstmerge(&sublists[0], &sublists[1]);
+	delete [] sublists;
+	return (merged);		
 }

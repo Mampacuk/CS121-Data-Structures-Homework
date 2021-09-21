@@ -6,15 +6,15 @@
 #    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/19 15:30:25 by aisraely          #+#    #+#              #
-#    Updated: 2021/09/19 21:29:00 by aisraely         ###   ########.fr        #
+#    Updated: 2021/09/21 14:52:08 by aisraely         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 DFL			= lstsort
 TEST		= test
 
-SRCS		= ft_lstmerge.cpp ft_lstmerge_sort.cpp ft_lstmerge_sort_split.cpp ft_lstsplit.cpp main.cpp
-TEST_SRCS	= ft_lstmerge.cpp ft_lstmerge_sort.cpp ft_lstmerge_sort_split.cpp ft_lstsplit.cpp tester.cpp
+SRCS		= ft_lstmerge.cpp ft_lstmerge_sort.cpp ft_lstsplit.cpp main.cpp
+TEST_SRCS	= ft_lstmerge.cpp ft_lstmerge_sort.cpp ft_lstsplit.cpp tester.cpp
 OBJS		= $(SRCS:.cpp=.o)
 TEST_OBJS	= $(TEST_SRCS:.cpp=.o)
 CC			= g++
