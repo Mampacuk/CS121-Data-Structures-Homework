@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize.cpp                                     :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/19 15:52:23 by aisraely          #+#    #+#             */
-/*   Updated: 2021/09/19 15:52:24 by aisraely         ###   ########.fr       */
+/*   Created: 2021/09/05 15:22:57 by aisraely          #+#    #+#             */
+/*   Updated: 2021/09/05 15:22:57 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.hpp"
+#include "triangle.hpp"
 
-int	ft_lstsize(t_list *lst)
+void	ft_wrap_ft_draw_triangle(int height)
 {
-	int		i;
-	t_list	*curr;
+	ft_draw_triangle(height - 1, height * 2 - 2, height);
+}
 
-	i = 0;
-	curr = lst;
-	while (curr)
+int	main(void)
+{
+	int	n;
+
+	std::cout << "Enter the height of the triangle: ";
+	std::cin >> n;
+	if (std::cin.fail() || n <= 0)
 	{
-		curr = curr->next;
-		i++;
+		std::cout << "Invalid input" << std::endl;
+		return (1);
 	}
-	return (i);
+	ft_wrap_ft_draw_triangle(n);
 }

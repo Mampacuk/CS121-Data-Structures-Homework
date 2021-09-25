@@ -1,43 +1,25 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   tester.cpp                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/05 13:31:49 by aisraely          #+#    #+#             */
-/*   Updated: 2021/09/05 13:31:49 by aisraely         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "triangle.hpp"
-
-void	ft_wrap_ft_draw_triangle(int height)
-{
-	ft_draw_triangle(height - 1, height * 2 - 2, height);
-}
+#include "../../libft/libft.hpp"
 
 int	main(void)
 {
-	ft_wrap_ft_draw_triangle(3);	
-	std::cout << "ft_draw_triangle(1):" << std::endl;
-	ft_wrap_ft_draw_triangle(1);
-	std::cout << "__________________________________________" << std::endl;
-	std::cout << "ft_draw_triangle(2):" << std::endl;
-	ft_wrap_ft_draw_triangle(2);
-	std::cout << "__________________________________________" << std::endl;
-	std::cout << "ft_draw_triangle(3):" << std::endl;
-	ft_wrap_ft_draw_triangle(3);
-	std::cout << "__________________________________________" << std::endl;
-	std::cout << "ft_draw_triangle(4):" << std::endl;
-	ft_wrap_ft_draw_triangle(4);
-	std::cout << "__________________________________________" << std::endl;
-	std::cout << "ft_draw_triangle(5):" << std::endl;
-	ft_wrap_ft_draw_triangle(5);
-	std::cout << "__________________________________________" << std::endl;
-	std::cout << "ft_draw_triangle(6):" << std::endl;
-	ft_wrap_ft_draw_triangle(5);
-	std::cout << "__________________________________________" << std::endl;
-	std::cout << "ft_draw_triangle(100):" << std::endl;
-	ft_wrap_ft_draw_triangle(100);
+	s_list<int>	*a;
+
+	a = NULL;
+	ft_lstadd<int>(&a, 0);
+	ft_lstprint(a);
+	// std::cout << "______" << std::endl;
+	ft_lstadd<int>(&a, 1);
+	// std::cout << "______" << std::endl;
+	ft_lstadd<int>(&a, 10000);
+	// std::cout << "______" << std::endl;
+	ft_lstadd<int>(&a, 10001);
+	// std::cout << "______" << std::endl;
+
+	// std::cout << "______" << std::endl;
+	ft_lstadd<int>(&a, 9999);
+	ft_lstadd<int>(&a, 99999999);
+	// std::cout << "______" << std::endl;
+	// ft_lstprint(a);
+	// return (0);
+	ft_lsthybrid_sort<int>(&a);
 }

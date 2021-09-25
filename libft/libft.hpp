@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/19 14:37:27 by aisraely          #+#    #+#             */
-/*   Updated: 2021/09/21 20:16:27 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/09/25 20:04:23 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 
-typedef struct	s_list
-{
-	int				data;
-	struct s_list	*next;
-}				t_list;
+# include "s_list.hpp"
 
-t_list	*ft_lstnew(int data);
-t_list	*ft_lstlast(t_list *lst);
-int		ft_lstsize(t_list *lst);
-void	ft_lstadd_back(t_list **lst, t_list *node);
-void	ft_lstadd_back(t_list **lst, int data);
-void	ft_lstprint(t_list *lst);
-t_list	*ft_lstfind(t_list *lst, int index);
 int		ft_isspace(int c);
 int		ft_isdigit(int c);
 int		ft_strcmp(const char *s1, const char *s2);

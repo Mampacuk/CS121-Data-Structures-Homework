@@ -1,0 +1,184 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    analysis.txt                                       :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/09/25 17:07:45 by aisraely          #+#    #+#              #
+#    Updated: 2021/09/25 20:21:15 by aisraely         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+NOTE:
+	DEREFERENCING COUNTS AS 1 OPERATION.
+	ACCESSING A STRUCTURE MEMBER COUNTS AS 1 OPERATION.
+	THUS -> TAKES 2 OPERATIONS.
+
+Let's start by analyzing the helper functions:
+
+`ft_lstadd()`:
+
+1	template <typename D>								
+2	void	ft_lstadd(s_list<D> **lst, s_list<D> *node)	// PER LINE:			TOTAL:
+3	{													//
+4		if (lst)										// +1					1
+5		{												//
+6			if (*lst)									// +1					2
+7			{											//
+8				node->next = *lst;						//}
+9				*lst = node;							//}
+10			}											//}
+11			else										//} +2					4
+12			{											//}
+13				*lst = node;							//}
+14				node->next = NULL;						//}
+15			}
+16		}
+17	}
+
+`ft_lstsplit()`:
+
+1	template <typename D>
+2	s_list<D>	**ft_lstsplit(s_list<D> **head)	// PER LINE:					TOTAL:
+3	{											//		
+4		int			i;							// +1							1
+5		s_list<D>	**result;					// +1							2
+6		s_list<D>	*curr;						// +1							3
+7		s_list<D>	*next_node;					// +1							4
+8												//
+9		if (!head)								// +1							5
+10			return (NULL);						//
+11		result = new s_list<D> *[2];			// +2 (creation, assignment)	7 
+12		result[0] = NULL;						// +1							8
+13		result[1] = NULL;						// +1							9
+14		curr = *head;							// +2							11
+15		i = 0;									// +1							12
+16		while (curr)							// n + 1						13 + n
+17		{										//
+18			next_node = curr->next;				//*n +1							13 + 2n
+19			if (i % 2 != 0)						//*n +2							14 + 4n
+20				ft_lstadd<D>(&result[0], curr);	//*n +ft_lstadd() => +4			14 + 8n
+21			else								//
+22				ft_lstadd<D>(&result[1], curr);	// (a branch, 50/50)
+23			curr = next_node;					//*n +1							14 + 9n
+24			i++;								//*n +1							14 + 10n
+25		}										//
+26		return (result);						// +1							15 + 10n
+27	}
+
+`ft_lstmerge()`:
+
+1	template <typename D>
+2	s_list<D>	*ft_lstmerge(s_list<D> **lst1, s_list<D> **lst2)	// PER LINE:				TOTAL:
+3	{																//
+4		s_list<D>	*head;											// +1						1
+5		s_list<D>	*tail;											// +1						2
+6		s_list<D>	*curr1;											// +1						3
+7		s_list<D>	*curr2;											// +1						4
+8																	//
+9		if (!lst1 || !lst2)											// +2 (worst-case)			6
+10			return (NULL);											//
+11		if (!(*lst1))												// +1						7
+12			return (*lst2);											//
+13		if (!(*lst2))												// +1						8
+14			return (*lst1);											//
+15		if ((*lst1)->data < (*lst2)->data)							// +7						15
+16		{															//
+17			head = (*lst1);											// +2						17
+18			if (head->next)											// +2						19
+19			{														//
+20				if ((*lst2)->data < head->next->data)				// +8						27
+21				{													//
+22					curr1 = head->next;								// +3						30
+23					curr2 = (*lst2)->next;							// +4						34
+24					head->next = (*lst2);							// +4						38
+25				}													//
+26				else												//
+27				{													//
+28					curr1 = head->next->next;						// this branch takes
+29					curr2 = (*lst2);								// 1 operation more,		39
+30					tail = head->next;								// take the worst-case
+31				}													//
+32			}														//
+33			else													//
+34			{														// this branch cuts operations down
+35				head->next = (*lst2);								// from Line 18 to (19 + 5) = 24
+36				return (head);										// operations
+37			}														//
+38		}															//
+39		else														//
+40		{															//
+41			head = (*lst2);											// note...
+42			if (head->next)											// ...that...
+43			{														// ...this...
+44				if (head->next && (*lst1)->data < head->next->data)	// ...branch...
+45				{													// ...is...
+46					curr1 = (*lst1)->next;							// ...symmetrical...
+47					curr2 = head->next;								// ...to...
+48					head->next = (*lst1);							// ...its...
+49				}													// ...`if`...
+50				else												// ...alternative
+51				{													//
+52					curr1 = (*lst1);								//
+53					curr2 = head->next->next;						//
+54					tail = head->next;								//
+55				}													//
+56			}														//
+57			else													//
+58			{														//
+59				head->next = (*lst1);								//
+60				return (head);										//
+61			}														//
+62		}															//
+63		tail = head->next;											// +1						40
+64		while (curr1 && curr2)										//*n +2						40 + 2n
+65		{															//
+66			if (curr1->data < curr2->data)							//*n +5						40 + 7n
+67			{														//
+68				tail->next = curr1;									//*n +3						40 + 10n
+69				curr1 = curr1->next;								//*n +3						40 + 13n
+70			}														//
+71			else													//
+72			{														//
+73				tail->next = curr2;									// takes the same number
+74				curr2 = curr2->next;								// as its alternative
+75			}														//
+76			tail = tail->next;										//*n +1						40 + 14n
+77		}															//
+78		if (!curr1)													// +1						41 + 14n
+79			tail->next = curr2;										// +3						44 + 14n 
+80		else if (!curr2)											// +1						45 + 14n
+81			tail->next = curr1;										// is alternative branch	
+82		return (head);												// +1						46 + 14n
+83	}
+
+Finally, the `ft_lstmerge_sort()` function:
+
+1	template <typename D>
+2	s_list<D>	*ft_lstmerge_sort(s_list<D> **head)					// PER LINE:				TOTAL:
+3	{																//
+4		s_list<D>	**sublists;										// +1							1
+5		s_list<D>	*merged;										// +1							2
+6																	//	
+7		if (!head || !(*head))										// +3							5
+8			return (NULL);											//	
+9		if (!(*head)->next)											// +4							9
+10			return (*head);											//	
+11		sublists = ft_lstsplit<D>(head);							// +(1 + ft_lstsplit()) =	
+																	// = +(16 + 10n)				25 + 10n
+12		sublists[0] = ft_lstmerge_sort<D>(&sublists[0]);			//*logn +ft_lstmerge_sort(n/2)	25 + 10n + logn(ft_lstmerge_sort(n/2))
+13		sublists[1] = ft_lstmerge_sort<D>(&sublists[1]);			//*logn +ft_lstmerge_sort(n/2)	25 + 10n + 2logn(ft_lstmerge_sort(n/2))
+14		merged = ft_lstmerge<D>(&sublists[0], &sublists[1]);		// +(1 + ft_lstmerge()) =		
+																	// = +(47 + 14n)				72 + 24n + 2logn(ft_lstmerge_sort(n/2))
+15		delete [] sublists;											// +1							73 + 24n + 2logn(ft_lstmerge_sort(n/2))
+16		return (merged);											// +1							74 + 24n + 2logn(ft_lstmerge_sort(n/2))
+17	}
+
+Now, expand ft_lstmerge_sort(n/2): it's 74 + 24n + 2logn(ft_lstmerge_sort(n/4))),
+and ft_lstmerge_sort(n/4) is 74 + 24n + 2logn(ft_lstmerge_sort(n/8))) and so on, till n = 1...
+We see that for each recursive call, there's linear amount of work done,
+thus we can conclude that ft_lstmerge_sort(n/2) in the original estimate is similar to a linear factor,
+and if we drop the lower terms, 74 and 24n, and the coefficient 2, we get logn.
+
+Thus the complexity of this algorithm is O(nlogn).

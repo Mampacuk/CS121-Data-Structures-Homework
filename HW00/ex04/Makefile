@@ -5,21 +5,20 @@
 #                                                     +:+ +:+         +:+      #
 #    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/09/19 15:30:25 by aisraely          #+#    #+#              #
-#    Updated: 2021/09/21 14:52:08 by aisraely         ###   ########.fr        #
+#    Created: 2021/09/05 12:22:58 by aisraely          #+#    #+#              #
+#    Updated: 2021/09/05 12:22:58 by aisraely         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-DFL			= lstsort
+DFL			= triangle
 TEST		= test
 
-SRCS		= ft_lstmerge.cpp ft_lstmerge_sort.cpp ft_lstsplit.cpp main.cpp
-TEST_SRCS	= ft_lstmerge.cpp ft_lstmerge_sort.cpp ft_lstsplit.cpp tester.cpp
+SRCS		= ft_draw_triangle.cpp main.cpp
+TEST_SRCS	= ft_draw_triangle.cpp tester.cpp
 OBJS		= $(SRCS:.cpp=.o)
 TEST_OBJS	= $(TEST_SRCS:.cpp=.o)
 CC			= g++
-CFLAGS		= -Wall -Wextra -Werror
-LIBFT		= ../../libft/libft.a
+CFLAGS		= -g -Wall -Wextra -Werror
 
 ifeq ($(OS), Windows_NT)
 	RM		= del /f >nul 2>&1
@@ -33,15 +32,12 @@ all: $(DFL)
 	@$(CC) $(CFLAGS) -c $< -o $(<:.cpp=.o) 
 
 $(DFL): $(OBJS)
-	@$(MAKE) -C ../../libft
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(DFL)
+	@$(CC) $(CFLAGS) $(OBJS) -o $(DFL)
 
 test: $(TEST_OBJS)
-	@$(MAKE) -C ../../libft
-	@$(CC) $(CFLAGS) $(TEST_OBJS) $(LIBFT) -o $(TEST)
+	@$(CC) $(CFLAGS) $(TEST_OBJS) -o $(TEST)
 
 clean:
-	@$(MAKE) -C ../../libft fclean
 	@$(RM) $(OBJS)
 	@$(RM) $(TEST_OBJS)
 

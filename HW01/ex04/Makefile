@@ -5,20 +5,21 @@
 #                                                     +:+ +:+         +:+      #
 #    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/09/05 12:22:58 by aisraely          #+#    #+#              #
-#    Updated: 2021/09/05 12:22:58 by aisraely         ###   ########.fr        #
+#    Created: 2021/09/25 21:17:51 by aisraely          #+#    #+#              #
+#    Updated: 2021/09/25 21:17:52 by aisraely         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-DFL			= triangle
+DFL			= bucketsort
 TEST		= test
 
-SRCS		= ft_draw_triangle.cpp main.cpp
-TEST_SRCS	= ft_draw_triangle.cpp tester.cpp
+SRCS		= main.cpp
+TEST_SRCS	= tester.cpp
 OBJS		= $(SRCS:.cpp=.o)
 TEST_OBJS	= $(TEST_SRCS:.cpp=.o)
 CC			= g++
-CFLAGS		= -g -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror
+LIBFT		= ../../libft/libft.a
 
 ifeq ($(OS), Windows_NT)
 	RM		= del /f >nul 2>&1
@@ -32,12 +33,15 @@ all: $(DFL)
 	@$(CC) $(CFLAGS) -c $< -o $(<:.cpp=.o) 
 
 $(DFL): $(OBJS)
-	@$(CC) $(CFLAGS) $(OBJS) -o $(DFL)
+	@$(MAKE) -C ../../libft
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(DFL)
 
 test: $(TEST_OBJS)
-	@$(CC) $(CFLAGS) $(TEST_OBJS) -o $(TEST)
+	@$(MAKE) -C ../../libft
+	@$(CC) $(CFLAGS) $(TEST_OBJS) $(LIBFT) -o $(TEST)
 
 clean:
+	@$(MAKE) -C ../../libft fclean
 	@$(RM) $(OBJS)
 	@$(RM) $(TEST_OBJS)
 
@@ -51,6 +55,6 @@ fclean: clean
 	@$(RM) $(TEST)
 endif
 
-re: fclean all
+re: fclean all test
 
 .PHONY: clean fclean re all test
