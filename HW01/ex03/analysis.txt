@@ -6,7 +6,7 @@
 #    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/25 17:07:45 by aisraely          #+#    #+#              #
-#    Updated: 2021/09/25 20:21:15 by aisraely         ###   ########.fr        #
+#    Updated: 2021/09/26 18:11:54 by aisraely         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,14 +22,14 @@ Let's start by analyzing the helper functions:
 1	template <typename D>								
 2	void	ft_lstadd(s_list<D> **lst, s_list<D> *node)	// PER LINE:			TOTAL:
 3	{													//
-4		if (lst)										// +1					1
+4		if (lst && node)								// +2					2
 5		{												//
-6			if (*lst)									// +1					2
+6			if (*lst)									// +1					3
 7			{											//
 8				node->next = *lst;						//}
 9				*lst = node;							//}
 10			}											//}
-11			else										//} +2					4
+11			else										//} +2					5
 12			{											//}
 13				*lst = node;							//}
 14				node->next = NULL;						//}
@@ -58,13 +58,13 @@ Let's start by analyzing the helper functions:
 17		{										//
 18			next_node = curr->next;				//*n +1							13 + 2n
 19			if (i % 2 != 0)						//*n +2							14 + 4n
-20				ft_lstadd<D>(&result[0], curr);	//*n +ft_lstadd() => +4			14 + 8n
+20				ft_lstadd<D>(&result[0], curr);	//*n +ft_lstadd() => +4			14 + 9n
 21			else								//
 22				ft_lstadd<D>(&result[1], curr);	// (a branch, 50/50)
-23			curr = next_node;					//*n +1							14 + 9n
-24			i++;								//*n +1							14 + 10n
+23			curr = next_node;					//*n +1							14 + 10n
+24			i++;								//*n +1							14 + 11n
 25		}										//
-26		return (result);						// +1							15 + 10n
+26		return (result);						// +1							15 + 11n
 27	}
 
 `ft_lstmerge()`:
@@ -166,19 +166,19 @@ Finally, the `ft_lstmerge_sort()` function:
 9		if (!(*head)->next)											// +4							9
 10			return (*head);											//	
 11		sublists = ft_lstsplit<D>(head);							// +(1 + ft_lstsplit()) =	
-																	// = +(16 + 10n)				25 + 10n
-12		sublists[0] = ft_lstmerge_sort<D>(&sublists[0]);			//*logn +ft_lstmerge_sort(n/2)	25 + 10n + logn(ft_lstmerge_sort(n/2))
-13		sublists[1] = ft_lstmerge_sort<D>(&sublists[1]);			//*logn +ft_lstmerge_sort(n/2)	25 + 10n + 2logn(ft_lstmerge_sort(n/2))
+																	// = +(16 + 11n)				25 + 11n
+12		sublists[0] = ft_lstmerge_sort<D>(&sublists[0]);			//*logn +ft_lstmerge_sort(n/2)	25 + 11n + logn(ft_lstmerge_sort(n/2))
+13		sublists[1] = ft_lstmerge_sort<D>(&sublists[1]);			//*logn +ft_lstmerge_sort(n/2)	25 + 11n + 2logn(ft_lstmerge_sort(n/2))
 14		merged = ft_lstmerge<D>(&sublists[0], &sublists[1]);		// +(1 + ft_lstmerge()) =		
-																	// = +(47 + 14n)				72 + 24n + 2logn(ft_lstmerge_sort(n/2))
-15		delete [] sublists;											// +1							73 + 24n + 2logn(ft_lstmerge_sort(n/2))
-16		return (merged);											// +1							74 + 24n + 2logn(ft_lstmerge_sort(n/2))
+																	// = +(47 + 14n)				72 + 25n + 2logn(ft_lstmerge_sort(n/2))
+15		delete [] sublists;											// +1							73 + 25n + 2logn(ft_lstmerge_sort(n/2))
+16		return (merged);											// +1							74 + 25n + 2logn(ft_lstmerge_sort(n/2))
 17	}
 
-Now, expand ft_lstmerge_sort(n/2): it's 74 + 24n + 2logn(ft_lstmerge_sort(n/4))),
-and ft_lstmerge_sort(n/4) is 74 + 24n + 2logn(ft_lstmerge_sort(n/8))) and so on, till n = 1...
+Now, expand ft_lstmerge_sort(n/2): it's 74 + 25n + 2logn(ft_lstmerge_sort(n/4))),
+and ft_lstmerge_sort(n/4) is 74 + 25n + 2logn(ft_lstmerge_sort(n/8))) and so on, till n = 1...
 We see that for each recursive call, there's linear amount of work done,
-thus we can conclude that ft_lstmerge_sort(n/2) in the original estimate is similar to a linear factor,
+thus we can conclude that ft_lstmerge_sort(n/2) in the first recursive call, the estimate is similar to a linear factor,
 and if we drop the lower terms, 74 and 24n, and the coefficient 2, we get logn.
 
 Thus the complexity of this algorithm is O(nlogn).

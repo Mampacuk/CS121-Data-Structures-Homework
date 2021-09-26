@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/25 16:11:40 by aisraely          #+#    #+#             */
-/*   Updated: 2021/09/25 21:52:17 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/09/26 18:13:13 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,37 @@ void	ft_lstprint(s_list<D> *lst)
 }
 
 template <typename D>
+s_list<D>	*ft_lstlast(s_list<D> *lst)
+{
+	s_list<D>	*curr;
+
+	curr = lst;
+	while (curr->next)
+		curr = curr->next;
+	return (curr);
+}
+
+template <typename D>
+void	ft_lstadd_back(s_list<D> **lst, s_list<D> *node)
+{
+	s_list<D>	*last;
+
+	if (lst && node)
+	{
+		if (*lst)
+		{
+			last = ft_lstlast(*lst);
+			last->next = node;
+		}
+		else
+			*lst = node;
+	}
+}
+
+template <typename D>
 void	ft_lstadd(s_list<D> **lst, s_list<D> *node)
 {
-	if (lst)
+	if (lst && node)
 	{
 		if (*lst)
 		{
@@ -272,23 +300,22 @@ s_list<D>	*ft_lstbubble_sort(s_list<D> **head)
 			curr = curr->next;
 		}
 	}
+	return (*head);
 }
 
 template <typename D>
-void	ft_select_bucket(s_list<D> *buckets[10000], D data)
+void	ft_select_bucket(s_list<D> *buckets[10000], s_list<D> *node)
 {
 	int	val;
 	int	counter;
 	
 	counter = 0;
 	val = 0;
-	while (counter <= 10000)
+	while (counter < 10000)
 	{
-		std::cout << "is in range " << val << "-" << val + 9999 << "?" << std::endl;
-		if (data >= val && data <= val + 9999)
+		if (node->data >= val && node->data <= val + 9999)
 		{
-			std::cout << "added to " << counter << " bucket" << std::endl;
-			ft_lstadd(&buckets[counter], data);
+			ft_lstadd(&buckets[counter], node->data);
 			break ;
 		}
 		val += 10000;
@@ -299,33 +326,40 @@ void	ft_select_bucket(s_list<D> *buckets[10000], D data)
 template <typename D>
 s_list<D>	*ft_lsthybrid_sort(s_list<D> **head)
 {
+	int			i;
 	s_list<D>	*curr;
+	s_list<D>	*next_node;
 	s_list<D>	*buckets[10000] = {};
 
 	if (!head || !(*head))
 		return (NULL);
 	curr = *head;
-	std::cout << "received list is" << std::endl;
-	ft_lstprint(curr);
+	/*
+	 * Put nodes into buckets
+	 */
 	while (curr)
 	{
-		std::cout << "on " << curr->data << " right now" << std::endl;
-		ft_select_bucket(buckets, curr->data);
-		curr = curr->next;
+		next_node = curr->next;
+		ft_select_bucket(buckets, curr);
+		curr = next_node;
 	}
-	for (int i = 0; i < 10000; i++)
+	/*
+	 * Commence bubble sort on each bucket
+	 */
+	i = 0;
+	while (i < 10000)
 	{
 		if (buckets[i])
-		{
-			std::cout << "+";
-			ft_lstprint(buckets[i]);
-			std::cout << "+";
-		}
-		else
-		{
-			std::cout << "-";
-		}
+			buckets[i] = ft_lstbubble_sort(&buckets[i]);
+		i++;
 	}
+	/*
+	 * Combine the buckets
+	 */
+	*head = NULL;
+	i = 0;
+	while (i < 10000)
+		ft_lstadd_back(head, buckets[i++]);
 	return (*head);
 }
 

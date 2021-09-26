@@ -1,0 +1,105 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    analysis.txt                                       :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/09/26 18:12:26 by aisraely          #+#    #+#              #
+#    Updated: 2021/09/26 20:02:41 by aisraely         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+We know `ft_lstadd()` takes 5 operations from the previous analysis in ex03.
+
+But we have to inspect `ft_lstadd_back()` first:
+
+
+
+Start from the subroutine, `ft_lstbubble_sort()`:
+
+1	template <typename D>
+2	s_list<D>	*ft_lstbubble_sort(s_list<D> **head)	//	PER LINE:					WORST-CASE:			BEST-CASE:
+3	{													//		
+4		int			swap;								// +1							1					1
+5		s_list<D>	*curr;								// +1							2					2
+6		D			temp;								// +1							3					3
+7														//		
+8		if (!head || !(*head))							// +3							4					4
+9			return (NULL);								//		
+10		swap = 1;										// +1							5					5
+11		while (swap)									//*n (worst-case) +1			n + 6				(+2) 7
+12		{												//	
+13			swap = 0;									//*n +1							2n + 6				8
+14			curr = *head;								//*n +2							4n + 6				10
+15			while (curr->next)							//*n +3							7n + 6				3n + 10
+16			{											//	
+17				if (curr->data > curr->next->data)		//*(n*n) +7						7n^2 + 7n + 6 		10n + 10
+18				{										//	
+19					temp = curr->data;					//*(n*n) +3						10n^2 + 7n + 6	
+20					curr->data = curr->next->data;		//*(n*n) +7						17n^2 + 7n + 6	
+21					curr->next->data = temp;			//*(n*n) +5						22n^2 + 7n + 6	
+22					swap = 1;							//*(n*n) +1						23n^2 + 7n + 6	
+23				}										//	
+24				curr = curr->next;						//*n +3							23n^2 + 10n + 6		13n + 10
+25			}											//	
+26		}												//	
+27		return (*head);									//								23n^2 + 10n + 7		13n + 11
+28	}
+
+Let's analyze `ft_select_bucket()`:
+
+1	template <typename D>
+2	void	ft_select_bucket(s_list<D> *buckets[10000], s_list<D> *node)	// PER LINE:			WORST-CASE:	BEST-CASE:
+3	{																		//		
+4		int	val;															// +1					1			1
+5		int	counter;														// +1					2			2
+6																			//		
+7		counter = 0;														// +1					3			3
+8		val = 0;															// +1					4			4
+9		while (counter < 10000)												// +1B, +10,001W		10,005		5
+10		{																	//
+11			if (node->data >= val && node->data <= val + 9999)				// +7B, +(1000*7)		17,005		12		
+12			{																//
+13				ft_lstadd(&buckets[counter], node->data);					// +ft_lstadd() = +5	17,010		17
+14				break ;														// +1					17,011		18
+15			}																//
+16			val += 10000;													// +9999				27,010
+17			counter++;														// +9999				37,009
+18		}
+19	}
+
+1	template <typename D>
+2	s_list<D>	*ft_lsthybrid_sort(s_list<D> **head)			// PER LINE:						WORST-CASE:												BEST-CASE:
+3	{															//															
+4		int			i;											// +1								1														1
+5		s_list<D>	*curr;										// +1								2														2
+6		s_list<D>	*next_node;									// +1								3														3
+7		s_list<D>	*buckets[10000] = {};						// +1								4														4
+8																//															
+9		if (!head || !(*head))									// +3								7														7
+10			return (NULL);										//															
+11		curr = *head;											// +2								9														9
+12		while (curr)											// +n + 1							n + 10													n + 10
+13		{														//															
+14			next_node = curr->next;								// +3n								4n + 10													4n + 10
+15			ft_select_bucket(buckets, curr);					// n*ft_select_bucket()				37,013n + 10											22n + 10
+16			curr = next_node;									// +n								37,014n + 10											23n + 10
+17		}														//													
+18		i = 0;													// +1								37,014n + 11											23n + 11
+19		while (i < 10000)										// +10,001							37,014n + 10,012										23n + 10,012
+20		{														//													
+21			if (buckets[i])										// +10,000							37,014n + 20,012										23n + 20,012
+22				buckets[i] = ft_lstbubble_sort(&buckets[i]);	// 10,000*ft_lstbubble_sort(10,000)	37,014n + 20,012 + 10,000*W:ft_lstbubble_sort(10,000)	23n + 20,012 + B:ft_lstbubble_sort(10,000)
+23			i++;												// +10,000							37,014n + 30,012 + 10,000*W:ft_lstbubble_sort(10,000)	23n + 30,012 + B:ft_lstbubble_sort(10,000)
+24		}														//					
+25		*head = NULL;											// +1								37,014n + 30,013 + 10,000*W:ft_lstbubble_sort(10,000)	23n + 30,013 + B:ft_lstbubble_sort(10,000)
+26		i = 0;													// +1								37,014n + 30,014 + 10,000*W:ft_lstbubble_sort(10,000)	23n + 30,014 + B:ft_lstbubble_sort(10,000)
+27		while (i < 10000)										// +10,001							37,014n + 40,015 + 10,000*W:ft_lstbubble_sort(10,000)	23n + 40,015 + B:ft_lstbubble_sort(10,000)
+28			ft_lstadd_back(head, buckets[i++]);					// 10,000(ft_lstadd_back() + 1)		
+29		return (*head);											// +1
+30	}
+
+NOTE:
+	W:ft_lstbubble_sort(10,000) denotes worst-case scenario of ft_lstbubble_sort() s. t. n = 10,000
+	similarly, B:ft_lstbubble_sort(10,000) denotes best-case scenario of ft_lstbubble_sort() s. t. n = 10,000
