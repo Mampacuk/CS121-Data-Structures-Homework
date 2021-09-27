@@ -1,0 +1,150 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    solution.txt                                       :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/09/18 19:19:28 by aisraely          #+#    #+#              #
+#    Updated: 2021/09/19 14:13:35 by aisraely         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+Let's select the set:
+								{10, 9, 8, 7, 6, 5, 4, 3, 2, 1}
+
+I: MERGE SORT
+
+								{10, 9, 8, 7, 6, 5, 4, 3, 2, 1}
+								/							  \
+						{10, 9, 8, 7, 6}				{5, 4, 3, 2, 1}
+						/			   \				/			  \
+					{10, 9}			{8, 7, 6}		{5, 4}			{3, 2, 1}
+					/	  \			/		\		/	 \			/		\
+				  {10}    {9}	  {8}	  {7, 6}   {5}   {4}      {3}		{2, 1}
+				  	\	  /		   |	 /	   \	\	  /		   |		/	 \
+					{9, 10}		   |	{7}    {6} 	 {4, 5}		   |	  {2}	 {1}	// base case; trivially sorted
+					   |		   |	 \		/		|		   |		\	 /
+					   |		   |	  {6, 7}		|		   |		{1, 2}
+					   |		    \	      /			|			\		 /			// *********
+					   |			*{6, 7, 8}			|			 {1, 2, 3}			// 8 vs 6: 6 is less and goes down; 8 vs 7: 7 wins;
+					   \__________		 |				\__________		 |				// 8 is alone and goes down. likewise for {1, 2, 3}
+					   			  \_{6, 7, 8, 9, 10}			   \_{1, 2, 3, 4, 5}	// and so on.
+											\____________		___________/			// there are two indices on both subarrays to be merged
+														 \	   /						// which get advanced as soon as an element is taken
+											{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}				// out of the array; this continues until both are empty
+
+The complexity is O(nlogn) because there is n linear amount of work for merging as n decreases
+exponentially while the depth of recursion increases (this gives us O(n)). The height of the tree is logn
+thus it's a factor of the n which gives us O(n) * O(logn) = O(nlogn).
+
+The reverse of the input almost won't change the running time, since merge sort is a stable sort: it's O(nlogn).
+
+II: INSERTION SORT
+
+								 i
+								 |
+								 v
+								{10, 9, 8, 7, 6, 5, 4, 3, 2, 1}
+
+								 	 i
+								 	 |
+								 	 v
+								{10, 9, 8, 7, 6, 5, 4, 3, 2, 1}
+								 |___|
+								  swap -> {9, 10, 8, 7, 6, 5, 4, 3, 2, 1}
+								  
+									 	i
+								 	 	|
+								 	 	v
+								{9, 10, 8, 7, 6, 5, 4, 3, 2, 1}
+								|____|__|
+								   shift -> {8, 9, 10, 7, 6, 5, 4, 3, 2, 1}
+
+								   		   i
+								 	 	   |
+								 	 	   v
+								{8, 9, 10, 7, 6, 5, 4, 3, 2, 1}
+								|____|__|__|
+								     shift -> {7, 8, 9, 10, 6, 5, 4, 3, 2, 1}
+
+										   	  i
+								 	 	   	  |
+								 	 	   	  v
+								{7, 8, 9, 10, 6, 5, 4, 3, 2, 1}
+								|____|__|__|__|
+								       shift -> {6, 7, 8, 9, 10, 5, 4, 3, 2, 1}
+
+									   		  	 i
+								 	 	   	  	 |
+								 	 	   	  	 v
+								{6, 7, 8, 9, 10, 5, 4, 3, 2, 1}
+								|____|__|__|__|__|
+								       shift -> {5, 6, 7, 8, 9, 10, 4, 3, 2, 1}
+
+									   		 	 	i
+								 	 	   	  	 	|
+								 	 	   	  	 	v
+								{5, 6, 7, 8, 9, 10, 4, 3, 2, 1}
+								|____|__|__|__|__|__|
+								       shift -> {4, 5, 6, 7, 8, 9, 10, 3, 2, 1}
+
+									   		 	 	   i
+								 	 	   	  	 	   |
+								 	 	   	  	 	   v
+								{4, 5, 6, 7, 8, 9, 10, 3, 2, 1}
+								|____|__|__|__|__|__|__|
+								       shift -> {3, 4, 5, 6, 7, 8, 9, 10, 2, 1}
+
+													   	  i
+								 	 	   	  	 	   	  |
+								 	 	   	  	 	   	  v
+								{3, 4, 5, 6, 7, 8, 9, 10, 2, 1}
+								|____|__|__|__|__|__|__|__|
+								       shift -> {2, 3, 4, 5, 6, 7, 8, 9, 10, 1}
+
+									   				   	 	 i
+								 	 	   	  	 	   	 	 |
+								 	 	   	  	 	   	 	 v
+								{3, 4, 5, 6, 7, 8, 9, 10, 2, 1}
+								|____|__|__|__|__|__|__|__|__|
+								       shift -> {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+									   
+Note that we have n traversals which gives us a variadic n which by using the formula of arithmetic series
+gives O(n^2).
+
+The reverse input is gonna result in the best-case scenario where only one traversal is done without
+any shifting; it's O(n).
+
+III: QUICKSORT
+								 г pivot
+								{10, 9, 8, 7, 6, 5, 4, 3, 2, 1} -> {9, 8, 7, 6, 5, 4, 3, 2, 1, 10}
+					  			/							  \
+					 г pivot   /							  {}
+					{9, 8, 7, 6, 5, 4, 3, 2, 1} -> {8, 7, 6, 5, 4, 3, 2, 1, 9..}
+				   p/						  \
+				   /						  {}
+				  {8, 7, 6, 5, 4, 3, 2, 1} -> {7, 6, 5, 4, 3, 2, 1, 8..}
+				 p/						 \
+				 /						  {}
+				{7, 6, 5, 4, 3, 2, 1} -> {6, 5, 4, 3, 2, 1, 7..}
+				/					\
+			   /					{}
+			  {6, 5, 4, 3, 2, 1} -> {5, 4, 3, 2, 1, 6..}
+			   /				\
+			  /					{}
+			 {5, 4, 3, 2, 1} -> {4, 3, 2, 1, 5..}
+			  /				\
+			 /				{}
+			{4, 3, 2, 1} -> {3, 2, 1, 4..}
+			/			\
+		   /			{}
+		  {3, 2, 1} -> {2, 1, 3..}
+		   /		\________
+		 {2, 1} -> {1, 2..}  \
+		 /	  \_________	 {}
+		{1} base case   \_{}
+
+The reverse input is gonna also be O(n^2) since quicksort's worst-case is the extremity of a sequence as a pivot
+(the sequence reversed will result in 1 as pivot which is the minimum). This is due to the fact one of the subsets
+is always gonna be empty while the other will contain the whole set.

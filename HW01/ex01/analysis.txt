@@ -1,0 +1,112 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    analysis.txt                                       :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/09/18 18:31:12 by aisraely          #+#    #+#              #
+#    Updated: 2021/09/21 20:10:06 by aisraely         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+Let's go line by line, for the function:
+
+1	int	ft_find_step(int *arr, int low, int high, int arr_size)					// PER LINE:		TOTAL:
+2	{																			//
+3		int	i;																	// +1				1
+4		int	mid;																// +1				2
+5																				//
+6		i = 0;																	//
+7		mid = (low + high) / 2;													// +3				4
+8		if (arr_size < 0)														// +1				5
+9			return (-1);														//
+10		if (arr_size >= 2 && !((arr[0] - arr[1]) % 2) && !low)					// +7				12
+11			return (0);															//
+12		if (mid < 1 || mid > arr_size - 2 || low < 0							// +3				15
+			|| high >= arr_size || low > high)									// +2				17
+13			return (-1);														//
+14		if ((arr[mid - 1] - arr[mid]) % 2 && !((arr[mid] - arr[mid + 1]) % 2))	// +12				29
+15			return (mid);														//
+16		if ((arr[mid - 1] - arr[mid]) % 2 && (arr[mid] - arr[mid + 1]) % 2)		// +12				41
+17			return (ft_find_step(arr, mid + 1, high, arr_size));				//
+18		else if (!((arr[mid - 1] - arr[mid]) % 2)								// *(optional)+12	53
+				&& !((arr[mid] - arr[mid + 1]) % 2))							//
+19			return (ft_find_step(arr, low, mid, arr_size));						// +1				54
+20		return (-1);															// ***
+21	}																			// repeated logn times,
+																				// since n gets halved each time
+
+The complexity of this function is 54logn.
+
+Drop the leading coefficient:
+	54logn ~ logn
+
+Thus the function is O(logn), just as binary search.
+
+Let's go line by line, for the program:
+
+Notice that ft_check_step() is a subroutine which has to be dealt with first:
+
+1	int	ft_check_step(int *arr, int arr_size)				// PER LINE:									TOTAL:
+2	{														//			
+3		int	i;												// +1											1
+4		int	even;											// +1											2
+5															//			
+6		i = 0;												// +1											3
+7		even = 0;											// +1											4
+8		while (i < arr_size - 1)							// n											n + 4
+9		{													//
+10			if (!((arr[i] - arr[i + 1]) % 2))				//}*(n - 1) "[]":+2; "-":+1; "%":+1; "!":+1		5(n - 1) + n + 4
+11				even++;										//}*(n - 1)	optional; +1 in worst-case			6(n - 1) + n + 4
+12			if (even && (arr[i] - arr[i + 1]) % 2)			//}*(n - 1) +6									12(n - 1) + n + 4
+13				return (0);									// merge with other returns into +1				12(n - 1) + n + 5
+14			i++;											//}*(n - 1) +1									13(n - 1) + n + 5
+15		}													//
+16		if (!even)											// +1											13(n - 1) + n + 6
+17			return (0);										//
+18		return (1);											//
+19	}														// 13n - 13 + n + 6 = 14n - 7
+
+Now, the main():
+
+1	int	main(void)													// PER LINE:					TOTAL:
+2	{																//
+3		int	n;														// +1							1
+4		int	*arr;													// +1							2
+5																	//
+6		std::cout << "Input the array size: ";						// +1							3
+7		std::cin >> n;												// +2 (read + write)			5
+8		if (std::cin.fail() || n < 1)								// +2							7
+9		{															// }
+10			std::cout << "Invalid input" << std::endl;				// } exceptional case
+11			return (1);												// }
+12		}															//
+13		arr = new int[n];											// +1							8
+14		std::cout << "Now, input the elements:" << std::endl;		// +1							9
+15		for (int i = 0; i < n; i++)									// init+1; comp+n; inc+(n-1)=2n	2n + 9	
+16		{															//
+17			std::cin >> arr[i];										//}*n +2 (read + write)			4n + 9
+18			if (std::cin.fail())									//}*n +1						5n + 9
+19			{														//
+20				std::cout << "Invalid input" << std::endl;			//} exceptional...
+21				return (1);											//} ...case
+22			}														//
+23		}															//
+24		if (!ft_check_step(arr, n))									// +(1 + ft_check_step()) =		
+																	// +(1 + 14n - 8)				19n + 7
+25		{															//
+26			std::cout << "Invalid input" << std::endl;				//} exceptional...
+27			return (1);												//} ...case
+28		}															//
+29		std::cout << ft_find_step(arr, n) << std::endl;				// +(1 + ft_find_step()) =
+																	// +(1 + 54logn)				19n + 54logn + 8
+30	}
+
+Now drop the lower terms:
+	19n + 54logn + 8 ~ 19n
+
+Drop the leading coefficient:
+	19n ~ n
+
+Thus the program is O(n).
