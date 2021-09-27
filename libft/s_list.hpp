@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/25 16:11:40 by aisraely          #+#    #+#             */
-/*   Updated: 2021/09/26 18:13:13 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/09/27 22:00:15 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ s_list<D>	*ft_lstlast(s_list<D> *lst)
 {
 	s_list<D>	*curr;
 
+	if (!lst)
+		return (NULL);
 	curr = lst;
 	while (curr->next)
 		curr = curr->next;
@@ -270,6 +272,10 @@ s_list<D>	*ft_lstmerge_sort(s_list<D> **head)
 	sublists[0] = ft_lstmerge_sort<D>(&sublists[0]);
 	sublists[1] = ft_lstmerge_sort<D>(&sublists[1]);
 	merged = ft_lstmerge<D>(&sublists[0], &sublists[1]);
+	/*
+	 * Because memory leaks should be the developer's
+	 * responsibility. SAY `NO` TO JAVA'S "GARBAGE COLLECTOR"!!!!
+	 */
 	delete [] sublists;
 	return (merged);		
 }
@@ -287,9 +293,15 @@ s_list<D>	*ft_lstbubble_sort(s_list<D> **head)
 	while (swap)
 	{
 		swap = 0;
+		/*
+		 * Restore the pointer
+		 */
 		curr = *head;
 		while (curr->next)
 		{
+			/*
+			 * Do the swap, set the boolean to true
+			 */
 			if (curr->data > curr->next->data)
 			{
 				temp = curr->data;
@@ -304,23 +316,44 @@ s_list<D>	*ft_lstbubble_sort(s_list<D> **head)
 }
 
 template <typename D>
-void	ft_select_bucket(s_list<D> *buckets[10000], s_list<D> *node)
+s_list<D>	*ft_lstbucket_sort(s_list<D> **head, int max)
 {
-	int	val;
-	int	counter;
-	
-	counter = 0;
-	val = 0;
-	while (counter < 10000)
+	int			i;
+	s_list<D>	*curr;
+	s_list<D>	*next_node;
+	s_list<D>	**buckets = new s_list<D> *[max];
+
+	if (!head || !(*head))
+		return (NULL);
+	// i = 0;
+	// while (i < max)
+	// 	buckets[i++] = NULL;
+	curr = *head;
+	/*
+	 * Put nodes into buckets
+	 */
+	while (curr)
 	{
-		if (node->data >= val && node->data <= val + 9999)
-		{
-			ft_lstadd(&buckets[counter], node->data);
-			break ;
-		}
-		val += 10000;
-		counter++;
+		next_node = curr->next;
+		ft_lstadd(&buckets[curr->data], curr);
+		curr = next_node;
 	}
+	*head = NULL;
+	i = 0;
+	while (i < max - 1)
+		ft_lstadd_back(head, buckets[i++]);
+	delete [] buckets;
+	return (*head);
+}
+
+template <typename D>
+s_list<D>	*ft_lstradix_sort(s_list<D> **head, int max)
+{
+	if (!head || !(*head))
+		return (NULL);
+	while (max != 1)
+		*head = ft_lstbucket_sort(head, max--);
+	return (*head);
 }
 
 template <typename D>
@@ -340,7 +373,7 @@ s_list<D>	*ft_lsthybrid_sort(s_list<D> **head)
 	while (curr)
 	{
 		next_node = curr->next;
-		ft_select_bucket(buckets, curr);
+		ft_lstadd(&buckets[curr->data / 10000], curr);
 		curr = next_node;
 	}
 	/*

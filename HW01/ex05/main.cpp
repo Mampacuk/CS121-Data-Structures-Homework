@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/26 17:57:57 by aisraely          #+#    #+#             */
-/*   Updated: 2021/09/27 21:36:44 by aisraely         ###   ########.fr       */
+/*   Created: 2021/09/27 21:31:42 by aisraely          #+#    #+#             */
+/*   Updated: 2021/09/27 22:00:51 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int argc, char **argv)
 	while (i >= 1)
 	{
 		val = ft_atoi(argv[i]);
-		if (!ft_isdigitstr(argv[i]) || (val < 0 || val > 99999999))
+		if (!ft_isdigitstr(argv[i]) || (val < 0 || val > 999999))
 		{
 			std::cout << "Invalid input" << std::endl;
 			return (1);
@@ -31,6 +31,6 @@ int	main(int argc, char **argv)
 		ft_lstadd<int>(&a, val);
 		i--;	
 	}
-	a = ft_lsthybrid_sort<int>(&a);
+	a = ft_lstbucket_sort<int>(&a, 999999);
 	ft_lstprint<int>(a);
 }
