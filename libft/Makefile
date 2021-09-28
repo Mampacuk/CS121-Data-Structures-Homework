@@ -34,13 +34,8 @@ $(NAME): $(OBJS)
 clean:
 	@$(RM) $(OBJS)
 
-ifeq ($(OS), Windows_NT)
-fclean: clean
-	@$(RM) $(addsuffix .exe,$(NAME))
-else
 fclean: clean
 	@$(RM) $(NAME)
-endif
 
 re: fclean all
 
