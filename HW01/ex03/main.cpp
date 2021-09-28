@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 20:22:48 by aisraely          #+#    #+#             */
-/*   Updated: 2021/09/25 20:04:23 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/09/27 21:35:39 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	main(int argc, char **argv)
 	s_list<int>	*a;
 	
 	a = NULL;
-	i = 1;
-	while (i < argc)
+	i = argc - 1;
+	while (i >= 1)
 	{
 		if (!ft_isdigitstr(argv[i]))
 		{
@@ -30,7 +30,7 @@ int	main(int argc, char **argv)
 			return (1);
 		}
 		ft_lstadd<int>(&a, ft_atoi(argv[i]));
-		i++;	
+		i--;	
 	}
 	a = ft_lstmerge_sort<int>(&a);
 	ft_lstprint<int>(a);

@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/25 16:11:40 by aisraely          #+#    #+#             */
-/*   Updated: 2021/09/26 18:13:13 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/09/28 21:57:16 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ s_list<D>	*ft_lstlast(s_list<D> *lst)
 {
 	s_list<D>	*curr;
 
+	if (!lst)
+		return (NULL);
 	curr = lst;
 	while (curr->next)
 		curr = curr->next;
@@ -270,6 +272,10 @@ s_list<D>	*ft_lstmerge_sort(s_list<D> **head)
 	sublists[0] = ft_lstmerge_sort<D>(&sublists[0]);
 	sublists[1] = ft_lstmerge_sort<D>(&sublists[1]);
 	merged = ft_lstmerge<D>(&sublists[0], &sublists[1]);
+	/*
+	 * Because memory leaks should be the developer's
+	 * responsibility. SAY `NO` TO JAVA'S "GARBAGE COLLECTOR"!!!!
+	 */
 	delete [] sublists;
 	return (merged);		
 }
@@ -287,9 +293,15 @@ s_list<D>	*ft_lstbubble_sort(s_list<D> **head)
 	while (swap)
 	{
 		swap = 0;
+		/*
+		 * Restore the pointer
+		 */
 		curr = *head;
 		while (curr->next)
 		{
+			/*
+			 * Do the swap, set the boolean to true
+			 */
 			if (curr->data > curr->next->data)
 			{
 				temp = curr->data;
@@ -303,25 +315,153 @@ s_list<D>	*ft_lstbubble_sort(s_list<D> **head)
 	return (*head);
 }
 
+// template <typename D>
+// s_list<D>	*ft_lstbucket_sort(s_list<D> **head, int max)
+// {
+// 	int			i;
+// 	s_list<D>	*curr;
+// 	s_list<D>	*next_node;
+// 	s_list<D>	**buckets = new s_list<D> *[max];
+
+// 	if (!head || !(*head))
+// 		return (NULL);
+// 	curr = *head;
+// 	/*
+// 	 * Put nodes into buckets
+// 	 */
+// 	while (curr)
+// 	{
+// 		next_node = curr->next;
+// 		ft_lstadd(&buckets[curr->data], curr);
+// 		curr = next_node;
+// 	}
+// 	*head = NULL;
+// 	i = 0;
+// 	while (i < max - 1)
+// 		ft_lstadd_back(head, buckets[i++]);
+// 	delete [] buckets;
+// 	return (*head);
+// }
+
 template <typename D>
-void	ft_select_bucket(s_list<D> *buckets[10000], s_list<D> *node)
+int	ft_find_msb(s_list<D> *head)
 {
-	int	val;
-	int	counter;
-	
-	counter = 0;
-	val = 0;
-	while (counter < 10000)
+	int			i;
+	int			msb;
+	D			max;
+	s_list<D>	*curr;
+
+	if (!head)
+		return (0);
+	max = head->data;
+	curr = head->next;
+	while (curr)
 	{
-		if (node->data >= val && node->data <= val + 9999)
-		{
-			ft_lstadd(&buckets[counter], node->data);
-			break ;
-		}
-		val += 10000;
-		counter++;
+		if (curr->data > max)
+			max = curr->data;
+		curr = curr->next;
 	}
+	i = 0;
+	msb = 32;
+	std::cout << "max is " << max << std::endl;
+	std::cout << "1 << 31 is " << (1 << 30) << std::endl;
+	while ((((1 << 31) >> i) & max) != 1)
+	{
+		// std::cout << "exp is " << ((0b10000000000000000000000000000000 >> i) & max) << std::endl;
+		msb--;
+		i++;
+	}
+	std::cout << "returning msb" << std::endl;
+	return (msb);
 }
+
+template <typename D>
+s_list<D>	*ft_lstradix_sort(s_list<D> **head)
+{
+	int			i;
+	int			bitmask;
+	s_list<D>	*curr;
+	s_list<D>	*next_node;
+	s_list<D>	**buckets;
+	
+	if (!head || !(*head))
+		return (NULL);
+		std::cout << "MSB=" << ft_find_msb(*head) << std::endl;
+		exit(0);
+	// buckets = new s_list<D> *[];
+	i = 0;
+	
+	while (i < 32)
+	{
+		/*
+		 * To separate the bit by using AND operation
+		 */
+		bitmask = 1 << i;
+		curr = *head;
+		/*
+		 * Put nodes into buckets
+		 */
+		while (curr)
+		{
+			next_node = curr->next;
+			ft_lstadd_back(&buckets[(curr->data & bitmask) != 0], curr);
+			curr->next = NULL;
+			curr = next_node;
+		}
+		/*
+		 * Combine the buckets 
+		 */
+		*head = NULL;
+		ft_lstadd_back(head, buckets[0]);
+		ft_lstadd_back(head, buckets[1]);
+		buckets[0] = NULL;
+		buckets[1] = NULL;
+		i++;
+	}
+	return (*head);
+}
+
+// template <typename D>
+// s_list<D>	*ft_lstradix_sort(s_list<D> **head)
+// {
+// 	int			i;
+// 	int			bitmask;
+// 	s_list<D>	*curr;
+// 	s_list<D>	*next_node;
+// 	s_list<D>	*buckets[2] = {};
+	
+// 	if (!head || !(*head))
+// 		return (NULL);
+// 	i = 0;
+// 	while (i < 32)
+// 	{
+// 		/*
+// 		 * To separate the bit by using AND operation
+// 		 */
+// 		bitmask = 1 << i;
+// 		curr = *head;
+// 		/*
+// 		 * Put nodes into buckets
+// 		 */
+// 		while (curr)
+// 		{
+// 			next_node = curr->next;
+// 			ft_lstadd_back(&buckets[(curr->data & bitmask) != 0], curr);
+// 			curr->next = NULL;
+// 			curr = next_node;
+// 		}
+// 		/*
+// 		 * Combine the buckets 
+// 		 */
+// 		*head = NULL;
+// 		ft_lstadd_back(head, buckets[0]);
+// 		ft_lstadd_back(head, buckets[1]);
+// 		buckets[0] = NULL;
+// 		buckets[1] = NULL;
+// 		i++;
+// 	}
+// 	return (*head);
+// }
 
 template <typename D>
 s_list<D>	*ft_lsthybrid_sort(s_list<D> **head)
@@ -340,7 +480,7 @@ s_list<D>	*ft_lsthybrid_sort(s_list<D> **head)
 	while (curr)
 	{
 		next_node = curr->next;
-		ft_select_bucket(buckets, curr);
+		ft_lstadd(&buckets[curr->data / 10000], curr);
 		curr = next_node;
 	}
 	/*
