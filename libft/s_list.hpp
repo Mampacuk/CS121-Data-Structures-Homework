@@ -349,7 +349,7 @@ static int	ft_find_msb(s_list<D> *head)
 	D			max;
 	s_list<D>	*curr;
 
-	if (!head || !head->data)
+	if (!head)
 		return (0);
 	max = head->data;
 	curr = head->next;
@@ -359,6 +359,8 @@ static int	ft_find_msb(s_list<D> *head)
 			max = curr->data;
 		curr = curr->next;
 	}
+	if (!max)
+		return (0);
 	return (log2(max) + 1);
 }
 
