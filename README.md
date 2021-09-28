@@ -21,4 +21,5 @@ CS121C Data Structures Course Homework Assignments by Alexander Israelyan
 *	Notice that in "ex05", the starting coordinates are rather swapped. This shouldn't be an issue though.
 ### Homework 2
 *	PLEASE make your arrays of strings NULL-terminated, following the C-style best practices and conventions. _NOT NULL-TERMINATED MATRICES OF CHARS WON'T WORK!_
-*	The analysis of the complexity can be found in the respective folder in the corresponding `analysis.txt` file.
+*	The analysis of the complexity can be found in the respective folder in the corresponding `analysis.txt` files.
+*	Use the `tester.sh` provided by me to test the algorithms!
