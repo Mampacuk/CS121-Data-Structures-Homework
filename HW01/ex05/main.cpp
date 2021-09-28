@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 21:31:42 by aisraely          #+#    #+#             */
-/*   Updated: 2021/09/27 22:00:51 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/09/28 19:41:19 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,6 @@ int	main(int argc, char **argv)
 		ft_lstadd<int>(&a, val);
 		i--;	
 	}
-	a = ft_lstbucket_sort<int>(&a, 999999);
+	a = ft_lstradix_sort<int>(&a);
 	ft_lstprint<int>(a);
 }

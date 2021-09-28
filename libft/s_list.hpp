@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/25 16:11:40 by aisraely          #+#    #+#             */
-/*   Updated: 2021/09/27 22:00:15 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/09/28 20:10:26 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -315,44 +315,73 @@ s_list<D>	*ft_lstbubble_sort(s_list<D> **head)
 	return (*head);
 }
 
+// template <typename D>
+// s_list<D>	*ft_lstbucket_sort(s_list<D> **head, int max)
+// {
+// 	int			i;
+// 	s_list<D>	*curr;
+// 	s_list<D>	*next_node;
+// 	s_list<D>	**buckets = new s_list<D> *[max];
+
+// 	if (!head || !(*head))
+// 		return (NULL);
+// 	curr = *head;
+// 	/*
+// 	 * Put nodes into buckets
+// 	 */
+// 	while (curr)
+// 	{
+// 		next_node = curr->next;
+// 		ft_lstadd(&buckets[curr->data], curr);
+// 		curr = next_node;
+// 	}
+// 	*head = NULL;
+// 	i = 0;
+// 	while (i < max - 1)
+// 		ft_lstadd_back(head, buckets[i++]);
+// 	delete [] buckets;
+// 	return (*head);
+// }
+
 template <typename D>
-s_list<D>	*ft_lstbucket_sort(s_list<D> **head, int max)
+s_list<D>	*ft_lstradix_sort(s_list<D> **head)
 {
 	int			i;
+	int			bitmask;
 	s_list<D>	*curr;
 	s_list<D>	*next_node;
-	s_list<D>	**buckets = new s_list<D> *[max];
-
+	s_list<D>	*buckets[2] = {};
+	
 	if (!head || !(*head))
 		return (NULL);
-	// i = 0;
-	// while (i < max)
-	// 	buckets[i++] = NULL;
-	curr = *head;
-	/*
-	 * Put nodes into buckets
-	 */
-	while (curr)
-	{
-		next_node = curr->next;
-		ft_lstadd(&buckets[curr->data], curr);
-		curr = next_node;
-	}
-	*head = NULL;
 	i = 0;
-	while (i < max - 1)
-		ft_lstadd_back(head, buckets[i++]);
-	delete [] buckets;
-	return (*head);
-}
-
-template <typename D>
-s_list<D>	*ft_lstradix_sort(s_list<D> **head, int max)
-{
-	if (!head || !(*head))
-		return (NULL);
-	while (max != 1)
-		*head = ft_lstbucket_sort(head, max--);
+	while (i < 32)
+	{
+		/*
+		 * To separate the bit by using AND operation
+		 */
+		bitmask = 1 << i;
+		curr = *head;
+		/*
+		 * Put nodes into buckets
+		 */
+		while (curr)
+		{
+			next_node = curr->next;
+			ft_lstadd_back(&buckets[(curr->data & bitmask) != 0], curr);
+			curr->next = NULL;
+			curr = next_node;
+		}
+		/*
+		 * Combine the buckets 
+		 */
+		*head = NULL;
+		ft_lstadd_back(head, buckets[0]);
+		ft_lstadd_back(head, buckets[1]);
+		buckets[0] = NULL;
+		buckets[1] = NULL;
+		i++;
+	}
 	return (*head);
 }
 
