@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 13:37:49 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/04 15:53:40 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/10/04 19:52:53 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,23 +40,14 @@ class	SinglyLinkedList
 		~SinglyLinkedList(void);
 		SinglyLinkedList(const SinglyLinkedList &copy);
 		bool				isEmpty(void)	const;
-		D					*front(void)	const;
-		D					*back(void)		const;
+		const D				&front(void)	const;
+		const D				&back(void)		const;
 		void				print(void)		const;
 		void				addFront(const D &e);
 		void				addBack(const D &e);
 		void				removeFront(void);
-		D					*removeLast(void);
+		const D				&removeLast(void);
 	private:
-		class	ReadingEmptyListException : public std::exception
-		{
-			public:
-				virtual const char *what() const throw()
-				{
-					return ("ReadingEmptyListException: No elements can be read "
-					"from an empty list.");
-				}
-		};
 		SNode<D>			*_head;
 		SNode<D>			*_tail;
 };
@@ -94,35 +85,15 @@ bool	SinglyLinkedList<D>::isEmpty(void) const
 }
 
 template <typename D>
-D	*SinglyLinkedList<D>::front(void) const
+const D	&SinglyLinkedList<D>::front(void) const
 {
-	try
-	{
-		if (this->_head)
-			return (&this->_head->_data);
-		throw ReadingEmptyListException();
-	}
-	catch (std::exception &e)
-	{
-		std::cerr << e.what() << std::endl;
-		return (NULL);
-	}
+	return (this->_head->_data);
 }
 
 template <typename D>
-D	*SinglyLinkedList<D>::back(void) const
+const D	&SinglyLinkedList<D>::back(void) const
 {
-	try
-	{
-		if (this->_head)
-			return (&this->_tail->_data);
-		throw ReadingEmptyListException();
-	}
-	catch (std::exception &e)
-	{
-		std::cerr << e.what() << std::endl;
-		return (NULL);
-	}
+	return (this->_tail->_data);
 }
 
 template <typename D>
@@ -168,24 +139,19 @@ void	SinglyLinkedList<D>::removeFront(void)
 }
 
 template <typename D>
-D	*SinglyLinkedList<D>::removeLast(void)
+const D	&SinglyLinkedList<D>::removeLast(void)
 {
-	D			*ret;
 	SNode<D>	*curr;
+	D			&ret = this->_tail->_data;			
 
-	ret = NULL;
-	if (this->isEmpty())
-		return (NULL);
 	if (!this->_tail->_next)
 	{
-		ret = &this->_head->_data;
 		this->removeFront();
 		return (ret);
 	}
 	curr = this->_head;
 	while (curr->_next != this->_tail)
 		curr = curr->_next;
-	ret = &this->_tail->_data;
 	delete this->_tail;
 	curr->_next = NULL;
 	this->_tail = curr;

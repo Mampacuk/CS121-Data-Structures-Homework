@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 13:37:43 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/04 15:54:14 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/10/04 19:55:46 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,23 +41,14 @@ class	DoublyLinkedList
 		~DoublyLinkedList(void);
 		DoublyLinkedList(const DoublyLinkedList<D> &copy);
 		bool				isEmpty(void)	const;
-		D					*front(void)	const;
-		D					*back(void)		const;
+		const D				&front(void)	const;
+		const D				&back(void)		const;
 		void				print(void)		const;
 		void				addFront(const D &e);
 		void				addBack(const D &e);
 		void				removeFront(void);
 		void				removeBack(void);
 	private:
-		class	ReadingEmptyListException : public std::exception
-		{
-			public:
-				virtual const char *what() const throw()
-				{
-					return ("ReadingEmptyListException: No elements can be read "
-					"from an empty list.");
-				}
-		};
 		DNode<D>			*_head;
 		DNode<D>			*_tail;
 };
@@ -95,35 +86,15 @@ bool	DoublyLinkedList<D>::isEmpty(void) const
 }
 
 template <typename D>
-D	*DoublyLinkedList<D>::front(void) const
+const D	&DoublyLinkedList<D>::front(void) const
 {
-	try
-	{
-		if (this->_head)
-			return (&this->_head->_data);
-		throw ReadingEmptyListException();
-	}
-	catch (std::exception &e)
-	{
-		std::cerr << e.what() << std::endl;
-		return (NULL);
-	}
+	return (this->_head->_data);
 }
 
 template <typename D>
-D	*DoublyLinkedList<D>::back(void) const
+const D	&DoublyLinkedList<D>::back(void) const
 {
-	try
-	{
-		if (this->_head)
-			return (&this->_tail->_data);
-		throw ReadingEmptyListException();
-	}
-	catch (std::exception &e)
-	{
-		std::cerr << e.what() << std::endl;
-		return (NULL);
-	}
+	return (this->_tail->_data);
 }
 
 template <typename D>

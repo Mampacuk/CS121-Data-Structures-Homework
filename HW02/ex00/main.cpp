@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 13:37:40 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/04 15:11:37 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/10/04 19:56:52 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,8 @@ int	main(void)
 	list->addFront(1);
 	list->addFront(-10);
 	list->print();
-	std::cout << "Front is " << *list->front() << " and back is " << *list->back() << std::endl;
-	std::cout << "Popping from front 4 times:" << std::endl;
-	list->removeFront();
+	std::cout << "Front is " << list->front() << " and back is " << list->back() << std::endl;
+	std::cout << "Popping from front 3 times:" << std::endl;
 	list->removeFront();
 	list->removeFront();
 	list->removeFront();
@@ -36,20 +35,14 @@ int	main(void)
 	list->addBack(42);
 	list->addBack(9);
 	list->print();
-	std::cout << "Front is " << *list->front() << " and back is " << *list->back() << std::endl;
-	std::cout << "Popping from front 6 times:" << std::endl;
-	list->removeBack();
-	list->removeBack();
-	list->removeBack();
+	std::cout << "Front is " << list->front() << " and back is " << list->back() << std::endl;
+	std::cout << "Popping from front 3 times:" << std::endl;
 	list->removeBack();
 	list->removeBack();
 	list->removeBack();
 	list->print();
-	std::cout << "Attempting to access front:" << std::endl;
-	list->front();
-	std::cout << "Attempting to access back:" << std::endl;
-	list->back();
 	
+	std::cout << "Added 42 and 9 from back." << std::endl;
 	list->addBack(42);
 	list->addBack(9);
 	DoublyLinkedList<int>	*copy = new DoublyLinkedList<int>(*list);
