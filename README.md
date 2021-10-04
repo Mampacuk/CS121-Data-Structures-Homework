@@ -12,7 +12,7 @@ CS121C Data Structures Course Homework Assignments by Alexander Israelyan
 *	At the root, folders "HW??" represent the respective homework assignments.
 *	In each of them, find respective exercise by the "ex??" folder.
 ### Testing and Compilation
-*	PLEASE use `Makefile` for compilation. There are two rules you may be interested in, along with other tools:
+*	PLEASE use the Makefile for compilation. There are two rules you may be interested in, along with other tools:
 	* Running `make`, which will invoke the `all` rule, compiles the program to be turned in.
 	* Running `make test`, which will invoke the `test` rule, if present, compiles a tester for the problem to help you evaluate this work.
 	* Running `tester.sh` to feed to the program some arguments.
@@ -24,3 +24,5 @@ CS121C Data Structures Course Homework Assignments by Alexander Israelyan
 *	PLEASE make your arrays of strings NULL-terminated, following the C-style best practices and conventions. _NOT NULL-TERMINATED MATRICES OF CHARS WON'T WORK!_
 *	The analysis of the complexity can be found in the respective folder in the corresponding `analysis.txt` files.
 *	Use the `tester.sh` provided by me to test the algorithms! Be wary; they may contain mistakes, so be sure to double-check.
+### Homework 3
+*	Please be aware that returning references when getting an element from a list is tricky in C++; for this reason, I return pointers instead, which have to be dereferenced by the user, to be able to handle the case with no elements. _It's not possible to return a NULL reference to indicate failure._

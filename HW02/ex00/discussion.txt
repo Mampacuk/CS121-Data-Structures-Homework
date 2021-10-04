@@ -1,0 +1,22 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    discussion.txt                                     :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/10/04 14:34:45 by aisraely          #+#    #+#              #
+#    Updated: 2021/10/04 14:44:16 by aisraely         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+Obviously, the lack of sentinels resulted in repetetive pieces of code:
+
+The Lines 132-135 in DoublyLinkedList.hpp of DoublyLinkedList<D>::addFront() and
+the Lines 148-151 of DoublyLinkedList<D>::addBack() could've been generalized with a
+helper function which would take two nodes to place the element in-between, header and
+its _next and trailer with its _prev, respectively.
+
+In the same fashion, Lines 164-166 of DoublyLinkedList<D>::removeFront() and
+Lines 183-185 of DoublyLinkedList<D>::removeBack() could've been taken care of in a
+similar removing function that'd never have this edge case.

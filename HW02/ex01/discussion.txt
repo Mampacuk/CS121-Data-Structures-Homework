@@ -1,0 +1,45 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    discussion.txt                                     :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/10/04 15:19:58 by aisraely          #+#    #+#              #
+#    Updated: 2021/10/04 15:27:02 by aisraely         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+Let's analyze the worst-case runtime of `SinglyLinkedList<D>::removeLast()`:
+
+1	template <typename D>
+2	D	*SinglyLinkedList<D>::removeLast(void)	// PER LINE:				TOTAL:
+3	{											//
+4		D			*ret;						// +1						1
+5		SNode<D>	*curr;						// +1						2
+6												//
+7		ret = NULL;								// +1						3
+8		if (this->isEmpty())					// +3						6
+9			return (NULL);						//
+10		if (!this->_tail->_next)				// +5						11
+11		{										//
+12			ret = &this->_head->_data;			//
+13			this->removeFront();				// (is the best-case)
+14			return (ret);						//
+15		}										//
+16		curr = this->_head;						// +3						14
+17		while (curr->_next != this->_tail)		//*n +5						5n + 14
+18			curr = curr->_next;					//*(n - 1) +3				5n + 3(n - 1) + 14
+19		ret = &this->_tail->_data;				// +6						5n + 3(n - 1) + 20
+20		delete this->_tail;						// +3						5n + 3(n - 1) + 23
+21		curr->_next = NULL;						// +3						5n + 3(n - 1) + 26
+22		this->_tail = curr;						// +3						5n + 3(n - 1) + 29
+23		return (ret);							// +1						5n + 3(n - 1) + 30
+24	}
+
+5n + 3(n - 1) + 30 = 5n + 3n - 3 + 30 = 8n + 27
+
+8n + 27 ~ 8n ~ n, which is O(n).
+
+It's typically not included because it takes linear time to remove the last element.
+The user can unintentionally abuse it and make their program run for ages on big inputs.
