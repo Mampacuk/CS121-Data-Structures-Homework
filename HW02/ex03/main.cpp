@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 16:08:47 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/04 19:27:44 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/10/05 20:50:56 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ Student	*ft_create_student(std::string line)
 	if (i == (int)line.length() - 1 || line[i] != ' ')
 		return (NULL);
 	questions = ft_atoi(line.substr(i + 1).c_str());
+	if (!questions)
+		return (NULL);
 	name = line.substr(0, i);
 	return (new Student(name, questions));
 }
@@ -63,7 +65,7 @@ int	main(void)
 		reversed_students->advance();
 		size--;
 	}
-	while (!students->isEmpty())
+	while (!students->empty())
 	{
 		students->front().printName();
 		std::cout << " asks question ";

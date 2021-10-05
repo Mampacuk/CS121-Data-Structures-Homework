@@ -6,32 +6,12 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 13:37:43 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/04 19:55:46 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/10/05 20:50:56 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DOUBLYLINKEDLIST_HPP
 # define DOUBLYLINKEDLIST_HPP
-
-template <typename D>
-class	DoublyLinkedList;
-
-template <typename D>
-class	DNode
-{
-	private:
-		DNode(D data);
-		D			_data;
-		DNode<D>	*_prev;
-		DNode<D>	*_next;
-		friend class DoublyLinkedList<D>;
-};
-
-template <typename D>
-DNode<D>::DNode(D data) : _data(data), _prev(NULL), _next(NULL)
-{
-
-}
 
 template <typename D>
 class	DoublyLinkedList
@@ -40,7 +20,7 @@ class	DoublyLinkedList
 		DoublyLinkedList(void);
 		~DoublyLinkedList(void);
 		DoublyLinkedList(const DoublyLinkedList<D> &copy);
-		bool				isEmpty(void)	const;
+		bool				empty(void)	const;
 		const D				&front(void)	const;
 		const D				&back(void)		const;
 		void				print(void)		const;
@@ -49,8 +29,15 @@ class	DoublyLinkedList
 		void				removeFront(void);
 		void				removeBack(void);
 	private:
-		DNode<D>			*_head;
-		DNode<D>			*_tail;
+		struct	DNode
+		{
+			DNode(D data) : data(data), prev(NULL), next(NULL) {}
+			D		data;
+			DNode	*prev;
+			DNode	*next;
+		};
+		DNode				*_head;
+		DNode				*_tail;
 };
 
 template <typename D>
@@ -62,25 +49,25 @@ DoublyLinkedList<D>::DoublyLinkedList(void) : _head(NULL), _tail(NULL)
 template <typename D>
 DoublyLinkedList<D>::~DoublyLinkedList(void)
 {
-	while (!this->isEmpty())
+	while (!this->empty())
 		this->removeFront();
 }
 
 template <typename D>
 DoublyLinkedList<D>::DoublyLinkedList(const DoublyLinkedList &copy) : _head(NULL), _tail(NULL)
 {
-	DNode<D>	*curr;
+	DNode	*curr;
 
 	curr = copy._head;
 	while (curr)
 	{
-		this->addBack(curr->_data);
-		curr = curr->_next;
+		this->addBack(curr->data);
+		curr = curr->next;
 	}
 }
 
 template <typename D>
-bool	DoublyLinkedList<D>::isEmpty(void) const
+bool	DoublyLinkedList<D>::empty(void) const
 {
 	return (this->_head == NULL);
 }
@@ -88,27 +75,27 @@ bool	DoublyLinkedList<D>::isEmpty(void) const
 template <typename D>
 const D	&DoublyLinkedList<D>::front(void) const
 {
-	return (this->_head->_data);
+	return (this->_head->data);
 }
 
 template <typename D>
 const D	&DoublyLinkedList<D>::back(void) const
 {
-	return (this->_tail->_data);
+	return (this->_tail->data);
 }
 
 template <typename D>
 void	DoublyLinkedList<D>::addFront(const D &e)
 {
-	DNode<D>	*new_head;
+	DNode	*new_head;
 
-	if (this->isEmpty())
-		this->_head = this->_tail = new DNode<D>(e);
+	if (this->empty())
+		this->_head = this->_tail = new DNode(e);
 	else
 	{
-		new_head = new DNode<D>(e);
-		this->_head->_prev = new_head;
-		new_head->_next = this->_head;
+		new_head = new DNode(e);
+		this->_head->prev = new_head;
+		new_head->next = this->_head;
 		this->_head = new_head;
 	}
 }
@@ -116,15 +103,15 @@ void	DoublyLinkedList<D>::addFront(const D &e)
 template <typename D>
 void	DoublyLinkedList<D>::addBack(const D &e)
 {
-	DNode<D>	*new_tail;
+	DNode	*new_tail;
 
-	if (this->isEmpty())
-		this->_head = this->_tail = new DNode<D>(e);
+	if (this->empty())
+		this->_head = this->_tail = new DNode(e);
 	else
 	{
-		new_tail = new DNode<D>(e);
-		this->_tail->_next = new_tail;
-		new_tail->_prev = this->_tail;
+		new_tail = new DNode(e);
+		this->_tail->next = new_tail;
+		new_tail->prev = this->_tail;
 		this->_tail = new_tail;
 	}
 }
@@ -132,9 +119,9 @@ void	DoublyLinkedList<D>::addBack(const D &e)
 template <typename D>
 void	DoublyLinkedList<D>::removeFront(void)
 {
-	DNode<D>	*old_head;
+	DNode	*old_head;
 
-	if (this->isEmpty())
+	if (this->empty())
 		return ;
 	if (this->_head == this->_tail)
 	{
@@ -143,17 +130,17 @@ void	DoublyLinkedList<D>::removeFront(void)
 		return ;
 	}
 	old_head = this->_head;
-	old_head->_next->_prev = NULL;
-	this->_head = old_head->_next;
+	old_head->next->prev = NULL;
+	this->_head = old_head->next;
 	delete old_head;
 }
 
 template <typename D>
 void	DoublyLinkedList<D>::removeBack(void)
 {
-	DNode<D>	*old_tail;
+	DNode	*old_tail;
 
-	if (this->isEmpty())
+	if (this->empty())
 		return ;
 	if (this->_head == this->_tail)
 	{
@@ -162,21 +149,21 @@ void	DoublyLinkedList<D>::removeBack(void)
 		return ;
 	}
 	old_tail = this->_tail;
-	old_tail->_prev->_next = NULL;
-	this->_tail = old_tail->_prev;
+	old_tail->prev->next = NULL;
+	this->_tail = old_tail->prev;
 	delete old_tail;
 }
 
 template <typename D>
 void	DoublyLinkedList<D>::print(void) const
 {
-	DNode<D>	*curr;
+	DNode	*curr;
 
 	curr = this->_head;
 	while (curr)
 	{
-		std::cout << curr->_data << std::endl;
-		curr = curr->_next;
+		std::cout << curr->data << std::endl;
+		curr = curr->next;
 	}
 	if (!this->_head)
 		std::cout << "(null)" << std::endl;

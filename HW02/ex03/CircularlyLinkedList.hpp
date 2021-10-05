@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 15:31:21 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/04 18:42:43 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/10/05 20:50:56 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,39 +17,26 @@
 # include <iostream>
 
 template <typename D>
-class	CircularlyLinkedList;
-
-template <typename D>
-class	CNode
-{
-	private:
-		CNode(D data);
-		D 			_data;
-		CNode<D>	*_next;
-		friend class CircularlyLinkedList<D>;
-};
-
-template <typename D>
-CNode<D>::CNode(D data) : _data(data), _next(NULL)
-{
-
-}
-
-template <typename D>
 class	CircularlyLinkedList
 {
 	public:
 		CircularlyLinkedList(void);
 		~CircularlyLinkedList(void);
 		CircularlyLinkedList(const CircularlyLinkedList &copy);
-		bool		isEmpty(void)	const;
+		bool		empty(void)	const;
 		D			&front(void)	const;
 		D			&back(void)		const;
 		void		advance(void);
 		void		add(const D &e);
 		void		remove(void);
 	private:
-		CNode<D>	*_cursor;
+		struct	CNode
+		{
+			CNode(D data) : data(data), next(NULL) {}
+			D 		data;
+			CNode	*next;
+		};
+		CNode	*_cursor;
 };
 
 template <typename D>
@@ -61,29 +48,29 @@ CircularlyLinkedList<D>::CircularlyLinkedList(void) : _cursor(NULL)
 template <typename D>
 CircularlyLinkedList<D>::~CircularlyLinkedList(void)
 {
-	while (!this->isEmpty())
+	while (!this->empty())
 		this->remove();
 }
 
 template <typename D>
 CircularlyLinkedList<D>::CircularlyLinkedList(const CircularlyLinkedList &copy) : _cursor(NULL)
 {
-	CNode<D>	*start;
-	CNode<D>	*end;
+	CNode	*start;
+	CNode	*end;
 
-	start = copy._cursor->_next;
+	start = copy._cursor->next;
 	end = copy._cursor;
 	while (1)
 	{
-		this->add(start->_data);
-		start = start->_next;
+		this->add(start->data);
+		start = start->next;
 		if (start == end)
 			break ;
 	}
 }
 
 template <typename D>
-bool	CircularlyLinkedList<D>::isEmpty(void) const
+bool	CircularlyLinkedList<D>::empty(void) const
 {
 	return (this->_cursor == NULL);
 }
@@ -91,49 +78,49 @@ bool	CircularlyLinkedList<D>::isEmpty(void) const
 template <typename D>
 D	&CircularlyLinkedList<D>::front(void) const
 {
-	return (this->_cursor->_next->_data);
+	return (this->_cursor->next->data);
 }
 
 template <typename D>
 D	&CircularlyLinkedList<D>::back(void) const
 {
-	return (this->_cursor->_data);
+	return (this->_cursor->data);
 }
 
 template <typename D>
 void	CircularlyLinkedList<D>::advance(void)
 {
-	this->_cursor = this->_cursor->_next;
+	this->_cursor = this->_cursor->next;
 }
 
 template <typename D>
 void	CircularlyLinkedList<D>::add(const D &e)
 {
-	CNode<D>	*new_node;
+	CNode	*new_node;
 
-	new_node = new CNode<D>(e);
+	new_node = new CNode(e);
 	if (!this->_cursor)
 	{
 		this->_cursor = new_node;
-		new_node->_next = new_node;
+		new_node->next = new_node;
 	}
 	else
 	{
-		new_node->_next = this->_cursor->_next;
-		this->_cursor->_next = new_node;
+		new_node->next = this->_cursor->next;
+		this->_cursor->next = new_node;
 	}
 }
 
 template <typename D>
 void	CircularlyLinkedList<D>::remove(void)
 {
-	CNode<D>	*old_head;
+	CNode	*old_head;
 	
 	if (!this->_cursor)
 		return ;
-	old_head = this->_cursor->_next;
+	old_head = this->_cursor->next;
 	if (old_head != this->_cursor)
-		this->_cursor->_next = old_head->_next;
+		this->_cursor->next = old_head->next;
 	else
 		this->_cursor = NULL;
 	delete old_head;
