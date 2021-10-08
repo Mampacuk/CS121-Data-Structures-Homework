@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   StackEmpty.hpp                                     :+:      :+:    :+:   */
+/*   StackInvalidCapacity.hpp                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/05 20:53:07 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/05 20:54:55 by aisraely         ###   ########.fr       */
+/*   Created: 2021/10/08 13:07:05 by aisraely          #+#    #+#             */
+/*   Updated: 2021/10/08 13:08:05 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STACKEMPTY_HPP
-# define STACKEMPTY_HPP
+#ifndef STACKINVALIDCAPACITY_HPP
+# define STACKINVALIDCAPACITY_HPP
 
-class StackEmpty : public std::exception
+class StackInvalidCapacity : public std::exception
 {
 	public:
-	StackEmpty(const string& err) :  {}
+		virtual const char *what() const throw()
+		{
+			return ("StackInvalidCapacity: Capacity must be at least 1.");
+		}
 };
 
 #endif
