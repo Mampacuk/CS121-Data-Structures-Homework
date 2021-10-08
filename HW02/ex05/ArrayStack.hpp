@@ -23,14 +23,14 @@ class	ArrayStack : public IStack<D>
 {
 	public:
 		ArrayStack(void) : _arr(new D[DEF_CAPACITY]), _cap(DEF_CAPACITY), _top(-1) {}
-		ArrayStack(int cap) throw(StackInvalidCapacity);
+		ArrayStack(int cap);
 		~ArrayStack(void);
 		int		size(void)	const;
 		bool	empty(void)	const;
 		void	print(void)	const;
-		const D	&top(void)	const throw(StackEmpty);
-		void	push(const D &e) throw(StackFull);
-		void	pop(void) throw(StackEmpty);
+		const D	&top(void)	const;
+		void	push(const D &e);
+		void	pop(void);
 	private:
 		D	*_arr;
 		int	_cap;
@@ -38,7 +38,7 @@ class	ArrayStack : public IStack<D>
 };
 
 template <typename D>
-ArrayStack<D>::ArrayStack(int cap) throw(StackInvalidCapacity)
+ArrayStack<D>::ArrayStack(int cap)
 {
 	if (cap < 1)
 		throw StackInvalidCapacity();
@@ -66,7 +66,7 @@ bool	ArrayStack<D>::empty(void) const
 }
 
 template <typename D>
-const D	&ArrayStack<D>::top(void) const throw(StackEmpty)
+const D	&ArrayStack<D>::top(void) const
 {
 	if (this->empty())
 		throw StackEmpty();
@@ -74,7 +74,7 @@ const D	&ArrayStack<D>::top(void) const throw(StackEmpty)
 }
 
 template <typename D>
-void	ArrayStack<D>::push(const D &e) throw(StackFull)
+void	ArrayStack<D>::push(const D &e)
 {
 	if (this->_top + 1 == this->_cap)
 		throw StackFull();
@@ -82,7 +82,7 @@ void	ArrayStack<D>::push(const D &e) throw(StackFull)
 }
 
 template <typename D>
-void	ArrayStack<D>::pop(void) throw(StackEmpty)
+void	ArrayStack<D>::pop(void)
 {
 	if (this->empty())
 		throw StackEmpty();

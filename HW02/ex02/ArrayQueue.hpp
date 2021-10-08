@@ -23,14 +23,14 @@ class	ArrayQueue : public IQueue<D>
 {
 	public:
 		ArrayQueue(void) : _arr(new D[DEF_CAPACITY]), _cap(DEF_CAPACITY), _n(0) {}
-		ArrayQueue(int cap) throw(QueueInvalidCapacity);
+		ArrayQueue(int cap);
 		~ArrayQueue(void);
 		int		size(void)		const;
 		bool	empty(void)		const;
 		void	print(void)		const;
-		const D	&front(void)	const throw(QueueEmpty);
-		void	enqueue(const D &e) throw(QueueFull);
-		void	dequeue(void) throw(QueueEmpty);
+		const D	&front(void)	const;
+		void	enqueue(const D &e);
+		void	dequeue(void);
 	private:
 		D	*_arr;
 		int	_cap;
@@ -38,7 +38,7 @@ class	ArrayQueue : public IQueue<D>
 };
 
 template <typename D>
-ArrayQueue<D>::ArrayQueue(int cap) throw(QueueInvalidCapacity)
+ArrayQueue<D>::ArrayQueue(int cap)
 {
 	if (cap < 1)
 		throw QueueInvalidCapacity();
@@ -66,7 +66,7 @@ int	ArrayQueue<D>::size(void) const
 }
 
 template <typename D>
-const D	&ArrayQueue<D>::front(void) const throw(QueueEmpty)
+const D	&ArrayQueue<D>::front(void) const
 {
 	if (this->empty())
 		throw QueueEmpty();
@@ -74,7 +74,7 @@ const D	&ArrayQueue<D>::front(void) const throw(QueueEmpty)
 }
 
 template <typename D>
-void	ArrayQueue<D>::enqueue(const D &e) throw(QueueFull)
+void	ArrayQueue<D>::enqueue(const D &e)
 {
 	if (this->_n == this->_cap)
 		throw QueueFull();
@@ -82,7 +82,7 @@ void	ArrayQueue<D>::enqueue(const D &e) throw(QueueFull)
 }
 
 template <typename D>
-void	ArrayQueue<D>::dequeue(void) throw(QueueEmpty)
+void	ArrayQueue<D>::dequeue(void)
 {
 	int	i;
 	

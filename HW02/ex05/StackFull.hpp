@@ -18,7 +18,7 @@
 class StackFull : public std::exception
 {
 	public:
-		virtual const char *what() const throw()
+		virtual const char *what(void) const throw()
 		{
 			return ("Can't push to a full stack.");
 		}

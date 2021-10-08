@@ -18,7 +18,7 @@
 class StackEmpty : public std::exception
 {
 	public:
-		virtual const char *what() const throw()
+		virtual const char *what(void) const throw()
 		{
 			return ("Can't peek at/pop from an empty stack.");
 		}

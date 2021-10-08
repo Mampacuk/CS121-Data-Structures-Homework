@@ -21,9 +21,9 @@ template <typename D>
 class	IQueue
 {
 	public:
-		virtual void	enqueue(const D &e) throw(QueueFull) = 0;
-		virtual void	dequeue(void) throw(QueueEmpty) = 0;
-		virtual const D	&front(void)	const throw(QueueEmpty) = 0;
+		virtual void	enqueue(const D &e) = 0;
+		virtual void	dequeue(void) = 0;
+		virtual const D	&front(void)	const = 0;
 		virtual int		size(void)		const = 0;
 		virtual bool	empty(void)		const = 0;
 };

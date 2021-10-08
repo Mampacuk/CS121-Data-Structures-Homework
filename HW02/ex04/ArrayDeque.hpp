@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 18:01:04 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/08 18:38:38 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/10/08 22:03:18 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,36 +22,34 @@ template <typename D>
 class	ArrayDeque : public IDeque<D>
 {
 	public:
-		ArrayDeque(void) : _arr(new D[DEF_CAPACITY]), _f(-1), _r(-1), _n(0) {}
-		ArrayDeque(int cap) throw(DequeInvalidCapacity);
+		ArrayDeque(void) : _arr(new D[DEF_CAPACITY]), _cap(DEF_CAPACITY), _f(0), _n(0) {}
+		ArrayDeque(int cap);
 		~ArrayDeque(void);
 		int		size(void)		const;
 		bool	empty(void)		const;
 		void	print(void)		const;
-		const D &front(void)	const throw(DequeEmpty);
-		const D	&back(void)		const throw(DequeEmpty);
-		void	insertFront(const D &e) throw(DequeFull);
-		void	insertBack(const D &e) throw(DequeFull);
-		void	eraseFront(void) throw(DequeEmpty);
-		void	eraseBack(void) throw(DequeEmpty);
+		const D &front(void)	const;
+		const D	&back(void)		const;
+		void	insertFront(const D &e);
+		void	insertBack(const D &e);
+		void	eraseFront(void);
+		void	eraseBack(void);
 	private:
 		D	*_arr;
 		int _cap;
 		int	_f;
-		int	_r;
 		int	_n;
-}
+};
 
 template <typename D>
-ArrayDeque<D>::ArrayDeque(int cap) throw(DequeInvalidCapacity)
+ArrayDeque<D>::ArrayDeque(int cap)
 {
 	if (cap < 1)
-		throw QueueInvalidCapacity();
+		throw DequeInvalidCapacity();
 	this->_arr = new D[cap];
 	this->_cap = cap;
 	this->_n = 0;
-	this->_f = -1;
-	this->_r = -1;
+	this->_f = 0;
 }
 
 template <typename D>
@@ -73,59 +71,58 @@ int	ArrayDeque<D>::size(void) const
 }
 
 template <typename D>
-const D	&ArrayDeque<D>::front(void) const throw(DequeEmpty)
+const D	&ArrayDeque<D>::front(void) const
 {
 	if (this->empty())
 		throw DequeEmpty();
-	return (this->_arr[this->_f]);
+	return (this->_arr[(this->_f + 1) % this->_cap]);
 }
 
 template <typename D>
-const D	&ArrayDeque<D>::back(void) const throw(DequeEmpty)
+const D	&ArrayDeque<D>::back(void) const
 {
 	if (this->empty())
 		throw DequeEmpty();
-	return (this->_arr[this->_r]);
+	return (this->_arr[(this->_f + this->_n) % this->_cap]);
 }
 
 template <typename D>
-void	ArrayDeque<D>::insertFront(const D &e) throw(DequeFull)
+void	ArrayDeque<D>::insertFront(const D &e)
 {
-	int	new_f;
-
-	if (this->_n++ == this->_cap)
+	if (this->_n == this->_cap)
 		throw DequeFull();
-	new_f = (this->_f - 1) % this->_cap;
-	this->_arr[new_f] = e;
-	this->_f = new_f;
+	this->_arr[this->_f] = e;
+	if (!this->_f)
+		this->_f = this->_cap - 1;
+	else
+		this->_f = (this->_f - 1) % this->_cap;
+	this->_n++;
 }
 
 template <typename D>
-void	ArrayDeque<D>::insertBack(const D &e) throw(DequeFull)
+void	ArrayDeque<D>::insertBack(const D &e)
 {
-	int	new_r;
-
-	if (this->_n++ == this->_cap)
+	if (this->_n == this->_cap)
 		throw DequeFull();
-	new_r = (this->_r + 1) % this->_cap;
-	this->_arr[new_r] = e;
-	this->_r = new_r;
+	this->_arr[(this->_f + this->_n + 1) % this->_cap] = e;
+	this->_n++;
 }
 
 template <typename D>
-void	ArrayDeque<D>::eraseFront(void) throw(DequeEmpty)
+void	ArrayDeque<D>::eraseFront(void)
 {
-	if (this->_n-- < 0)
+	if (this->empty())
 		throw DequeEmpty();
 	this->_f = (this->_f + 1) % this->_cap;
+	this->_n--;
 }
 
 template <typename D>
-void	ArrayDeque<D>::eraseBack(void) throw(DequeEmpty)
+void	ArrayDeque<D>::eraseBack(void)
 {
-	if (this->_n-- < 0)
+	if (this->empty())
 		throw DequeEmpty();
-	this->_f = (this->_f - 1) % this->_cap;
+	this->_n--;
 }
 
 template <typename D>
@@ -133,18 +130,22 @@ void	ArrayDeque<D>::print(void) const
 {
 	int	i;
 
+	std::cout << "vvvvvvvvvvvvvvvvvvvvvvvv" << std::endl;
+	std::cout << "size: " << this->_n << "; _f: " << this->_f << std::endl;
 	if (this->empty())
 		std::cout << "(null)";
 	else
 	{
-		i = this->_f;
-		while (i < this->_cap - 1)
-			std::cout << this->_arr[i++] << " ";
+		std::cout << "front(): " << this->front() << std::endl;
+		std::cout << "back(): " << this->back() << std::endl;
 		i = 0;
-		while (i >= this->_r)
-			std::cout << this->_arr[i++] << " ";
+		while (i < this->_cap)
+		{
+			std::cout << i << ":" << this->_arr[i] << " ";
+			i++;
+		}
 	}
-	std::cout << std::endl;
+	std::cout << std::endl << "^^^^^^^^^^^^^^^^^^^^^^^^" << std::endl;
 }
 
 #endif

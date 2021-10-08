@@ -18,7 +18,7 @@
 class QueueFull : public std::exception
 {
 	public:
-		virtual const char *what() const throw()
+		virtual const char *what(void) const throw()
 		{
 			return ("Can't enqueue a full queue.");
 		}
