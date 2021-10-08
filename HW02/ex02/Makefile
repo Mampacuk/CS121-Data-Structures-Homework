@@ -5,12 +5,12 @@
 #                                                     +:+ +:+         +:+      #
 #    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/10/08 13:46:43 by aisraely          #+#    #+#              #
-#    Updated: 2021/10/08 14:10:07 by aisraely         ###   ########.fr        #
+#    Created: 2021/10/08 17:05:05 by aisraely          #+#    #+#              #
+#    Updated: 2021/10/08 17:05:26 by aisraely         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-DFL			= reverse_stack
+DFL			= static_array_queue
 
 SRCS		= main.cpp
 OBJS		= $(SRCS:.cpp=.o)

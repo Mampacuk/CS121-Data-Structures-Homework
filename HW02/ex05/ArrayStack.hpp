@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 12:44:28 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/08 13:45:34 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/10/08 16:45:35 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,13 @@
 # define DEF_CAPACITY 100
 
 # include "IStack.hpp"
-# include "StackInvalidCapacity.hpp"
 # include <iostream>
 
 template <typename D>
-class	ArrayStack : public IStack
+class	ArrayStack : public IStack<D>
 {
 	public:
-		ArrayStack(void) : _arr(NULL), _cap(DEF_CAPACITY), _top(-1) {}
+		ArrayStack(void) : _arr(new D[DEF_CAPACITY]), _cap(DEF_CAPACITY), _top(-1) {}
 		ArrayStack(int cap) throw(StackInvalidCapacity);
 		~ArrayStack(void);
 		int		size(void)	const;
@@ -36,7 +35,7 @@ class	ArrayStack : public IStack
 		D	*_arr;
 		int	_cap;
 		int	_top;
-}
+};
 
 template <typename D>
 ArrayStack<D>::ArrayStack(int cap) throw(StackInvalidCapacity)
@@ -51,7 +50,7 @@ ArrayStack<D>::ArrayStack(int cap) throw(StackInvalidCapacity)
 template <typename D>
 ArrayStack<D>::~ArrayStack(void)
 {
-	delete _arr;
+	delete [] _arr;
 }
 
 template <typename D>
@@ -91,7 +90,7 @@ void	ArrayStack<D>::pop(void) throw(StackEmpty)
 }
 
 template <typename D>
-void	ArrayStack<D>::print(void)
+void	ArrayStack<D>::print(void) const
 {
 	int	i;
 
@@ -99,9 +98,41 @@ void	ArrayStack<D>::print(void)
 		std::cout << "(null)" << std::endl;
 	else
 	{
-		i = 0;
-		while (i <= this->_top)
-			std::cout << this->_arr[i++] << std::endl;
+		i = this->_top;
+		while (i >= 0)
+			std::cout << this->_arr[i--] << std::endl;
+	}
+}
+
+template <typename D>
+void	ft_reverse_stack(ArrayStack<D> &a)
+{
+	ArrayStack<D>	b(a.size());
+	ArrayStack<D>	c(a.size());
+	
+	/*
+	 * b after a while contains a's elements in reversed order
+	 */
+	while (!a.empty())
+	{
+		b.push(a.top());
+		a.pop();
+	}
+	/*
+	 * c after a while contains a's elements in original order
+	 */
+	while (!b.empty())
+	{
+		c.push(b.top());
+		b.pop();
+	}
+	/*
+	 * a after a while contains a's elements in reversed order
+	 */
+	while (!c.empty())
+	{
+		a.push(c.top());
+		c.pop();
 	}
 }
 

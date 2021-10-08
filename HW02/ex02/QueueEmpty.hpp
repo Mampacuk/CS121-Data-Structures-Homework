@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   IStack.hpp                                         :+:      :+:    :+:   */
+/*   QueueEmpty.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/05 20:47:56 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/08 16:45:38 by aisraely         ###   ########.fr       */
+/*   Created: 2021/10/08 16:41:15 by aisraely          #+#    #+#             */
+/*   Updated: 2021/10/08 16:42:31 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ISTACK_HPP
-# define ISTACK_HPP
+#ifndef QUEUEEMPTY_HPP
+# define QUEUEEMPTY_HPP
 
-# include "StackFull.hpp"
-# include "StackEmpty.hpp"
-# include "StackInvalidCapacity.hpp"
+# include <exception>
 
-template <typename D>
-class	IStack
+class QueueEmpty : public std::exception
 {
 	public:
-		virtual int		size(void)	const = 0;
-		virtual bool	empty(void)	const = 0;
-		virtual const D	&top(void)	const throw(StackEmpty) = 0;
-		virtual void	push(const D &e) throw(StackFull) = 0;
-		virtual void	pop(void) throw(StackEmpty) = 0;
+		virtual const char *what() const throw()
+		{
+			return ("Can't get front of/dequeue an empty queue.");
+		}
 };
 
 #endif

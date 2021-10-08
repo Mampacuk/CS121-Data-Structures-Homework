@@ -1,0 +1,78 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    analysis.txt                                       :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/10/08 14:36:23 by aisraely          #+#    #+#              #
+#    Updated: 2021/10/08 16:28:19 by aisraely         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+Let's analyze ArrayStack's methods first:
+
+1	template <typename D>						
+2	bool	ArrayStack<D>::empty(void) const	// PER LINE:	TOTAL:
+3	{											//
+4		return (this->_top < 0);				// 4			4
+5	}
+
+1	template <typename D>
+2	const D	&ArrayStack<D>::top(void) const throw(StackEmpty)	// PER LINE:	TOTAL:
+3	{															//
+4		if (this->empty())										// 1 + empty()	5
+5			throw StackEmpty();									//
+6		return (this->_arr[this->_top]);						// 6			11
+7	}
+
+1	template <typename D>
+2	ArrayStack<D>::ArrayStack(int cap) throw(StackInvalidCapacity)	// PER LINE:	TOTAL:
+3	{																//
+4		if (cap < 1)												// 1			1
+5			throw StackInvalidCapacity();							//
+6		this->_arr = new D[cap];									// 3 + n		n + 4
+7		this->_cap = cap;											// 3			n + 7
+8		this->_top = -1;											// 3			n + 10
+9	}
+
+1	template <typename D>
+2	void	ArrayStack<D>::push(const D &e) throw(StackFull)		// PER LINE:	TOTAL:
+3	{																//
+4		if (this->_top + 1 == this->_cap)							// 6			6
+5			throw StackFull();										//
+6		this->_arr[++this->_top] = e;								// 7			13
+7	}
+
+1	template <typename D>
+2	void	ArrayStack<D>::pop(void) throw(StackEmpty)				// PER LINE:		TOTAL:
+3	{																//
+4		if (this->empty())											// 1 + empty() = 4	4
+5			throw StackEmpty();										//
+6		this->_top--;												// 4				8
+7	}
+
+Now, the method itself:
+
+1	template <typename D>						// Memory						| Time
+2	void	ft_reverse_stack(ArrayStack<D> &a)	// _____________________________|______________________________________________
+3	{											// n + sizeof(ArrayStack)		| 
+4		ArrayStack<D>	b(a.size());			// 2n + 2 * sizeof(ArrayStack)	| +ArrayStack<D>::ArrayStack(int) => n + 10
+5		ArrayStack<D>	c(a.size());			// 3n + 3 * sizeof(ArrayStack)	| +ArrayStack<D>::ArrayStack(int) => 2n + 20
+6												//								|
+7		while (!a.empty())						//								|*(n + 1) +(1 + empty()) = 5(n + 1) => 7n + 25
+8		{										//								|
+9			b.push(a.top());					//								|*n push() + top() = (13 + 11)n => 31n + 25
+10			a.pop();							//								|*n pop() = 8n => 39n + 25
+11		}										//								|
+12		while (!b.empty())						//								| same as the Lines 7-10:
+13		{										//								| 5n + 5 + 24n + 8n = 37n + 5 => 68n + 30
+14			c.push(b.top());					//								|
+15			b.pop();							//								|
+16		}										//								|
+17		while (!c.empty())						//								| same as the Lines 7-10:
+18		{										//								| 37n + 5 => 105n + 35
+19			a.push(c.top());					//								|
+20			c.pop();							//								|
+21		}										// _____________________________|______________________________________________
+22	}									//TOTAL:	3n + 3 * sizeof(ArrayStack)	| 105n + 35
