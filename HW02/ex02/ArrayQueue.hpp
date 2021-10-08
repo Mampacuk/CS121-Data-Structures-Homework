@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 16:33:43 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/08 17:04:14 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/10/08 18:13:21 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # define DEF_CAPACITY 100
 
-# include "IQueue.cpp"
+# include "IQueue.hpp"
 # include <iostream>
 
 template <typename D>
@@ -34,8 +34,8 @@ class	ArrayQueue : public IQueue<D>
 	private:
 		D	*_arr;
 		int	_cap;
-		int	_last;
-}
+		int	_n;
+};
 
 template <typename D>
 ArrayQueue<D>::ArrayQueue(int cap) throw(QueueInvalidCapacity)
@@ -50,7 +50,13 @@ ArrayQueue<D>::ArrayQueue(int cap) throw(QueueInvalidCapacity)
 template <typename D>
 ArrayQueue<D>::~ArrayQueue(void)
 {
-	delete [] _arr;
+	delete [] this->_arr;
+}
+
+template <typename D>
+bool	ArrayQueue<D>::empty(void) const
+{
+	return (this->_n < 1);
 }
 
 template <typename D>
@@ -92,7 +98,7 @@ void	ArrayQueue<D>::dequeue(void) throw(QueueEmpty)
 }
 
 template <typename D>
-void	ArrayStack<D>::print(void) const
+void	ArrayQueue<D>::print(void) const
 {
 	int	i;
 

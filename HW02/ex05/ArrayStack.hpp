@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 12:44:28 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/08 16:45:35 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/10/08 18:13:36 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ ArrayStack<D>::ArrayStack(int cap) throw(StackInvalidCapacity)
 template <typename D>
 ArrayStack<D>::~ArrayStack(void)
 {
-	delete [] _arr;
+	delete [] this->_arr;
 }
 
 template <typename D>

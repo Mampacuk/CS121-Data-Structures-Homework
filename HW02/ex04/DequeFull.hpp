@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   QueueInvalidCapacity.hpp                           :+:      :+:    :+:   */
+/*   DequeFull.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/08 16:41:12 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/08 17:54:23 by aisraely         ###   ########.fr       */
+/*   Created: 2021/10/08 17:48:51 by aisraely          #+#    #+#             */
+/*   Updated: 2021/10/08 17:51:24 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef QUEUEINVALIDCAPACITY_HPP
-# define QUEUEINVALIDCAPACITY_HPP
+#ifndef DEQUEFULL_HPP
+# define DEQUEFULL_HPP
 
 # include <exception>
 
-class QueueInvalidCapacity : public std::exception
+class DequeFull : public std::exception
 {
 	public:
 		virtual const char *what() const throw()
 		{
-			return ("Capacity must be at least 1.");
+			return ("Can't insert into a full deque.");
 		}
 };
 

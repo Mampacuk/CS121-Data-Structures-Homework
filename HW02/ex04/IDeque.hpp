@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   IQueue.hpp                                         :+:      :+:    :+:   */
+/*   IDeque.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/08 16:33:46 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/08 17:15:52 by aisraely         ###   ########.fr       */
+/*   Created: 2021/10/08 17:48:57 by aisraely          #+#    #+#             */
+/*   Updated: 2021/10/08 18:10:17 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef IQUEUE_HPP
-# define IQUEUE_HPP
+#ifndef IDEQUE_HPP
+# define IDEQUE_HPP
 
-# include "QueueEmpty.hpp"
-# include "QueueFull.hpp"
-# include "QueueInvalidCapacity.hpp"
+# include "DequeEmpty.hpp"
+# include "DequeFull.hpp"
+# include "DequeInvalidCapacity.hpp"
 
 template <typename D>
-class	IQueue
+class	IDeque
 {
 	public:
-		virtual void	enqueue(const D &e) throw(QueueFull) = 0;
-		virtual void	dequeue(void) throw(QueueEmpty) = 0;
-		virtual const D	&front(void)	const throw(QueueEmpty) = 0;
+		virtual void	insertFront(const D &e) throw(DequeFull) = 0;
+		virtual void	insertBack(const D &e) throw(DequeFull) = 0;
+		virtual void	eraseFront(void) throw(DequeEmpty) = 0;
+		virtual void	eraseBack(void) throw(DequeEmpty) = 0;
+		virtual const D	&front(void)	const throw(DequeEmpty) = 0;
+		virtual const D &back(void)		const throw(DequeEmpty) = 0;
 		virtual int		size(void)		const = 0;
 		virtual bool	empty(void)		const = 0;
 };

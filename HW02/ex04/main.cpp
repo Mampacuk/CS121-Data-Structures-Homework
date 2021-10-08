@@ -1,27 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   QueueInvalidCapacity.hpp                           :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/08 16:41:12 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/08 17:54:23 by aisraely         ###   ########.fr       */
+/*   Created: 2021/10/08 18:42:47 by aisraely          #+#    #+#             */
+/*   Updated: 2021/10/08 18:43:53 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef QUEUEINVALIDCAPACITY_HPP
-# define QUEUEINVALIDCAPACITY_HPP
+#include "ArrayDeque.hpp"
+#include <string>
 
-# include <exception>
-
-class QueueInvalidCapacity : public std::exception
+int	main(void)
 {
-	public:
-		virtual const char *what() const throw()
-		{
-			return ("Capacity must be at least 1.");
-		}
-};
-
-#endif
+	ArrayDeque<std::string>	disenchantment;
+	
+	
+}

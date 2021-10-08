@@ -1,0 +1,91 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    analysis.txt                                       :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/10/08 17:27:05 by aisraely          #+#    #+#              #
+#    Updated: 2021/10/08 17:43:44 by aisraely         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+ArrayQueue(void) : _arr(new D[DEF_CAPACITY]), _cap(DEF_CAPACITY), _n(0) {}
+							103					106				109
+TOTAL: 109
+
+1	template <typename D>
+2	ArrayQueue<D>::ArrayQueue(int cap) throw(QueueInvalidCapacity)	// PER LINE:	TOTAL:
+3	{																//
+4		if (cap < 1)												// 1			1
+5			throw QueueInvalidCapacity();							//
+6		this->_arr = new D[cap];									// 3 + n		n + 4
+7		this->_cap = cap;											// 3			n + 7
+8		this->_n = 0;												// 3			n + 10
+9	}
+
+1	template <typename D>
+2	ArrayQueue<D>::~ArrayQueue(void)	// PER LINE:	TOTAL:
+3	{									//
+4		delete [] _arr;					// 1			1
+5	}									//
+
+1	template <typename D>
+2	bool	ArrayQueue<D>::empty(void) const	// PER LINE:	TOTAL:
+3	{											//
+4		return (this->_n < 1);					// 4			4
+5	}											//
+
+1	template <typename D>
+2	int	ArrayQueue<D>::size(void) const				// PER LINE:	TOTAL:
+3	{												//
+4		return (this->_n);							// 3			3
+5	}
+
+1	template <typename D>
+2	const D	&ArrayQueue<D>::front(void) const throw(QueueEmpty)	// PER LINE:	TOTAL:
+3	{															//
+4		if (this->empty())										// 2 + empty()	6
+5			throw QueueEmpty();									//
+6		return (*this->_arr);									// 4			10
+7	}
+
+1	template <typename D>
+2	void	ArrayQueue<D>::enqueue(const D &e) throw(QueueFull)	// PER LINE:	TOTAL:
+3	{															//
+4		if (this->_n == this->_cap)								// 5			5
+5			throw QueueFull();									//
+6		this->_arr[this->_n++] = e;								// 7			12
+7	}
+
+1	template <typename D>
+2	void	ArrayQueue<D>::dequeue(void) throw(QueueEmpty)		// PER LINE:	TOTAL:
+3	{															//
+4		int	i;													// 1			1
+5																//
+6		if (this->empty())										// 1 + empty()	6
+7			throw QueueEmpty();									//
+8		i = 1;													// 1			7
+9		while (i < this->_n)									//*n +3			3n + 7
+10		{														//
+11			this->_arr[i - 1] = this->_arr[i];					// 8(n - 1)		11n - 1
+12			i++;												// n - 1		12n - 2
+13		}														//
+14		this->_n--;												// 4			12n + 2
+15	}
+
+1	template <typename D>
+2	void	ArrayQueue<D>::print(void) const			// PER LINE:	TOTAL:
+3	{													//
+4		int	i;											// 1			1
+5														//
+6		if (this->empty())								// 1 + empty()	6
+7			std::cout << "(null)";						//
+8		else											//
+9		{												//
+10			i = 0;										// 1			7
+11			while (i < this->_n)						// 3(n + 1)		3n + 10
+12				std::cout << this->_arr[i++] << " ";	// 5n			8n + 10
+13		}												//
+14		std::cout << std::endl;							// 1			8n + 11
+15	}
