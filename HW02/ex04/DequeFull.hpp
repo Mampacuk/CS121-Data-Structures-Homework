@@ -18,7 +18,7 @@
 class DequeFull : public std::exception
 {
 	public:
-		virtual const char *what() const throw()
+		virtual const char *what(void) const throw()
 		{
 			return ("Can't insert into a full deque.");
 		}

@@ -23,9 +23,9 @@ class	IStack
 	public:
 		virtual int		size(void)	const = 0;
 		virtual bool	empty(void)	const = 0;
-		virtual const D	&top(void)	const throw(StackEmpty) = 0;
-		virtual void	push(const D &e) throw(StackFull) = 0;
-		virtual void	pop(void) throw(StackEmpty) = 0;
+		virtual const D	&top(void)	const = 0;
+		virtual void	push(const D &e) = 0;
+		virtual void	pop(void) = 0;
 };
 
 #endif

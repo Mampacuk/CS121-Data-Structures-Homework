@@ -21,12 +21,12 @@ template <typename D>
 class	IDeque
 {
 	public:
-		virtual void	insertFront(const D &e) throw(DequeFull) = 0;
-		virtual void	insertBack(const D &e) throw(DequeFull) = 0;
-		virtual void	eraseFront(void) throw(DequeEmpty) = 0;
-		virtual void	eraseBack(void) throw(DequeEmpty) = 0;
-		virtual const D	&front(void)	const throw(DequeEmpty) = 0;
-		virtual const D &back(void)		const throw(DequeEmpty) = 0;
+		virtual void	insertFront(const D &e) = 0;
+		virtual void	insertBack(const D &e) = 0;
+		virtual void	eraseFront(void) = 0;
+		virtual void	eraseBack(void) = 0;
+		virtual const D	&front(void)	const = 0;
+		virtual const D &back(void)		const = 0;
 		virtual int		size(void)		const = 0;
 		virtual bool	empty(void)		const = 0;
 };

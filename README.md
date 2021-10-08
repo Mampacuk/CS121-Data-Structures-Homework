@@ -17,7 +17,10 @@ CS121C Data Structures Course Homework Assignments by Alexander Israelyan
 	* Running `make test`, which will invoke the `test` rule, if present, compiles a tester for the problem to help you evaluate this work.
 	* Running `tester.sh` to feed to the program some arguments.
 *	There are others standard rules at your disposal, such that `clean`, `fclean`, `re` and so on that are completely interoperable (even though it is preferred if you run this on UNIX-like systems).
+
 ## Notes
+### General
+*	_SCHOOL 42's COMPUTERS HAVE AN OLD VERSION OF `g++` THAT DOESN'T SUPPORT SOME FUNCTIONS OF C++11_. If your compiler is too new, it may spit out compiltation errors, but IT IS NOT MY FAULT. Fix the errors youself.
 ### Homework 1
 *	Notice that in "ex05", the starting coordinates are rather swapped. This shouldn't be an issue though.
 ### Homework 2

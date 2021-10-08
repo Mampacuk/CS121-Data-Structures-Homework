@@ -35,7 +35,8 @@ Student	*ft_create_student(std::string line)
 }
 
 /*
- * USE Ctrl+D TO SIGNAL THE END OF INPUT
+ * USE Ctrl+D TO SIGNAL THE END OF INPUT (ON UNIX)
+ * USE Ctrl+Z AND PRESS ENTER TO SINGAL THE END OF INPUT (ON WINDOWS)
  */
 int	main(void)
 {
