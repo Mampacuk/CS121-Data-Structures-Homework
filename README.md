@@ -1,4 +1,4 @@
-# CS121-DataStructures
+# CS121C Data Structures
 
 American University of Armenia
 
