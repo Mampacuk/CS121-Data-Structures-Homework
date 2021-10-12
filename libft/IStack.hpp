@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   IQueue.hpp                                         :+:      :+:    :+:   */
+/*   IStack.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/08 16:33:46 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/08 17:15:52 by aisraely         ###   ########.fr       */
+/*   Created: 2021/10/05 20:47:56 by aisraely          #+#    #+#             */
+/*   Updated: 2021/10/08 16:45:38 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef IQUEUE_HPP
-# define IQUEUE_HPP
-
-# include "QueueEmpty.hpp"
-# include "QueueFull.hpp"
-# include "QueueInvalidCapacity.hpp"
+#ifndef ISTACK_HPP
+# define ISTACK_HPP
 
 template <typename D>
-class	IQueue
+class	IStack
 {
 	public:
-		virtual void	enqueue(const D &e) = 0;
-		virtual void	dequeue(void) = 0;
-		virtual const D	&front(void)	const = 0;
-		virtual int		size(void)		const = 0;
-		virtual bool	empty(void)		const = 0;
+		virtual int		size(void)	const = 0;
+		virtual bool	empty(void)	const = 0;
+		virtual const D	&top(void)	const = 0;
+		virtual void	push(const D &e) = 0;
+		virtual void	pop(void) = 0;
 };
 
 #endif

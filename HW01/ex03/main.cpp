@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../libft/libft.hpp"
+#include "../s_list.hpp"
 
 /*
  * Pass the numbers from command line!

@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ArrayDeque.hpp                                     :+:      :+:    :+:   */
+/*   DynamicArrayDeque.hpp                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/08 18:01:04 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/08 22:03:18 by aisraely         ###   ########.fr       */
+/*   Created: 2021/10/12 20:19:53 by aisraely          #+#    #+#             */
+/*   Updated: 2021/10/12 20:19:53 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ARRAYDEQUE_HPP
-# define ARRAYDEQUE_HPP
+#ifndef DYNAMICARRAYDEQUE_HPP
+# define DYNAMICARRAYDEQUE_HPP
 
 # define DEF_CAPACITY 100
 
-# include "IDeque.hpp"
+# include "../../libft/IDeque.hpp"
+# include "DequeEmpty.hpp"
+# include "DequeInvalidCapacity.hpp"
 # include <iostream>
 
 template <typename D>
-class	ArrayDeque : public IDeque<D>
+class	DynamicArrayDeque : public IDeque<D>
 {
 	public:
-		ArrayDeque(void) : _arr(new D[DEF_CAPACITY]), _cap(DEF_CAPACITY), _f(0), _n(0) {}
-		ArrayDeque(int cap);
-		~ArrayDeque(void);
+		DynamicArrayDeque(void) : _arr(new D[DEF_CAPACITY]), _cap(DEF_CAPACITY), _f(0), _n(0) {}
+		DynamicArrayDeque(int cap);
+		~DynamicArrayDeque(void);
 		int		size(void)		const;
 		bool	empty(void)		const;
 		void	print(void)		const;
@@ -35,14 +37,33 @@ class	ArrayDeque : public IDeque<D>
 		void	eraseFront(void);
 		void	eraseBack(void);
 	private:
-		D	*_arr;
-		int _cap;
-		int	_f;
-		int	_n;
+		D		*_arr;
+		int 	_cap;
+		int		_f;
+		int		_n;
+		void	resize(void);
 };
 
 template <typename D>
-ArrayDeque<D>::ArrayDeque(int cap)
+void	DynamicArrayDeque<D>::resize(void)
+{
+	int	i;
+	D	*data;
+
+	data = new D[this->_cap * 2];
+	i = 0;
+	for (int j = this->_f + 1; j < this->_cap; j++, i++)
+		data[i] = this->_arr[j];
+	for (int k = 0; k <= this->_f && k < this->_cap; k++, i++)
+		data[i] = this->_arr[k];
+	delete [] this->_arr;
+	this->_arr = data;
+	this->_cap *= 2;
+	this->_f = this->_cap - 1;
+}
+
+template <typename D>
+DynamicArrayDeque<D>::DynamicArrayDeque(int cap)
 {
 	if (cap < 1)
 		throw DequeInvalidCapacity();
@@ -53,25 +74,25 @@ ArrayDeque<D>::ArrayDeque(int cap)
 }
 
 template <typename D>
-ArrayDeque<D>::~ArrayDeque(void)
+DynamicArrayDeque<D>::~DynamicArrayDeque(void)
 {
 	delete [] this->_arr;
 }
 
 template <typename D>
-bool	ArrayDeque<D>::empty(void) const
+bool	DynamicArrayDeque<D>::empty(void) const
 {
 	return (this->_n < 1);
 }
 
 template <typename D>
-int	ArrayDeque<D>::size(void) const
+int	DynamicArrayDeque<D>::size(void) const
 {
 	return (this->_n);
 }
 
 template <typename D>
-const D	&ArrayDeque<D>::front(void) const
+const D	&DynamicArrayDeque<D>::front(void) const
 {
 	if (this->empty())
 		throw DequeEmpty();
@@ -79,7 +100,7 @@ const D	&ArrayDeque<D>::front(void) const
 }
 
 template <typename D>
-const D	&ArrayDeque<D>::back(void) const
+const D	&DynamicArrayDeque<D>::back(void) const
 {
 	if (this->empty())
 		throw DequeEmpty();
@@ -87,10 +108,10 @@ const D	&ArrayDeque<D>::back(void) const
 }
 
 template <typename D>
-void	ArrayDeque<D>::insertFront(const D &e)
+void	DynamicArrayDeque<D>::insertFront(const D &e)
 {
 	if (this->_n == this->_cap)
-		throw DequeFull();
+		this->resize();
 	this->_arr[this->_f] = e;
 	if (!this->_f)
 		this->_f = this->_cap - 1;
@@ -100,16 +121,16 @@ void	ArrayDeque<D>::insertFront(const D &e)
 }
 
 template <typename D>
-void	ArrayDeque<D>::insertBack(const D &e)
+void	DynamicArrayDeque<D>::insertBack(const D &e)
 {
 	if (this->_n == this->_cap)
-		throw DequeFull();
+		this->resize();
 	this->_arr[(this->_f + this->_n + 1) % this->_cap] = e;
 	this->_n++;
 }
 
 template <typename D>
-void	ArrayDeque<D>::eraseFront(void)
+void	DynamicArrayDeque<D>::eraseFront(void)
 {
 	if (this->empty())
 		throw DequeEmpty();
@@ -118,7 +139,7 @@ void	ArrayDeque<D>::eraseFront(void)
 }
 
 template <typename D>
-void	ArrayDeque<D>::eraseBack(void)
+void	DynamicArrayDeque<D>::eraseBack(void)
 {
 	if (this->empty())
 		throw DequeEmpty();
@@ -126,12 +147,12 @@ void	ArrayDeque<D>::eraseBack(void)
 }
 
 template <typename D>
-void	ArrayDeque<D>::print(void) const
+void	DynamicArrayDeque<D>::print(void) const
 {
 	int	i;
 
 	std::cout << "vvvvvvvvvvvvvvvvvvvvvvvv" << std::endl;
-	std::cout << "size: " << this->_n << "; _f: " << this->_f << std::endl;
+	std::cout << "size: " << this->_n << "; _f: " << this->_f << "; cap: " << this->_cap << std::endl;
 	if (this->empty())
 		std::cout << "(null)";
 	else

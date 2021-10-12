@@ -29,8 +29,6 @@
 # include <stdlib.h>
 # include <tgmath.h>
 
-# include "s_list.hpp"
-
 int		ft_isspace(int c);
 int		ft_isdigit(int c);
 int		ft_strcmp(const char *s1, const char *s2);

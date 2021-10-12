@@ -15,7 +15,10 @@
 
 # define DEF_CAPACITY 100
 
-# include "IQueue.hpp"
+# include "../../libft/IQueue.hpp"
+# include "QueueEmpty.hpp"
+# include "QueueFull.hpp"
+# include "QueueInvalidCapacity.hpp"
 # include <iostream>
 
 template <typename D>

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../libft/libft.hpp"
+#include "../s_list.hpp"
 
 int	main(int argc, char **argv)
 {

@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ArrayDeque.hpp"
+#include "DynamicArrayDeque.hpp"
 #include <string>
 
 int	main(void)
 {
-	ArrayDeque<std::string>	disenchantment(3);
+	DynamicArrayDeque<std::string>	disenchantment(1);
 	
 	std::cout << "Luci entered the bar of Wonderland he stole a long time ago." << std::endl;
 	disenchantment.insertFront(std::string("Luci"));
@@ -58,5 +58,16 @@ int	main(void)
 	disenchantment.print();
 	std::cout << "Beanie rushed out to kick her ass in Steamland." << std::endl;
 	disenchantment.eraseBack();
+	disenchantment.print();
+	std::cout << "After the squad came back, and Bean revealed her magical powers, they gathered together last time in the bar." << std::endl;
+	disenchantment.insertBack(std::string("Tiabeanie"));
+	disenchantment.insertFront(std::string("Luci"));
+	disenchantment.insertBack(std::string("Elfo"));
+	disenchantment.insertFront(std::string("Zog"));
+	disenchantment.insertBack(std::string("Odval"));
+	disenchantment.insertBack(std::string("Oona"));
+	disenchantment.print();
+	disenchantment.eraseFront();
+	disenchantment.eraseFront();
 	disenchantment.print();
 }

@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   DequeFull.hpp                                      :+:      :+:    :+:   */
+/*   IQueue.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/08 17:48:51 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/08 17:51:24 by aisraely         ###   ########.fr       */
+/*   Created: 2021/10/08 16:33:46 by aisraely          #+#    #+#             */
+/*   Updated: 2021/10/08 17:15:52 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DEQUEFULL_HPP
-# define DEQUEFULL_HPP
+#ifndef IQUEUE_HPP
+# define IQUEUE_HPP
 
-# include <exception>
-
-class DequeFull : public std::exception
+template <typename D>
+class	IQueue
 {
 	public:
-		virtual const char *what(void) const throw()
-		{
-			return ("Can't insert into a full deque.");
-		}
+		virtual void	enqueue(const D &e) = 0;
+		virtual void	dequeue(void) = 0;
+		virtual const D	&front(void)	const = 0;
+		virtual int		size(void)		const = 0;
+		virtual bool	empty(void)		const = 0;
 };
 
 #endif

@@ -15,7 +15,10 @@
 
 # define DEF_CAPACITY 100
 
-# include "IStack.hpp"
+# include "../../libft/IStack.hpp"
+# include "StackFull.hpp"
+# include "StackEmpty.hpp"
+# include "StackInvalidCapacity.hpp"
 # include <iostream>
 
 template <typename D>

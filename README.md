@@ -29,3 +29,24 @@ CS121C Data Structures Course Homework Assignments by Alexander Israelyan
 *	Use the `tester.sh` provided by me to test the algorithms! Be wary; they may contain mistakes, so be sure to double-check.
 ### Homework 3
 *	Please be aware that _it's impossible to return a NULL reference to indicate failure of an inspecting function (such as DoublyLinkedList<D>::back(), DoublyLinkedList<D>::front() and so on)_. Thus it is your and only __your__ responsibility if the program causes segmentation fault when you try to call DoublyLinkedList<D>::front() on an empty DoublyLinkedList object. (Note that the alternative textbook uses the same approach)
+
+## References and Materials
+This is a good read if you don't find my code readable:
+*	Arguments for `main()` in C-based languages: https://youtube.com/playlist?list=PLVQYiy6xNUxxDlCkkCX262SI90TsllYUW
+*	Compilation of C-based programs (also `define`s): https://youtube.com/playlist?list=PLVQYiy6xNUxxMI_GiGGb2hxMcd3IwNYRy
+*	Makefiles, as well as Static C Libraries (the `libft` folder you see at the root of my homework): https://youtube.com/playlist?list=PLVQYiy6xNUxw6n6q_i8wek6U7t7CeAXhU
+*	Makefile manual: https://www.gnu.org/software/make/manual/make.html
+*	Simple bash scripting tutorial, to run my test.sh testers: https://linuxconfig.org/bash-scripting-tutorial
+If you're on Windows and you wanna get `g++` with the rest of C-family compilers, follow [this link](https://code.visualstudio.com/docs/languages/cpp).
+
+If you're on Windows and you wanna run a tester.sh, you can use either a virtual machine (say VirtualBox) or Git Bash (note that Git Bash has its quirks and requires additional amendments to the script so it works).
+
+If you're on a Unix-like system and you want to compile using Makefile, if you're using homebrew, do
+```
+brew install make
+```
+If you're under Windows then you have to get the aforementioned WIndows port and chocolatey which is the Windows homebrew alternative. After you get it, run
+```
+choco install make
+```
+in the PowerShell.

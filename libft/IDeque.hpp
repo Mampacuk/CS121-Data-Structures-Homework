@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   IStack.hpp                                         :+:      :+:    :+:   */
+/*   IDeque.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/05 20:47:56 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/08 16:45:38 by aisraely         ###   ########.fr       */
+/*   Created: 2021/10/08 17:48:57 by aisraely          #+#    #+#             */
+/*   Updated: 2021/10/08 18:10:17 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ISTACK_HPP
-# define ISTACK_HPP
-
-# include "StackFull.hpp"
-# include "StackEmpty.hpp"
-# include "StackInvalidCapacity.hpp"
+#ifndef IDEQUE_HPP
+# define IDEQUE_HPP
 
 template <typename D>
-class	IStack
+class	IDeque
 {
 	public:
-		virtual int		size(void)	const = 0;
-		virtual bool	empty(void)	const = 0;
-		virtual const D	&top(void)	const = 0;
-		virtual void	push(const D &e) = 0;
-		virtual void	pop(void) = 0;
+		virtual void	insertFront(const D &e) = 0;
+		virtual void	insertBack(const D &e) = 0;
+		virtual void	eraseFront(void) = 0;
+		virtual void	eraseBack(void) = 0;
+		virtual const D	&front(void)	const = 0;
+		virtual const D &back(void)		const = 0;
+		virtual int		size(void)		const = 0;
+		virtual bool	empty(void)		const = 0;
 };
 
 #endif
