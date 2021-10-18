@@ -6,14 +6,13 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 17:25:09 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/18 19:41:47 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/10/18 19:53:54 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../libft/libft.hpp"
 
-template <typename D>
-void	ft_vector_radix_sort(ArrayVector<D> &vector);
+void	ft_vector_radix_sort(ArrayVector<int> &vector);
 
 /*
  * Pass the numbers from command line!

@@ -6,7 +6,7 @@
 #    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 17:23:02 by aisraely          #+#    #+#              #
-#    Updated: 2021/10/18 19:43:55 by aisraely         ###   ########.fr        #
+#    Updated: 2021/10/18 20:14:35 by aisraely         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ endif
 all: $(DFL)
 
 .cpp.o:
-	$(CC) $(CFLAGS) -c $< -o $(<:.cpp=.o) 
+	@$(CC) $(CFLAGS) -c $< -o $(<:.cpp=.o) 
 
 $(DFL): $(OBJS)
 	@$(MAKE) -C ../../libft
