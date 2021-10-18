@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/19 14:37:27 by aisraely          #+#    #+#             */
-/*   Updated: 2021/09/25 20:04:23 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/10/18 19:42:59 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,18 @@
 # include <stdlib.h>
 # include <tgmath.h>
 
+# include "IQueue.hpp"
+# include "IDeque.hpp"
+# include "IStack.hpp"
+
+# include "ArrayVector.hpp"
+
 int		ft_isspace(int c);
 int		ft_isdigit(int c);
 int		ft_strcmp(const char *s1, const char *s2);
 void	ft_swap(char **s1, char **s2);
 int		ft_atoi(const char *str);
 int		ft_isdigitstr(char *str);
+int		ft_recursive_power(int nb, int power);
 
 #endif
