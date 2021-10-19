@@ -6,7 +6,7 @@
 #    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 12:47:32 by aisraely          #+#    #+#              #
-#    Updated: 2021/10/04 12:47:33 by aisraely         ###   ########.fr        #
+#    Updated: 2021/10/19 20:53:04 by aisraely         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,9 +23,9 @@ echo "TEST 1: Input is: 1"
 
 if [ "`./lstsort 1`" = "`seq 1`" ]
 then
-	echo -e "${GREEN}SUCCESS${NC}"
+	echo "${GREEN}SUCCESS${NC}"
 else
-	echo -e "${RED}FAILURE${NC}"
+	echo "${RED}FAILURE${NC}"
 fi
 
 IN=$(seq 0 100 | sort -R)
@@ -34,9 +34,9 @@ OUT=$(./lstsort $IN)
 
 if [ "$OUT" = "`seq 0 100`" ]
 then
-	echo -e "${GREEN}SUCCESS${NC}"
+	echo "${GREEN}SUCCESS${NC}"
 else
-	echo -e "${RED}FAILURE${NC}"
+	echo "${RED}FAILURE${NC}"
 fi
 
 IN=$(seq 0 9999 | sort -R)
@@ -45,9 +45,9 @@ OUT=$(./lstsort $IN)
 
 if [ "$OUT" = "`seq 0 9999`" ]
 then
-	echo -e "${GREEN}SUCCESS${NC}"
+	echo "${GREEN}SUCCESS${NC}"
 else
-	echo -e "${RED}FAILURE${NC}"
+	echo "${RED}FAILURE${NC}"
 fi
 
 IN=$(jot -r 100)

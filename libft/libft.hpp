@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/19 14:37:27 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/18 19:42:59 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/10/19 17:40:56 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,14 @@
 # include "IDeque.hpp"
 # include "IStack.hpp"
 
+template <typename T>
+const T	&ft_max(const T &a, const T &b)
+{
+	if (b > a)
+		return (b);
+	return (a);
+}
+
 # include "ArrayVector.hpp"
 
 int		ft_isspace(int c);
@@ -42,5 +50,6 @@ void	ft_swap(char **s1, char **s2);
 int		ft_atoi(const char *str);
 int		ft_isdigitstr(char *str);
 int		ft_recursive_power(int nb, int power);
+
 
 #endif

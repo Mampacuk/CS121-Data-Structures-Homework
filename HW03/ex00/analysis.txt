@@ -1,0 +1,156 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    analysis.txt                                       :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/10/19 17:58:57 by aisraely          #+#    #+#              #
+#    Updated: 2021/10/19 21:01:05 by aisraely         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+1	template <typename T>
+2	const T	&ft_max(const T &a, const T &b)			// PER LINE:					TOTAL:
+3	{												//
+4		if (b > a)									// 1							1
+5			return (b);								//
+6		return (a);									// 1							2
+7	}
+
+1	int	ft_recursive_power(int nb, int power)		// PER LINE:					TOTAL:
+2	{												//
+3		int	res;									// 1							1
+4													//
+5		res = 1;									// 1							2
+6		if (power == 0)								// 1							3
+7			return (1);								// base case: 4
+8		else if (power < 0)							// 1							4
+9			return (0);								// base case: 5
+10		res = ft_recursive_power(nb, power / 2);	// 1 + ft_recursive_power(n/2)	5 + logn(ft_recursive_power())
+11		if (power % 2 == 0)							// 2							7 + logn(ft_recursive_power())
+12			return (res * res);						// 1							8 + logn(ft_recursive_power())
+13		return (res * res * nb);					// OR +1						9 + logn(ft_recursive_power())
+14	}																				~ 9 + 9logn
+
+1	template <typename D>
+2	ArrayVector<D>::ArrayVector(void) : _capacity(0), _n(0), _data(NULL) {}
+													// TOTAL: 3
+
+1	template <typename D>
+2	ArrayVector<D>::~ArrayVector(void)
+3	{
+4		delete [] this->_data;						// TOTAL: 3
+5	}
+
+1	template <typename D>
+2	int	ArrayVector<D>::size(void) const
+3	{
+4		return (this->_n);							// TOTAL: 3
+5	}
+
+1	template <typename D>
+2	bool	ArrayVector<D>::empty(void) const
+3	{
+4		return (!this->_n);							// TOTAL: 4
+5	}
+
+1	template <typename D>
+2	D	&ArrayVector<D>::operator[](int i) const
+3	{
+4		return (this->_data[i]);					// TOTAL: 4
+5	}
+
+
+1	template <typename D>
+2	void	ArrayVector<D>::reserve(int n)	// PER LINE:	TOTAL:
+3	{										//
+4		int	i;								// 1			1
+5		D	*new_data;						// 1			2
+6											//
+7		if (this->_capacity >= n)			// 3			5
+8			return ;						//
+9		new_data = new D[n];				// n + 1		n + 6
+10		i = 0;								// 1			n + 7
+11		while (i < this->size())			//(size + 1)*4	4size + n + 11
+12		{									//
+13			new_data[i] = this->_data[i];	//*size 5		9size + n + 11
+14			i++;							//*size	1		10size + n + 11
+15		}									//
+16		if (this->_data)					// 3			10size + n + 14
+17			delete [] this->_data;			// 1			10size + n + 15
+18		this->_data = new_data;				// 3			10size + n + 18
+19		this->_capacity = n;				// 3			10size + n + 21
+20	}
+
+1	template <typename D>										note: n denotes this->size()
+2	void	ArrayVector<D>::insert(int i, const D &e)			// PER LINE:			TOTAL:
+3	{															//	
+4		int	j;													// 1					1	
+5																//	
+6		if (i < 0 || i > this->size())							// 5					6
+7			throw std::out_of_range("Index is out of bounds");	//	
+8		if (this->size() == this->_capacity)					// 6					12
+9			this->reserve(ft_max(1, this->_capacity * 2));		// 2 + reserve(2*cap) =	
+				= 10n + 2*capacity + 21 = 10n + 2n + 21 = 12n + 21, but amortized O(1)	14 + amortized O(1)
+10		j = this->size() - 1;									// 5					19 + amortized O(1)
+11		while (j >= 0 && j >= i)								// 2(n - i + 1)			2n - 2i + 21 + amortized O(1)
+12		{														//
+13			this->_data[j + 1] = this->_data[j];				// 8(n - i)				10n - 10i + 21 + amortized O(1)
+14			j--;												// n - i				11n - 11i + 21 + amortized O(1)
+15		}														//
+16		this->_data[i] = e;										// 4					11n - 11i + 25 + amortized O(1)
+17		this->_n++;												// 3					11n - 11i + 28 + amortized O(1)
+18	}
+
+1	template <typename D>										note: n denotes this->size()
+2	void	ArrayVector<D>::erase(int i)						// PER LINE:			TOTAL:
+3	{															//
+4		if (i < 0 || i >= this->size())							// 5					5
+5			throw std::out_of_range("Index is out of bounds");	//
+6		i++;													// 1					6
+7		while (i < this->size())								// n - i				n - i + 6
+8		{														//
+9			this->_data[i - 1] = this->_data[i];				//(n - i - 1)*7			9n - 9i - 1
+10			i++;												// n - i - 1			10n - 10i - 2
+11		}														//
+12		this->_n--;												// 3					10n - 10i + 1
+13	}
+
+1	void	ft_vector_radix_sort(ArrayVector<int> &vector)
+2	{																					// PER LINE:				TOTAL:
+3		int					i;															// 1						1
+4		int					j;															// 1						2
+5		int					selected;													// 1						3
+6		ArrayVector<int>	buckets[10];												// 10*ArrayVector(void)		33
+7																						//
+8		i = 0;																			// 1						34
+9		while (i < 10)																	// 11						45
+10		{																				//
+11			while (!vector.empty())														//*10(n + 1) 5				50n + 95
+12			{																			//
+13				selected = vector[vector.size() - 1] / ft_recursive_power(10, i) % 10;	//*10n 11+ft_recursive_power(10, i)
+																		= 11 + log9 ~ 11 + 3 = 14					190n + 95
+14				buckets[selected].insert(buckets[selected].size(), vector[vector.size() - 1]);
+																						//*10n 14 + ArrayVector::insert(n)'s best-case =
+													= 14 + 28 + amortized O(1) = 14 + 29 = 43						620n + 95
+15				vector.erase(vector.size() - 1);										//*10n 4 + ArrayVector::erase(n)'s best-case =
+													= 4 + 1															670n + 95
+16			}																			//
+17			j = 0;																		// 10						670n + 105
+18			while (j < 10)																// 110						670n + 215	
+19			{																			//
+20				while (!buckets[j].empty())												//*10(n + 1) 5				720n + 265
+21				{																		//
+22					vector.insert(vector.size(), buckets[j][buckets[j].size() - 1]);	//*10n (15 + ArrayVector::insert(n)'s best-case)
+													= 15 + 28 + amortized O(1) = 15 + 29 = 44						1,160n + 265
+23					buckets[j].erase(buckets[j].size() - 1);							//*10n (5 + ArrayVector::erase(n)'s worst-case) =
+													= 5 + 1															1,220n + 265
+24				}																		//
+25				j++;																	// 100						1,220n + 365
+26			}																			//
+27			i++;																		// 10						1,220n + 10
+28		}
+29	}
+
+Which is O(n).

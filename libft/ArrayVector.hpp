@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 15:36:36 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/19 17:05:55 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/10/19 17:57:28 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ void	ArrayVector<D>::insert(int i, const D &e)
 	if (i < 0 || i > this->size())
 		throw std::out_of_range("Index is out of bounds");
 	if (this->size() == this->_capacity)
-		this->reserve(std::max(1, this->_capacity * 2));
+		this->reserve(ft_max(1, this->_capacity * 2));
 	j = this->size() - 1;
 	while (j >= 0 && j >= i)
 	{
@@ -174,8 +174,7 @@ template <typename D>
 void	ArrayVector<D>::print(void) const
 {
 	for (int i = 0; i < this->size(); i++)
-		std::cout << this->_data[i] << " ";
-	std::cout << std::endl;
+		std::cout << this->_data[i] << std::endl;
 }
 
 #endif
