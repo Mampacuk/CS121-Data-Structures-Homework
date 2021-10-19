@@ -6,7 +6,7 @@
 #    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/19 17:58:57 by aisraely          #+#    #+#              #
-#    Updated: 2021/10/19 21:01:05 by aisraely         ###   ########.fr        #
+#    Updated: 2021/10/19 21:04:28 by aisraely         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -129,7 +129,7 @@
 10		{																				//
 11			while (!vector.empty())														//*10(n + 1) 5				50n + 95
 12			{																			//
-13				selected = vector[vector.size() - 1] / ft_recursive_power(10, i) % 10;	//*10n 11+ft_recursive_power(10, i)
+13				selected = vector[vector.size() - 1] / ft_recursive_power(10, i) % 10;	//*10n 11 + ft_recursive_power(10, i)
 																		= 11 + log9 ~ 11 + 3 = 14					190n + 95
 14				buckets[selected].insert(buckets[selected].size(), vector[vector.size() - 1]);
 																						//*10n 14 + ArrayVector::insert(n)'s best-case =
@@ -144,7 +144,7 @@
 21				{																		//
 22					vector.insert(vector.size(), buckets[j][buckets[j].size() - 1]);	//*10n (15 + ArrayVector::insert(n)'s best-case)
 													= 15 + 28 + amortized O(1) = 15 + 29 = 44						1,160n + 265
-23					buckets[j].erase(buckets[j].size() - 1);							//*10n (5 + ArrayVector::erase(n)'s worst-case) =
+23					buckets[j].erase(buckets[j].size() - 1);							//*10n (5 + ArrayVector::erase(n)'s best-case) =
 													= 5 + 1															1,220n + 265
 24				}																		//
 25				j++;																	// 100						1,220n + 365
