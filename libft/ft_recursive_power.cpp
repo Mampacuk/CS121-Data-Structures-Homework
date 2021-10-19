@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 18:42:55 by aisraely          #+#    #+#             */
-/*   Updated: 2021/09/27 18:44:16 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/10/19 17:19:01 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_recursive_power(int nb, int power)
 	else if (power < 0)
 		return (0);
 	res = ft_recursive_power(nb, power / 2);
-	if (nb % 2 == 0)
+	if (power % 2 == 0)
 		return (res * res);
 	return (res * res * nb);
 }

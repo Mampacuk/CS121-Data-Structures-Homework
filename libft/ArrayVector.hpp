@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 15:36:36 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/18 20:38:25 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/10/19 17:05:55 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "stdlib.h"
 # include <exception>
 # include <iostream>
+# include <algorithm>
 
 template <typename D>
 class	ArrayVector : public IVector<D>
@@ -134,32 +135,20 @@ void	ArrayVector<D>::reserve(int n)
 {
 	int	i;
 	D	*new_data;
-	
-	// std::cout << "reserve(): n is " << n << std::endl;
-	if (!this->_capacity)
-	{
-	// std::cout << "entered 0 case" << std::endl;
-		
-		this->_capacity = 1;
-		// std::cout << "_data is at " << this->_data << " and cap is " << this->_capacity << std::endl;
-		this->_data = new D[this->_capacity];
-		// std::cout << "returning from 0 case" << std::endl;
-		
+
+	if (this->_capacity >= n)
 		return ;
-	}
-	else if (n < 0 || this->_capacity >= n)
-		return ;
-	// std::cout << "entered !0 case" << std::endl;
 	new_data = new D[n];
 	i = 0;
-	while (i < n)
+	while (i < this->size())
 	{
 		new_data[i] = this->_data[i];
 		i++;
 	}
-	delete [] this->_data;
+	if (this->_data)
+		delete [] this->_data;
 	this->_data = new_data;
-	// std::cout << "returning from !0 case" << std::endl;
+	this->_capacity = n;
 }
 
 template <typename D>
@@ -169,22 +158,15 @@ void	ArrayVector<D>::insert(int i, const D &e)
 
 	if (i < 0 || i > this->size())
 		throw std::out_of_range("Index is out of bounds");
-	// std::cout << "ABOUT TO RESERVE:" << std::endl;
-	if (this->_n + 1 >= this->_capacity)
-		this->reserve(this->_capacity * 2);
-	// std::cout << "RESERVED" << std::endl;
-	if (this->_capacity > 1)
+	if (this->size() == this->_capacity)
+		this->reserve(std::max(1, this->_capacity * 2));
+	j = this->size() - 1;
+	while (j >= 0 && j >= i)
 	{
-		j = this->size() - 1;
-		while (j >= 0 && j < this->_capacity && j >= i)
-		{
-			this->_data[j + 1] = this->_data[j];
-			j--;
-		}
+		this->_data[j + 1] = this->_data[j];
+		j--;
 	}
-	// std::cout << "about to assign e" << std::endl;
 	this->_data[i] = e;
-	// std::cout << "assigned e" << std::endl;
 	this->_n++;
 }
 
