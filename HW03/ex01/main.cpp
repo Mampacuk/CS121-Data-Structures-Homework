@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 21:14:47 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/19 21:18:29 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/10/20 17:15:16 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	main(int, char **argv)
 {
 	int					val;
 	ArrayVector<int>	seq1;
+	NodeList<int>		seq2;
 
 	argv++;
 	while (*argv)
