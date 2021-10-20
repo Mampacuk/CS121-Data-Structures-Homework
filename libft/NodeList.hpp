@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 15:53:02 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/20 18:53:55 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/10/20 20:26:52 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ class	NodeList : public IList<D>
 				bool		operator!=(const IIterator<D> &p)	const;
 				Iterator	&operator++(void);
 				Iterator	&operator--(void);
-				friend class NodeList;
+				// friend class NodeList;
 			private:
 				Iterator(Node *node);
 				Node	*_ptr; 
@@ -49,14 +49,14 @@ class	NodeList : public IList<D>
 		IIterator<D>		end(void)	const;
 		void				insertFront(const D &e);
 		void				insertBack(const D &e);
-		void				insert(const IIterator<D> &p, const D &e);
+		void				insert(const Iterator &p, const D &e);
 		void				eraseFront(void);
 		void				eraseBack(void);
-		void				erase(const IIterator<D> &p);
+		void				erase(const Iterator &p);
 	private:
-		int		_n;
-		Node	*_header;
-		Node	*_trailer;
+		int					_n;
+		Node				*_header;
+		Node				*_trailer;
 };
 
 template <typename D>
@@ -138,7 +138,7 @@ IIterator<D>	NodeList<D>::end(void) const
 }
 
 template <typename D>
-void	NodeList<D>::insert(const IIterator<D> &p, const D &e)
+void	NodeList<D>::insert(const Iterator &p, const D &e)
 {
 	Node	*it_node = ((Iterator)p)._ptr;
 	Node	*it_prev = it_node->prev;
@@ -165,7 +165,7 @@ void	NodeList<D>::insertBack(const D &e)
 }
 
 template <typename D>
-void	NodeList<D>::erase(const IIterator<D> &p)
+void	NodeList<D>::erase(const Iterator &p)
 {
 	Node	*it_node = ((Iterator)p)._ptr;
 	Node	*it_before = it_node->prev;
