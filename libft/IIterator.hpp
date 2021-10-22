@@ -19,9 +19,11 @@ class	IIterator
 	public:
 		virtual D			&operator*(void) = 0;
 		virtual IIterator	&operator++(void) = 0;
-		virtual bool		operator==(const IIterator &rhs)	const = 0;
-		virtual bool		operator!=(const IIterator &rhs)	const = 0;
+		// virtual bool		operator==(const IIterator &rhs)	const = 0;
+		// virtual bool		operator!=(const IIterator &rhs)	const = 0;
 		virtual IIterator	&operator--(void) = 0;
+		virtual void		insert(const D &e) = 0;
+		virtual void		erase(void) = 0;
 };
 
 #endif

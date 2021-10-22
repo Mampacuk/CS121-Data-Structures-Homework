@@ -29,34 +29,36 @@ class	NodeList : public IList<D>
 		class	Iterator : public IIterator<D>
 		{
 			public:
-				D			&operator*(void);
-				bool		operator==(const IIterator<D> &p)	const;
-				bool		operator!=(const IIterator<D> &p)	const;
-				Iterator	&operator++(void);
-				Iterator	&operator--(void);
-				// friend class NodeList;
+				D				&operator*(void);
+				bool			operator==(const NodeList<D>::Iterator &p)	const;
+				bool			operator!=(const NodeList<D>::Iterator &p)	const;
+				Iterator		&operator++(void);
+				Iterator		&operator--(void);
+				void			insert(const D &e);
+				void			erase(void);
+				friend class	NodeList;	// don't want to use `friend`!!
 			private:
 				Iterator(Node *node);
-				Node	*_ptr; 
+				Node			*_ptr; 
 		};
 		NodeList(void);
 		~NodeList(void);
 		NodeList(const NodeList &copy);
-		NodeList			&operator=(const NodeList &rhs);
-		int					size(void)	const;
-		bool				empty(void)	const;
-		IIterator<D>		begin(void)	const;
-		IIterator<D>		end(void)	const;
-		void				insertFront(const D &e);
-		void				insertBack(const D &e);
-		void				insert(const Iterator &p, const D &e);
-		void				eraseFront(void);
-		void				eraseBack(void);
-		void				erase(const Iterator &p);
+		NodeList				&operator=(const NodeList &rhs);
+		int						size(void)	const;
+		bool					empty(void)	const;
+		NodeList<D>::Iterator	begin(void)	const;
+		NodeList<D>::Iterator	end(void)	const;
+		void					insertFront(const D &e);
+		void					insertBack(const D &e);
+		void					insert(Iterator &p, const D &e);
+		void					eraseFront(void);
+		void					eraseBack(void);
+		void					erase(Iterator &p);
 	private:
-		int					_n;
-		Node				*_header;
-		Node				*_trailer;
+		int						_n;
+		Node					*_header;
+		Node					*_trailer;
 };
 
 template <typename D>
@@ -69,13 +71,13 @@ D	&NodeList<D>::Iterator::operator*(void)
 }
 
 template <typename D>
-bool	NodeList<D>::Iterator::operator==(const IIterator<D> &p) const
+bool	NodeList<D>::Iterator::operator==(const NodeList<D>::Iterator &p) const
 {
-	return (this->_ptr == static_cast<Iterator>(p)._ptr);
+	return (this->_ptr == p._ptr);
 }
 
 template <typename D>
-bool	NodeList<D>::Iterator::operator!=(const IIterator<D> &p) const
+bool	NodeList<D>::Iterator::operator!=(const NodeList<D>::Iterator &p) const
 {
 	return (this->_ptr != p._ptr);
 }
@@ -92,6 +94,31 @@ typename NodeList<D>::Iterator	&NodeList<D>::Iterator::operator--(void)
 {
 	this->_ptr = this->_ptr->prev;
 	return (*this);
+}
+
+template <typename D>
+void	NodeList<D>::Iterator::insert(const D &e)
+{
+	Node	*it_prev = this->_ptr->prev;
+	Node	*new_node = new Node;
+
+	new_node->data = e;
+	it_prev->next = new_node;
+	new_node->prev = it_prev;
+	new_node->next = this->_ptr;
+	this->_ptr->prev = new_node;
+}
+
+template <typename D>
+void	NodeList<D>::Iterator::erase(void)
+{
+	Node	*it_before = this->_ptr->prev;
+	Node	*it_after = this->_ptr->next;
+
+	it_before->next = it_after;
+	it_after->prev = it_before;
+	delete this->_ptr;
+	this->_ptr = it_after;
 }
 
 template <typename D>
@@ -126,67 +153,61 @@ bool	NodeList<D>::empty(void) const
 }
 
 template <typename D>
-IIterator<D>	NodeList<D>::begin(void) const
+typename NodeList<D>::Iterator	NodeList<D>::begin(void) const
 {
 	return (Iterator(this->_header->next));
 }
 
 template <typename D>
-IIterator<D>	NodeList<D>::end(void) const
+typename NodeList<D>::Iterator	NodeList<D>::end(void) const
 {
 	return (Iterator(this->_trailer));
 }
 
 template <typename D>
-void	NodeList<D>::insert(const Iterator &p, const D &e)
+void	NodeList<D>::insert(Iterator &p, const D &e)
 {
-	Node	*it_node = ((Iterator)p)._ptr;
-	Node	*it_prev = it_node->prev;
-	Node	*new_node = new Node;
-
-	new_node->data = e;
-	it_prev->next = new_node;
-	new_node->prev = it_prev;
-	new_node->next = it_node;
-	it_node->prev = new_node;
+	p.insert(e);
 	this->_n++;
+}
+
+template <typename D>
+void	NodeList<D>::erase(Iterator &p)
+{
+	p.erase();
+	this->_n--;
 }
 
 template <typename D>
 void	NodeList<D>::insertFront(const D &e)
 {
-	this->insert(this->begin(), e);
+	Iterator	first = this->begin();
+
+	this->insert(first, e);
 }
 
 template <typename D>
 void	NodeList<D>::insertBack(const D &e)
 {
-	this->insert(this->end(), e);
-}
+	Iterator	last = this->end();
 
-template <typename D>
-void	NodeList<D>::erase(const Iterator &p)
-{
-	Node	*it_node = ((Iterator)p)._ptr;
-	Node	*it_before = it_node->prev;
-	Node	*it_after = it_node->next;
-
-	it_before->next = it_after;
-	it_after->prev = it_before;
-	delete it_node;
-	this->_n--;
+	this->insert(last, e);
 }
 
 template <typename D>
 void	NodeList<D>::eraseFront(void)
 {
-	this->erase(this->begin());
+	Iterator	first = this->begin();
+
+	this->erase(first);
 }
 
 template <typename D>
 void	NodeList<D>::eraseBack(void)
 {
-	this->erase(--this->end());
+	Iterator	last = --this->end();
+
+	this->erase(last);
 }
 
 #endif

@@ -27,8 +27,8 @@ class	ArrayVector : public IVector<D>
 		~ArrayVector(void);
 		ArrayVector(const ArrayVector &copy);
 		ArrayVector	&operator=(const ArrayVector &rhs);
-		D			&operator[](int i)	const;
-		D			&at(int i)			const;
+		const D		&operator[](int i)	const;
+		const D		&at(int i)			const;
 		int			size(void)			const;
 		bool		empty(void)			const;
 		void		print(void)			const;
@@ -95,13 +95,13 @@ bool	ArrayVector<D>::empty(void) const
 }
 
 template <typename D>
-D	&ArrayVector<D>::operator[](int i) const
+const D	&ArrayVector<D>::operator[](int i) const
 {
 	return (this->_data[i]);
 }
 
 template <typename D>
-D	&ArrayVector<D>::at(int i) const
+const D	&ArrayVector<D>::at(int i) const
 {
 	if (i < 0 || i >= this->size())
 		throw std::out_of_range("Index is out of bounds");

@@ -19,14 +19,14 @@ template <typename D>
 class	IList
 {
 	public:
-		virtual IIterator<D>	begin(void)	const = 0;
-		virtual	IIterator<D>	end(void)	const = 0;
+		// virtual IIterator<D>	begin(void)	const = 0;
+		// virtual	IIterator<D>	end(void)	const = 0;
 		virtual void			insertFront(const D &e) = 0;
 		virtual void			insertBack(const D &e) = 0;
-		virtual void			insert(const IIterator<D> &p, const D &e) = 0;
+		// virtual void			insert(const IIterator<D> &p, const D &e) = 0;
 		virtual void			eraseFront(void) = 0;
 		virtual void			eraseBack(void) = 0;
-		virtual void			erase(const IIterator<D> &p);
+		// virtual void			erase(const IIterator<D> &p);
 };
 
 #endif
