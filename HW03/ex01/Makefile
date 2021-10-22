@@ -12,7 +12,7 @@
 
 DFL			= remove_dupes
 
-SRCS		= main.cpp ft_rid_dupes.cpp
+SRCS		= main.cpp ft_remove_dupes.cpp
 OBJS		= $(SRCS:.cpp=.o)
 CC			= g++
 CFLAGS		= -Wall -Wextra -Werror
