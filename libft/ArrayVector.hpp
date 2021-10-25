@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 15:36:36 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/19 17:57:28 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/10/25 19:36:26 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ ArrayVector<D>::~ArrayVector(void)
 }
 
 template <typename D>
-ArrayVector<D>::ArrayVector(const ArrayVector &copy) : _capacity(0), _n(0), _data(NULL) 
+ArrayVector<D>::ArrayVector(const ArrayVector &copy) : _capacity(0), _n(0), _data(NULL)
 {
 	int	i;
 

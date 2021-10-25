@@ -1,0 +1,136 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    analysis.txt                                       :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/10/25 15:06:09 by aisraely          #+#    #+#              #
+#    Updated: 2021/10/25 15:31:16 by aisraely         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+Viewing the vector first:
+
+template <typename D>
+int	ArrayVector<D>::size(void) const
+{
+	return (this->_n);					// TOTAL: 3
+}
+
+template <typename D>
+const D	&ArrayVector<D>::operator[](int i) const
+{
+	return (this->_data[i]);			// TOTAL: 4
+}
+
+template <typename D>
+void	ArrayVector<D>::erase(int i)						// PER LINE:	TOTAL:
+{															//
+	if (i < 0 || i >= this->size())							// 5			5
+		throw std::out_of_range("Index is out of bounds");	//
+	i++;													// 1			6
+	while (i < this->size())								//*n 4			4n + 6
+	{														//
+		this->_data[i - 1] = this->_data[i];				//*(n - 1) 8	12n - 2	
+		i++;												//*(n - 1) 1	13n - 3
+	}														//
+	this->_n--;												// 1			13n - 2
+}
+
+void	ft_remove_dupes(ArrayVector<int> &vector)			// PER LINE:		TOTAL:
+{															//	
+	int	i;													// 1				1
+															//	
+	i = 0;													// 1				2
+	while (i < vector.size() - 1)							//*n 5				5n + 2
+		if (vector[i] == vector[i + 1])						//*(n - 1) 10		15n - 8
+			vector.erase(i);								//*(n - 1) 13n - 2	13n^2 - 6	!! worst-case, O(n^2)
+		else												//
+			i++;											//*(n - 1) 1		16n - 9		!! best-case, O(n)
+}
+
+Now, the list:
+
+template <typename D>
+List<D>::Iterator::Iterator(Node *node) : _ptr(node) {}	// TOTAL: 1
+
+template <typename D>
+List<D>::Iterator::Iterator(const Iterator &copy) : _ptr(copy._ptr) {} // TOTAL: 1
+
+template <typename D>
+typename List<D>::Iterator	List<D>::begin(void) const
+{
+	return (Iterator(this->_header->next));				// TOTAL: 6
+}
+
+template <typename D>
+typename List<D>::Iterator	List<D>::end(void) const
+{
+	return (Iterator(this->_trailer));					// TOTAL: 3
+}
+
+template <typename D>
+int	List<D>::size(void) const
+{
+	return (this->_n);									// TOTAL: 3
+}
+
+template <typename D>
+typename List<D>::Iterator	&List<D>::Iterator::operator--(void)
+{
+	this->_ptr = this->_ptr->prev;						// +7
+	return (*this);										// +2, TOTAL: 9
+}
+
+template <typename D>
+typename List<D>::Iterator	&List<D>::Iterator::operator++(void)
+{
+	this->_ptr = this->_ptr->next;						// +7
+	return (*this);										// +2, TOTAL: 9
+}
+
+template <typename D>
+D	&List<D>::Iterator::operator*(void)
+{
+	return (this->_ptr->data);							// TOTAL: 5
+}
+
+template <typename D>
+bool	List<D>::Iterator::operator!=(const List<D>::Iterator &p) const
+{
+	return (this->_ptr != p._ptr);						// TOTAL: 4
+}
+
+template <typename D>
+void	List<D>::Iterator::erase(void)					// PER LINE:	TOTAL:
+{														//
+	Node	*it_before = this->_ptr->prev;				// 6			6
+	Node	*it_after = this->_ptr->next;				// 6			12
+														//
+	it_before->next = it_after;							// 3			15
+	it_after->prev = it_before;							// 3			18
+	delete this->_ptr;									// 3			21
+	this->_ptr = it_after;								// 3			24
+}
+
+template <typename D>
+void	List<D>::erase(Iterator &p)						// PER LINE:			TOTAL:
+{														//
+	p.erase();											// Iterator::erase()	24
+	this->_n--;											// 4					28
+}
+
+void	ft_remove_dupes(List<int> &list)				// PER LINE:			TOTAL:
+{														//
+	List<int>::Iterator curr = list.begin();			// 8					8
+														//
+	if (list.size() > 0)								// 4					12
+		while (curr != --list.end())					//*n 16					16n + 12
+		{												//
+			List<int>::Iterator	curr_copy(curr);		//*(n - 1) 1			17n + 11
+			List<int>::Iterator	curr_next(++curr);		//*(n - 1) 9 + 1 = 10	27n + 1
+			if (*curr_copy == *curr_next)				//*(n - 1) 11			38n - 10	!! best-case, O(n)
+				list.erase(curr_copy);					//*(n - 1) 28			66n - 38	!! worst-case, O(n)
+		}												//
+}														//

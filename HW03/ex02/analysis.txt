@@ -1,0 +1,158 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    analysis.txt                                       :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/10/25 17:14:46 by aisraely          #+#    #+#              #
+#    Updated: 2021/10/25 18:01:01 by aisraely         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+template <typename D>
+void	DLLList<D>::removeNode(DLLList<D>::Node *node)	// PER LINE:	TOTAL:
+{														//
+	Node	*before = node->prev;						// 4			4
+	Node	*after = node->next;						// 4			8
+														//
+	before->next = after;								// 3			11
+	after->prev = before;								// 3			14
+	delete node;										// 1			15
+}
+
+template <typename D>
+void	DLLList<D>::addBeforeNode(DLLList<D>::Node *node, const D &e)
+{														// PER LINE:	TOTAL:
+	Node	*node_prev = node->prev;					// 4			4
+	Node	*new_node = new Node;						// 3			7
+														//
+	new_node->data = e;									// 3			10
+	node_prev->next = new_node;							// 3			13
+	new_node->prev = node_prev;							// 3			16
+	new_node->next = node;								// 3			19
+	node->prev = new_node;								// 3			22
+}
+
+template <typename D>
+typename DLLList<D>::Node	*DLLList<D>::returnNode(int i) const
+{														// PER LINE:	TOTAL:
+	int		j;											// 1			1
+	Node	*curr;										// 1			2
+														//
+	j = 0;												// 1			3
+	curr = this->_header->next;							// 6			9
+	while (j < i)										// i			i + 9
+	{													//
+		curr = curr->next;								//*(i - 1) 4	5i + 5
+		j++;											//*(i - 1) 1	6i + 4
+	}													//
+	return (curr);										// 1			6i + 5
+}
+
+template <typename D>
+DLLList<D>::DLLList(void)								// PER LINE:	TOTAL:
+{														//
+	this->_n = 0;										// 3			3
+	this->_header = new Node;							// 4			7
+	this->_trailer = new Node;							// 4			11
+	this->_header->next = this->_trailer;				// 7			18
+	this->_trailer->prev = this->_header;				// 7			25
+}
+
+template <typename D>
+DLLList<D>::DLLList(const DLLList &copy)				// PER LINE:	TOTAL:
+{														//
+	Node	*curr = copy._header->next;					// 5			5
+														//
+	this->_n = 0;										// 3			8
+	this->_header = new Node;							// 4			12
+	this->_trailer = new Node;							// 4			16
+	this->_header->next = this->_trailer;				// 7			23
+	this->_trailer->prev = this->_header;				// 7			30
+	while (curr != copy._trailer)						//*(n + 1) 2	2n + 32
+	{													//
+		this->addBeforeNode(this->_trailer, curr->data);//*n 22 + 4		28n + 32
+		this->_n++;										//*n 1			29n + 32
+		curr = curr->next;								//*n 3			32n + 32
+	}
+}
+
+template <typename D>
+int	DLLList<D>::size(void) const
+{
+	return (this->_n);									// TOTAL: 3
+}
+
+template <typename D>
+bool	DLLList<D>::empty(void) const
+{
+	return (!this->_n);									// TOTAL: 4
+}
+
+template <typename D>
+const D	&DLLList<D>::at(int i) const						// PER LINE:	TOTAL:
+{															//
+	if (i < 0 || i >= this->size())							// 5			5
+		throw std::out_of_range("Index is out of bounds");	//
+	return (this->returnNode(i)->data);						// 6i + 7		6i + 13
+}
+
+template <typename D>
+void	DLLList<D>::erase(int i)							// PER LINE:	TOTAL:
+{															//
+	if (i < 0 || i >= this->size())							// 5			5
+		throw std::out_of_range("Index is out of bounds");	//
+	this->removeNode(this->returnNode(i));					// 6i + 5 + 15	6i + 25
+	this->_n--;												// 4			6i + 29
+}
+
+template <typename D>
+void	DLLList<D>::insert(int i, const D &e)				// PER LINE:	TOTAL:
+{															//
+	if (i < 0 || i > this->size())							// 5			5
+		throw std::out_of_range("Index is out of bounds");	//
+	this->addBeforeNode(this->returnNode(i), e);			// 6i + 5 + 22	6i + 32
+	this->_n++;												// 4			6i + 36
+}
+
+template <typename D>
+void	DLLList<D>::set(int i, const D &e)					// PER LINE:	TOTAL:
+{															//
+	Node	*node;											// 1			1
+															//
+	if (i < 0 || i >= this->size())							// 5			6
+		throw std::out_of_range("Index is out of bounds");	//
+	node = this->returnNode(i);								// 6i + 5 + 1	6i + 12
+	node->data = e;											// 1			6i + 13
+}
+
+template <typename D>
+const D	&DLLList<D>::operator[](int i) const
+{
+	return (this->at(i));									// TOTAL: 6i + 14
+}
+
+template <typename D>
+void	DLLList<D>::print(void) const
+{															// PER LINE:	TOTAL:
+	for (Node *i = this->_header->next;						// 6			6
+		i != this->_trailer;								//*(n + 1) 3	3n + 9
+		i = i->next)										//*n 3			6n + 9
+		std::cout << i->data << std::endl;					//*n 3			9n + 9			
+}
+
+template <typename D>
+DLLList<D>	&DLLList<D>::operator=(const DLLList &rhs)	// PER LINE:	TOTAL:
+{														// where i = rhs.size()
+	Node	*curr = rhs._header->next;					// 5			5
+														//
+	while (!this->empty())								//*(n + 1) 5	5n + 10
+		this->erase(0);									//*n 29			34n + 10
+	while (curr != rhs._trailer)						//*(i + 1) 2	34n + 2i + 12
+	{													//
+		this->insert(this->size(), curr->data);			//*i 6i + 41	6i^2 + 75i + 12
+		curr = curr->next;								//*i 3			6i^2 + 78i + 12
+	}													//
+	return (*this);										// 2			6i^2 + 78i + 14
+}

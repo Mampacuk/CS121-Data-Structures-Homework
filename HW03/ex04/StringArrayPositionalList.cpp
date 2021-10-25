@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   IList.hpp                                          :+:      :+:    :+:   */
+/*   StringArrayPositionalList.cpp                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/20 14:51:36 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/25 18:56:07 by aisraely         ###   ########.fr       */
+/*   Created: 2021/10/25 18:53:20 by aisraely          #+#    #+#             */
+/*   Updated: 2021/10/25 19:36:58 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ILIST_HPP
-# define ILIST_HPP
+#include "StringArrayPositionalList.hpp"
 
-# include "IIterator.hpp"
+StringArrayPositionalList::StringArrayPositionalList(void) : _capacity(0), _n(0), _data(NULL) {}
 
-template <typename D>
-class	IList
+StringArrayPositionalList::~StringArrayPositionalList(void)
 {
-	public:
-		virtual void			insertFront(const D &e) = 0;
-		virtual void			insertBack(const D &e) = 0;
-		// virtual void			insert(const IIterator<D> &p, const D &e) = 0;
-		virtual void			eraseFront(void) = 0;
-		virtual void			eraseBack(void) = 0;
-		// virtual void			erase(const IIterator<D> &p);
-};
+	delete [] this->_data;
+}
 
-#endif
+// StringArrayPositionalList::StringArrayPositionalList(const StringArrayPositionalList &copy) : _capacity(0), _n(0), _data(NULL)
+// {
+	
+// }
