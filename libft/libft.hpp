@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/19 14:37:27 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/20 17:15:45 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/10/25 13:46:50 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ const T	&ft_max(const T &a, const T &b)
 }
 
 # include "ArrayVector.hpp"
-# include "NodeList.hpp"
+# include "List.hpp"
 
 int		ft_isspace(int c);
 int		ft_isdigit(int c);
