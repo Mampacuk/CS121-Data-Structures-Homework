@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 18:53:17 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/25 19:31:23 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/10/26 20:12:38 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@
 class	StringArrayPositionalList : public IList<std::string>
 {
 	public:
-		class	Position : IIterator<std::string>
-		{
-			public:
 				Position		&operator=(const Position &rhs);
 				D				&operator*(void);
 				bool			operator==(const Position &p)	const;

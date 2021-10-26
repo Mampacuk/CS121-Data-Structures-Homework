@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 18:53:20 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/25 19:36:58 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/10/26 20:10:59 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,3 +23,18 @@ StringArrayPositionalList::~StringArrayPositionalList(void)
 // {
 	
 // }
+
+int	StringArrayPositionalList::size(void) const
+{
+	return (this->_n);
+}
+
+int	StringArrayPositionalList::empty(void) const
+{
+	return (!this->_n);
+}
+
+void	StringArrayPositionalList::insert(Position &p, const D &e)
+{
+	if 
+}

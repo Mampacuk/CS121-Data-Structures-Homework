@@ -6,7 +6,7 @@
 #    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 17:14:46 by aisraely          #+#    #+#              #
-#    Updated: 2021/10/25 18:01:01 by aisraely         ###   ########.fr        #
+#    Updated: 2021/10/26 19:53:24 by aisraely         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,10 @@ typename DLLList<D>::Node	*DLLList<D>::returnNode(int i) const
 	}													//
 	return (curr);										// 1			6i + 5
 }
+P.S.:
+	The overhead of this function can be reduced twice if it's checked whether
+	i points to the first or the second half to loop from beginning/end respectively
+	but it doesn't remove the linear factor :))))))
 
 template <typename D>
 DLLList<D>::DLLList(void)								// PER LINE:	TOTAL:

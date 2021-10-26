@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 15:32:22 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/25 18:28:09 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/10/26 19:59:23 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ class	DLLList : public IVector<D>
 				Iterator(const Iterator &copy);
 				Iterator		&operator=(const Iterator &rhs);
 				D				&operator*(void);
-				bool			operator==(const DLLList<D>::Iterator &p)	const;
-				bool			operator!=(const DLLList<D>::Iterator &p)	const;
+				bool			operator==(const IIterator<D> &p)	const;
+				bool			operator!=(const IIterator<D> &p)	const;
 				Iterator		&operator++(void);
 				Iterator		&operator--(void);
-				friend class	DLLList;	// don't want to use `friend`!!
+				friend class	DLLList;
 			private:
 				Iterator(Node *node);
 				Node			*_ptr;
@@ -83,15 +83,23 @@ D	&DLLList<D>::Iterator::operator*(void)
 }
 
 template <typename D>
-bool	DLLList<D>::Iterator::operator==(const DLLList<D>::Iterator &p) const
+bool	DLLList<D>::Iterator::operator==(const IIterator<D> &p) const
 {
-	return (this->_ptr == p._ptr);
+	if (typeid(p) != typeid(Iterator))
+		throw std::bad_typeid();
+	const Iterator	&it = dynamic_cast<const Iterator&>(p);
+
+	return (this->_ptr == it._ptr);
 }
 
 template <typename D>
-bool	DLLList<D>::Iterator::operator!=(const DLLList<D>::Iterator &p) const
+bool	DLLList<D>::Iterator::operator!=(const IIterator<D> &p) const
 {
-	return (this->_ptr != p._ptr);
+	if (typeid(p) != typeid(Iterator))
+		throw std::bad_typeid();
+	const Iterator	&it = dynamic_cast<const Iterator&>(p);
+
+	return (this->_ptr != it._ptr);
 }
 
 template <typename D>
