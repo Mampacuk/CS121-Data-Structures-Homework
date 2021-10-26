@@ -6,7 +6,7 @@
 #    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/19 17:58:57 by aisraely          #+#    #+#              #
-#    Updated: 2021/10/19 21:04:28 by aisraely         ###   ########.fr        #
+#    Updated: 2021/10/26 19:35:03 by aisraely         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,6 @@
 3	{
 4		return (this->_data[i]);					// TOTAL: 4
 5	}
-
 
 1	template <typename D>
 2	void	ArrayVector<D>::reserve(int n)	// PER LINE:	TOTAL:

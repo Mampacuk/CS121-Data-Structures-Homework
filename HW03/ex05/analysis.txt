@@ -1,0 +1,36 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    analysis.txt                                       :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/10/26 23:28:42 by aisraely          #+#    #+#              #
+#    Updated: 2021/10/26 23:40:30 by aisraely         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+Since I was left with literally no time, and was granted neither extra credits for my homework
+nor any additional time (deadline extension), I'm not gonna go line-by-line.
+
+StringArrayPositionalList::SortedIterator::SortedIterator() takes:
+	linear N to allocate pointers;
+	linear N to nest them;
+	O(nlogn) on average to quicksort the members.
+
+The biggest term here is nlogn, others are dropped. Considering the worst-case scenario of quicksort, the constructor
+of the iterator can take O(n^2) in worst-case.
+
+All other methods of the IIterator public interface thus take linear time
+since they just access and return, nothing complicated.
+
+Better pay off the price at the very beginning, during the construction, to have
+constant time operations then on.
+
+As of space complexity, I do not do any deep-copy, thus even if I get strings that occupy 1TB memory
+my pointers will occupy only sizeof(std::string*) which is either 4 of 8 bytes so by the `new`
+operation I used in the constructor it is 
+
+								(N + 1) * sizeof(std::string*)
+
+which can just be approximated to O(n) memory complexity.

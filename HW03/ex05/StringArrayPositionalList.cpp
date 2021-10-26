@@ -6,11 +6,55 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 18:53:20 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/26 22:53:45 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/10/26 23:22:42 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "StringArrayPositionalList.hpp"
+
+StringArrayPositionalList::SortedIterator::SortedIterator(Position *pos, int size)
+{
+	this->_pos = new StringArrayPositionalList::Position *[size + 1];
+	this->_pos[size] = NULL;
+	for (int i = 0; i < size; i++)
+		this->_pos[i] = &pos[i];
+	this->ft_quicksort(this->_pos, 0, size - 1);
+}
+
+std::string	&StringArrayPositionalList::SortedIterator::operator*(void)
+{
+	return (*(this->_pos[this->_i]->_str));
+}
+
+bool	StringArrayPositionalList::SortedIterator::operator==(const IIterator<std::string> &p) const
+{
+	if (typeid(p) != typeid(StringArrayPositionalList::SortedIterator))
+		throw std::bad_typeid();
+	const StringArrayPositionalList::SortedIterator	*it = reinterpret_cast<const StringArrayPositionalList::SortedIterator*>(&p);
+
+	return (this->_i == it->_i);
+}
+
+bool	StringArrayPositionalList::SortedIterator::operator!=(const IIterator<std::string> &p) const
+{
+	if (typeid(p) != typeid(StringArrayPositionalList::SortedIterator))
+		throw std::bad_typeid();
+	const StringArrayPositionalList::SortedIterator	*it = reinterpret_cast<const StringArrayPositionalList::SortedIterator*>(&p);
+
+	return (!(this->_i == it->_i));
+}
+
+StringArrayPositionalList::SortedIterator	&StringArrayPositionalList::SortedIterator::operator++(void)
+{
+	this->_i++;
+	return (*this);
+}
+
+StringArrayPositionalList::SortedIterator	&StringArrayPositionalList::SortedIterator::operator--(void)
+{
+	this->_i--;
+	return (*this);
+}
 
 StringArrayPositionalList::StringArrayPositionalList(void) : _capacity(0), _n(0), _data(NULL) {}
 
@@ -38,18 +82,18 @@ bool	StringArrayPositionalList::Position::operator==(const IIterator<std::string
 {
 	if (typeid(p) != typeid(StringArrayPositionalList::Position))
 		throw std::bad_typeid();
-	const StringArrayPositionalList::Position	&it = dynamic_cast<const StringArrayPositionalList::Position&>(p);
+	const StringArrayPositionalList::Position	*it = reinterpret_cast<const StringArrayPositionalList::Position*>(&p);
 
-	return (this->_i == it._i && this->_str == it._str);
+	return (this->_i == it->_i && this->_str == it->_str);
 }
 
 bool	StringArrayPositionalList::Position::operator!=(const IIterator<std::string> &p) const
 {
 	if (typeid(p) != typeid(StringArrayPositionalList::Position))
 		throw std::bad_typeid();
-	const StringArrayPositionalList::Position	&it = dynamic_cast<const StringArrayPositionalList::Position&>(p);
+	const StringArrayPositionalList::Position	*it = reinterpret_cast<const StringArrayPositionalList::Position*>(&p);
 
-	return (!(this->_i == it._i && this->_str == it._str));
+	return (!(this->_i == it->_i && this->_str == it->_str));
 }
 
 StringArrayPositionalList::Position	&StringArrayPositionalList::Position::operator++(void)
@@ -126,6 +170,12 @@ void	StringArrayPositionalList::erase(const IIterator<std::string> &p)
 	}
 	this->_n--;
 }
+
+StringArrayPositionalList::SortedIterator	StringArrayPositionalList::beginSorted(void) const
+{
+	return (StringArrayPositionalList::SortedIterator(this->_data, this->size()));
+}
+
 StringArrayPositionalList::Position	StringArrayPositionalList::begin(void)	const
 {
 	if (this->empty())

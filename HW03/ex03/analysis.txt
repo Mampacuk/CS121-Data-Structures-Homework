@@ -6,7 +6,7 @@
 #    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 17:14:46 by aisraely          #+#    #+#              #
-#    Updated: 2021/10/25 18:39:40 by aisraely         ###   ########.fr        #
+#    Updated: 2021/10/26 20:05:42 by aisraely         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -178,15 +178,23 @@ D	&DLLList<D>::Iterator::operator*(void)
 }
 
 template <typename D>
-bool	DLLList<D>::Iterator::operator==(const DLLList<D>::Iterator &p) const
-{
-	return (this->_ptr == p._ptr);											// TOTAL: 5
+bool	List<D>::Iterator::operator==(const IIterator<D> &p) const
+{																			
+	if (typeid(p) != typeid(Iterator))										// +3	
+		throw std::bad_typeid();											//
+	const Iterator	&it = dynamic_cast<const Iterator&>(p);					// +3
+																			//
+	return (this->_ptr == it._ptr);											// +5, TOTAL: 11
 }
 
 template <typename D>
-bool	DLLList<D>::Iterator::operator!=(const DLLList<D>::Iterator &p) const
+bool	List<D>::Iterator::operator!=(const IIterator<D> &p) const
 {
-	return (this->_ptr != p._ptr);											// TOTAL: 5
+	if (typeid(p) != typeid(Iterator))										// +3
+		throw std::bad_typeid();											//
+	const Iterator	&it = dynamic_cast<const Iterator&>(p);					// +3
+																			//
+	return (this->_ptr != it._ptr);											// +5, TOTAL: 11
 }
 
 template <typename D>

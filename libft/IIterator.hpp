@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 15:15:15 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/25 17:10:33 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/10/26 17:52:41 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ class	IIterator
 	public:
 		virtual D			&operator*(void) = 0;
 		virtual IIterator	&operator++(void) = 0;
-		// virtual bool		operator==(const IIterator &rhs)	const = 0;
-		// virtual bool		operator!=(const IIterator &rhs)	const = 0;
+		virtual bool		operator==(const IIterator &rhs)	const = 0;
+		virtual bool		operator!=(const IIterator &rhs)	const = 0;
 		virtual IIterator	&operator--(void) = 0;
 };
 

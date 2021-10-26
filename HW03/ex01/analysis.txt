@@ -6,49 +6,35 @@
 #    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 15:06:09 by aisraely          #+#    #+#              #
-#    Updated: 2021/10/25 15:31:16 by aisraely         ###   ########.fr        #
+#    Updated: 2021/10/26 19:50:52 by aisraely         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 Viewing the vector first:
 
-template <typename D>
-int	ArrayVector<D>::size(void) const
-{
-	return (this->_n);					// TOTAL: 3
-}
+You can recall the complexities of ArrayVector class' member functions in ../ex00/analysis.txt
 
-template <typename D>
-const D	&ArrayVector<D>::operator[](int i) const
-{
-	return (this->_data[i]);			// TOTAL: 4
-}
-
-template <typename D>
-void	ArrayVector<D>::erase(int i)						// PER LINE:	TOTAL:
-{															//
-	if (i < 0 || i >= this->size())							// 5			5
-		throw std::out_of_range("Index is out of bounds");	//
-	i++;													// 1			6
-	while (i < this->size())								//*n 4			4n + 6
+void	ft_remove_dupes(ArrayVector<int> &vector)			// PER LINE:	TOTAL:
+{															where j is the fraction of unique elements of n
+	int					i;									// 1			1
+	ArrayVector<int>	container;							// 3			4
+															//
+	if (vector.size() < 2)									// 4			8
+		return ;											//
+	container.insert(0, vector[0]);							// 29 + 4		33
+	i = 1;													// 1			34
+	while (i < vector.size())								//*(n + 1) 4	4n + 38	
 	{														//
-		this->_data[i - 1] = this->_data[i];				//*(n - 1) 8	12n - 2	
-		i++;												//*(n - 1) 1	13n - 3
+		if (vector[i - 1] != vector[i])						//*n 10			14n + 38
+			container.insert(container.size(), vector[i]);	//*n 36			50n + 38
+		i++;												//*n 1			51n + 38
 	}														//
-	this->_n--;												// 1			13n - 2
-}
-
-void	ft_remove_dupes(ArrayVector<int> &vector)			// PER LINE:		TOTAL:
-{															//	
-	int	i;													// 1				1
-															//	
-	i = 0;													// 1				2
-	while (i < vector.size() - 1)							//*n 5				5n + 2
-		if (vector[i] == vector[i + 1])						//*(n - 1) 10		15n - 8
-			vector.erase(i);								//*(n - 1) 13n - 2	13n^2 - 6	!! worst-case, O(n^2)
-		else												//
-			i++;											//*(n - 1) 1		16n - 9		!! best-case, O(n)
-}
+	while (!vector.empty())									//*(n + 1) 5	56n + 43
+		vector.erase(vector.size() - 1);					//*n 5			61n + 43
+	i = 0;													// 1			61n + 44
+	while (i < container.size())							//*(jn + 1) 4	61n + 4jn + 48
+		vector.insert(vector.size(), container[i++]);		//*jn 37		61n + 41jn + 48
+}																		=> n(61 + 41j) => n => O(n)
 
 Now, the list:
 
@@ -97,40 +83,42 @@ D	&List<D>::Iterator::operator*(void)
 }
 
 template <typename D>
-bool	List<D>::Iterator::operator!=(const List<D>::Iterator &p) const
-{
-	return (this->_ptr != p._ptr);						// TOTAL: 4
+bool	List<D>::Iterator::operator!=(const IIterator<D> &p) const
+{															// PER LINE:	TOTAL:
+	if (typeid(p) != typeid(Iterator))						// 3			3
+		throw std::bad_typeid();							//
+	const Iterator	&it = dynamic_cast<const Iterator&>(p);	// 3			6
+															//
+	return (this->_ptr != it._ptr);							// 5			11
 }
 
 template <typename D>
-void	List<D>::Iterator::erase(void)					// PER LINE:	TOTAL:
-{														//
-	Node	*it_before = this->_ptr->prev;				// 6			6
-	Node	*it_after = this->_ptr->next;				// 6			12
-														//
-	it_before->next = it_after;							// 3			15
-	it_after->prev = it_before;							// 3			18
-	delete this->_ptr;									// 3			21
-	this->_ptr = it_after;								// 3			24
-}
-
-template <typename D>
-void	List<D>::erase(Iterator &p)						// PER LINE:			TOTAL:
-{														//
-	p.erase();											// Iterator::erase()	24
-	this->_n--;											// 4					28
+void	List<D>::erase(const IIterator<D> &p)
+{															// PER LINE:	TOTAL:
+	if (typeid(p) != typeid(Iterator))						// 3			3
+		throw std::bad_typeid();							//
+															//
+	const Iterator	&it = dynamic_cast<const Iterator&>(p);	// 3			6
+	Node			*it_before = it._ptr->prev;				// 5			11
+	Node			*it_after = it._ptr->next;				// 5			16
+															//
+	it_before->next = it_after;								// 3			19
+	it_after->prev = it_before;								// 3			22
+	delete it._ptr;											// 2			24
+	this->_n--;												// 4			28			
 }
 
 void	ft_remove_dupes(List<int> &list)				// PER LINE:			TOTAL:
 {														//
 	List<int>::Iterator curr = list.begin();			// 8					8
 														//
-	if (list.size() > 0)								// 4					12
-		while (curr != --list.end())					//*n 16					16n + 12
-		{												//
-			List<int>::Iterator	curr_copy(curr);		//*(n - 1) 1			17n + 11
-			List<int>::Iterator	curr_next(++curr);		//*(n - 1) 9 + 1 = 10	27n + 1
-			if (*curr_copy == *curr_next)				//*(n - 1) 11			38n - 10	!! best-case, O(n)
-				list.erase(curr_copy);					//*(n - 1) 28			66n - 38	!! worst-case, O(n)
-		}												//
+	if (list.size() < 2)								// 4					12
+		return ;										//
+	while (curr != --list.end())						//*n 16					16n + 12
+	{													//
+		List<int>::Iterator	curr_copy(curr);			//*(n - 1) 1			17n + 11
+		List<int>::Iterator	curr_next(++curr);			//*(n - 1) 9 + 1 = 10	27n + 1
+		if (*curr_copy == *curr_next)					//*(n - 1) 11			38n - 10	!! best-case, O(n)
+			list.erase(curr_copy);						//*(n - 1) 28			66n - 38	!! worst-case, O(n)
+	}													//					=> 66n => n => O(n)
 }														//
