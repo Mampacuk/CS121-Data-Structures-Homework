@@ -33,13 +33,14 @@ class	List : public IList<D>
 				Iterator(const Iterator &copy);
 				Iterator		&operator=(const Iterator &rhs);
 				D				&operator*(void);
-				bool			operator==(const List<D>::Iterator &p)	const;
-				bool			operator!=(const List<D>::Iterator &p)	const;
+				//bool			operator==(const List<D>::Iterator &p)	const;
+				//bool			operator!=(const List<D>::Iterator &p)	const;
 				Iterator		&operator++(void);
 				Iterator		&operator--(void);
 				friend class	List;	// don't want to use `friend`!!
 			private:
 				Iterator(Node *node);
+				bool			equals(const IIterator<D> &rhs)	const; 
 				void			insert(const D &e);
 				void			erase(void);
 				Node			*_ptr; 
@@ -55,7 +56,7 @@ class	List : public IList<D>
 		void				print(void)	const;
 		void				insertFront(const D &e);
 		void				insertBack(const D &e);
-		void				insert(Iterator &p, const D &e);
+		void				insert(IIterator<D> &p, const D &e);
 		void				eraseFront(void);
 		void				eraseBack(void);
 		void				erase(Iterator &p);
@@ -78,22 +79,30 @@ typename List<D>::Iterator	&List<D>::Iterator::operator=(const Iterator &rhs)
 }
 
 template <typename D>
+bool	List<D>::Iterator::equals(const IIterator<D> &rhs)	const
+{
+	const Iterator	&it = dynamic_cast<const Iterator&>(rhs);
+	
+	return (this->_ptr == it._ptr);
+}
+
+template <typename D>
 D	&List<D>::Iterator::operator*(void)
 {
 	return (this->_ptr->data);
 }
 
-template <typename D>
-bool	List<D>::Iterator::operator==(const List<D>::Iterator &p) const
-{
-	return (this->_ptr == p._ptr);
-}
+//template <typename D>
+//bool	List<D>::Iterator::operator==(const List<D>::Iterator &p) const
+//{
+//	return (this->_ptr == p._ptr);
+//}
 
-template <typename D>
-bool	List<D>::Iterator::operator!=(const List<D>::Iterator &p) const
-{
-	return (this->_ptr != p._ptr);
-}
+//template <typename D>
+//bool	List<D>::Iterator::operator!=(const List<D>::Iterator &p) const
+//{
+//	return (this->_ptr != p._ptr);
+//}
 
 template <typename D>
 typename List<D>::Iterator	&List<D>::Iterator::operator++(void)
@@ -180,9 +189,15 @@ typename List<D>::Iterator	List<D>::end(void) const
 }
 
 template <typename D>
-void	List<D>::insert(Iterator &p, const D &e)
+void	List<D>::insert(IIterator<D> &p, const D &e)
 {
-	p.insert(e);
+	const Iterator	&it = dynamic_cast<Iterator&>(p);
+
+	// dummy code
+	//
+	(void)it;
+	(void)e;
+	// dummy code
 	this->_n++;
 }
 

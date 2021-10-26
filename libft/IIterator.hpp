@@ -17,11 +17,19 @@ template <typename D>
 class	IIterator
 {
 	public:
-		virtual D			&operator*(void) = 0;
+		virtual D		&operator*(void) = 0;
 		virtual IIterator	&operator++(void) = 0;
-		// virtual bool		operator==(const IIterator &rhs)	const = 0;
-		// virtual bool		operator!=(const IIterator &rhs)	const = 0;
+		bool			operator==(const IIterator &rhs)	const
+		{
+			return (this->equals(rhs));
+		}
+		bool			operator!=(const IIterator &rhs)	const
+		{
+			return (!this->operator==(rhs));
+		}
 		virtual IIterator	&operator--(void) = 0;
+	private:
+		virtual bool		equals(const IIterator &rhs)		const = 0;
 };
 
 #endif
