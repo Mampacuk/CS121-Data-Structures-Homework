@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 18:53:17 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/26 20:12:38 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/10/26 21:34:10 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,20 @@
 class	StringArrayPositionalList : public IList<std::string>
 {
 	public:
-				Position		&operator=(const Position &rhs);
-				D				&operator*(void);
-				bool			operator==(const Position &p)	const;
-				bool			operator!=(const Position &p)	const;
+		class	Position : IIterator<std::string>
+		{
+			public:
+				// Position		&operator=(const Position &rhs);
+				std::string		&operator*(void);
+				bool			operator==(const IIterator<std::string> &p)	const;
+				bool			operator!=(const IIterator<std::string> &p)	const;
 				Position		&operator++(void);
 				Position		&operator--(void);
 				friend class	StringArrayPositionalList;
 			private:
+				Position(int _i, std::string *_str) : _i(_i), _str(_str) {}
 				int			_i;
-				std::string	_str;
+				std::string	*_str;
 		}
 		StringArrayPositionalList(void);
 		~StringArrayPositionalList(void);
@@ -38,12 +42,15 @@ class	StringArrayPositionalList : public IList<std::string>
 		int							size(void)	const;
 		bool						empty(void)	const;
 		void						print(void)	const;
-		void						insertFront(const D &e);
-		void						insertBack(const D &e);
-		void						insert(Position &p, const D &e);
+		void						reserve(int n);
+		void						insertFront(const std::string &e);
+		void						insertBack(const std::string &e);
+		void						insert(const IIterator<std::string> &p, const std::string &e);
 		void						eraseFront(void);
 		void						eraseBack(void);
-		void						erase(Position &p);
+		void						erase(const IIterator<std::string> &p);
+		Position					begin(void)	const;
+		Position					end(void)	const;
 	private:
 		int							_capacity;
 		int							_n;

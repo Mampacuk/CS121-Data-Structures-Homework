@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 13:47:19 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/26 20:05:53 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/10/26 20:40:14 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ class	List : public IList<D>
 		class	Iterator : public IIterator<D>
 		{
 			public:
-				Iterator(const Iterator &copy);
 				~Iterator(void) {}
 				Iterator		&operator=(const Iterator &rhs);
 				D				&operator*(void);
@@ -40,6 +39,7 @@ class	List : public IList<D>
 				Iterator		&operator--(void);
 				friend class	List;
 			private:
+				Iterator(const Iterator &copy);
 				Iterator(Node *node);
 				Node			*_ptr; 
 		};
