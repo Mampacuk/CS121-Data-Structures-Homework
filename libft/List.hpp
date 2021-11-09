@@ -6,7 +6,7 @@
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 13:47:19 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/26 20:40:14 by aisraely         ###   ########.fr       */
+/*   Updated: 2021/10/30 15:24:45 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,6 @@ List<D>::List(void)
 	this->_n = 0;
 	this->_header = new Node;
 	this->_trailer = new Node;
-	// std::cout << "header at " << this->_header << std::endl;
-	// std::cout << "trailer at " << this->_trailer << std::endl;
 	this->_header->next = this->_trailer;
 	this->_trailer->prev = this->_header;
 }
