@@ -13,26 +13,41 @@
 #ifndef ABINARYTREE
 # define ABINARYTREE
 
-# include "List.hpp"
+# include "ATree.hpp"
+# include "IBinaryTree.hpp"
 
 template <typename E>
-class	ABinaryTree
+class	ABinaryTree : virtual public ATree<E>, virtual public IBinaryTree<E>
 {
 	public:
-		class	Node
+		class	BinaryNode : virtual public ATree<E>::Node, virtual public IBinaryTree<E>::IBinaryNode
 		{
 			public:
-				E		&operator*(void);
-				Node	left(void)			const;
-				Node	right(void)			const;
-				Node	parent(void)		const;
-				bool	isRoot(void)		const;
-				bool	isExternal(void)	const;
+				BinaryNode	*sibling(void)		const
+				{
+					if (!this->parent())
+						return (NULL);
+					if (this == this->parent()->left())
+						return (this->parent()->right());
+					return (this->parent()->left());
+				}
+				bool	isExternal(void)	const
+				{
+					return (!this->left() && !this->right());
+				}
+				List<BinaryNode>	*children(void)
+				{
+					List<BinaryNode>	*family = new List<BinaryNode>;
+
+					if (this->left())
+						family->insertBack(*this->left());
+					if (this->right())
+						family->insertBack(*this->right());
+					return (family);
+				}
+				virtual	~BinaryNode(void) {}
 		};
-		int			size(void)		const;
-		bool		empty(void)		const;
-		Node		root(void)		const;
-		List<Node>	nodes(void)	const;
+		virtual				~ABinaryTree(void) {}
 };
 
 #endif

@@ -1,38 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ATree.hpp                                          :+:      :+:    :+:   */
+/*   IBinaryTree.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/09 18:42:28 by aisraely          #+#    #+#             */
-/*   Updated: 2021/11/09 18:42:28 by aisraely         ###   ########.fr       */
+/*   Created: 2021/11/09 18:26:42 by aisraely          #+#    #+#             */
+/*   Updated: 2021/11/09 18:26:42 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ATREE_HPP
-# define ATREE_HPP
+#ifndef IBINARYTREE_HPP
+# define IBINARYTREE_HPP
 
 # include "ITree.hpp"
 
 template <typename E>
-class	ATree : virtual public ITree<E>
+class	IBinaryTree : virtual public ITree<E>
 {
 	public:
-		class	Node : virtual public ITree<E>::Node
+		class	IBinaryNode : virtual public ITree<E>::Node
 		{
-			public:
-				bool	isRoot(void)		const
-				{
-					return (!this->parent());
-				}
-				virtual	~Node(void) {}
+			virtual IBinaryNode		*left(void)		const = 0;
+			virtual IBinaryNode		*right(void)	const = 0;
+			virtual IBinaryNode		*sibling(void)	const = 0;
 		};
-		bool				empty(void)		const
-		{
-			return (!this->size());
-		}
-		virtual				~ATree(void) {}
 };
 
 #endif

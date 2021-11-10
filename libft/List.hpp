@@ -30,6 +30,7 @@ class	List : public IList<D>
 		class	Iterator : public IIterator<D>
 		{
 			public:
+				Iterator(const Iterator &copy);
 				~Iterator(void) {}
 				Iterator		&operator=(const Iterator &rhs);
 				D				&operator*(void);
@@ -39,7 +40,7 @@ class	List : public IList<D>
 				Iterator		&operator--(void);
 				friend class	List;
 			private:
-				Iterator(const Iterator &copy);
+				Iterator(void) : _ptr(NULL) {}
 				Iterator(Node *node);
 				Node			*_ptr; 
 		};
@@ -124,6 +125,27 @@ List<D>::List(void)
 	this->_trailer = new Node;
 	this->_header->next = this->_trailer;
 	this->_trailer->prev = this->_header;
+}
+
+template <typename D>
+List<D>::List(const List &copy)
+{
+	this->_n = 0;
+	this->_header = new Node;
+	this->_trailer = new Node;
+	this->_header->next = this->_trailer;
+	this->_trailer->prev = this->_header;
+	for (Iterator it = copy.begin(); it != copy.end(); ++it)
+		this->insertBack(*it);
+}
+
+template <typename D>
+List<D>	&List<D>::operator=(const List &rhs)
+{
+	while (!this->empty())
+		this->eraseBack();
+	for (Iterator it = rhs.begin(); it != rhs.end(); ++it)
+		this->insertBack(*it);
 }
 
 template <typename D>

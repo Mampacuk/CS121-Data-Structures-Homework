@@ -43,6 +43,7 @@ const T	&ft_max(const T &a, const T &b)
 
 # include "ArrayVector.hpp"
 # include "List.hpp"
+# include "LinkedBinaryTree.hpp"
 
 int		ft_isspace(int c);
 int		ft_isdigit(int c);
@@ -51,6 +52,5 @@ void	ft_swap(char **s1, char **s2);
 int		ft_atoi(const char *str);
 int		ft_isdigitstr(char *str);
 int		ft_recursive_power(int nb, int power);
-
 
 #endif
