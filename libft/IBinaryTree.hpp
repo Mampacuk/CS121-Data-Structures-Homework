@@ -21,9 +21,10 @@ class	IBinaryTree : virtual public ITree<E>
 	public:
 		class	IBinaryNode : virtual public ITree<E>::Node
 		{
-			virtual IBinaryNode		*left(void)		const = 0;
-			virtual IBinaryNode		*right(void)	const = 0;
-			virtual IBinaryNode		*sibling(void)	const = 0;
+			public:
+				virtual IBinaryNode		*left(void)		const = 0;
+				virtual IBinaryNode		*right(void)	const = 0;
+				virtual IBinaryNode		*sibling(void)	const = 0;
 		};
 };
 

@@ -24,14 +24,14 @@ class	ITree
 			public:
 				virtual E			&operator*(void) 		  = 0;
 				virtual Node		*parent(void)		const = 0;
-				virtual List<Node>	*children(void)		const = 0;
+				virtual List<Node*>	children(void)		const = 0;
 				virtual bool		isRoot(void)		const = 0;
 				virtual bool		isExternal(void)	const = 0;
 		};
 		virtual int			size(void)		const = 0;
 		virtual bool		empty(void)		const = 0;
 		virtual Node		*root(void)		const = 0;
-		// virtual List<Node>	*nodes(void)	const = 0;
+		virtual List<Node*>	nodes(void)		const = 0;
 };
 
 #endif

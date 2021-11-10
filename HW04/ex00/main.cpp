@@ -17,8 +17,9 @@ int	main(void)
 {
 	LinkedBinaryTree<bool>	tree;
 
-	// LinkedBinaryTree<bool>::BinaryNode *treeroot = tree.root();
-	// if (!treeroot)
-	// 	std::cout << "null" << std::endl;
-	
+	LinkedBinaryTree<bool>::Node *treeroot = tree.root();
+	if (!treeroot)
+		std::cout << "null" << std::endl;
+	tree.addRoot(true);
+	std::cout << tree.size();
 }

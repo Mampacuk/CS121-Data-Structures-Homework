@@ -13,33 +13,39 @@
 #ifndef LINKEDBINARYTREE
 # define LINKEDBINARYTREE
 
-# include "ABinaryTree.hpp"
+# include "IBinaryTree.hpp"
 # include "IIterator.hpp"
 
 # include <exception>
 
 template <typename E>
-class	LinkedBinaryTree : public ABinaryTree<E>
+class	LinkedBinaryTree : public IBinaryTree<E>
 {
 	public:
-		class	Node : public ABinaryTree<E>::BinaryNode
+		class	Node : public IBinaryTree<E>::IBinaryNode
 		{
 			public:
-				~Node(void);
+				virtual ~Node(void);
 				Node(const Node &copy) : _data(copy._data), _par(copy._par), _left(copy._left), _right(copy._right) {}
 				E				&operator*(void);
 				Node			&operator=(const Node &rhs);
 				Node			*left(void)			const;
 				Node			*right(void)		const;
+				Node			*sibling(void)		const;
 				Node			*parent(void)		const;
+				List<typename ITree<E>::Node*>
+					children(void)					const;
+				bool			isRoot(void)		const;
+				bool			isExternal(void)	const;
+				bool			isInternal(void)	const;
 				void			setElement(const E &e);
 				void			addLeft(const E &e);
 				void			addRight(const E &e);
 				void			remove(void);
 				friend class	LinkedBinaryTree;
 			private:
-				Node(void) : _data(), _par(NULL), _left(NULL), _right(NULL), _tree(NULL) {}
-				Node(E &_data, LinkedBinaryTree *_tree) : _data(_data), _par(NULL), _left(NULL), _right(NULL), _tree(_tree) {}
+				Node(void) : _par(NULL), _left(NULL), _right(NULL), _tree(NULL), _data() {}
+				Node(const E &_data, LinkedBinaryTree *_tree) : _par(NULL), _left(NULL), _right(NULL), _tree(_tree), _data(_data) {}
 				Node				*_par;
 				Node				*_left;
 				Node				*_right;
@@ -67,13 +73,15 @@ class	LinkedBinaryTree : public ABinaryTree<E>
 		LinkedBinaryTree(const LinkedBinaryTree &copy);
 		LinkedBinaryTree	&operator=(const LinkedBinaryTree &rhs);
 		int					size(void)				const;
+		bool				empty(void) 			const;
 		Node				*root(void)				const;
-		List<Node>			*nodes(void)			const;
+		List<typename ITree<E>::Node*>
+			nodes(void)								const;
 		Iterator			begin(void)				const;
 		void				addRoot(const E &e);
 	private:
 		void				destruct(Node *root);
-		void				inorder(const Node &p, List<Node> &snapshot) const;
+		void				inorder(Node *p, List<typename ITree<E>::Node*> &snapshot) const;
 		Node				*_root;
 		int					_n;
 };
@@ -117,9 +125,50 @@ typename LinkedBinaryTree<E>::Node	*LinkedBinaryTree<E>::Node::right(void) const
 }
 
 template <typename E>
+typename LinkedBinaryTree<E>::Node	*LinkedBinaryTree<E>::Node::sibling(void) const
+{
+	if (!this->_par)
+		return (NULL);
+	if (this == this->_par->_left)
+		return (this->_par->_right);
+	return (this->_par->_left);
+}
+
+template <typename E>
 typename LinkedBinaryTree<E>::Node	*LinkedBinaryTree<E>::Node::parent(void) const
 {
 	return (this->_par);
+}
+
+
+template <typename E>
+List<typename ITree<E>::Node*>	LinkedBinaryTree<E>::Node::children(void) const
+{
+	List<typename ITree<E>::Node*>	family;
+
+	if (this->_left)
+		family.insertBack(this->_left);
+	if (this->_right)
+		family.insertBack(this->_right);
+	return (family);
+}
+
+template <typename E>
+bool	LinkedBinaryTree<E>::Node::isRoot(void) const
+{
+	return (!this->_par);
+}
+
+template <typename E>
+bool	LinkedBinaryTree<E>::Node::isExternal(void) const
+{
+	return (!this->_left && !this->_right);
+}
+
+template <typename E>
+bool	LinkedBinaryTree<E>::Node::isInternal(void) const
+{
+	return (!this->isExternal());
 }
 
 template <typename E>
@@ -179,7 +228,6 @@ void	LinkedBinaryTree<E>::Node::remove(void)
 	this->_left = NULL;
 	this->_right = NULL;
 	this->_tree = NULL;
-	this->_par = NULL;
 }
 
 // LinkedBinaryTree::Iterator
@@ -253,6 +301,12 @@ int	LinkedBinaryTree<E>::size(void) const
 }
 
 template <typename E>
+bool	LinkedBinaryTree<E>::empty(void) const
+{
+	return (!this->_n);
+}
+
+template <typename E>
 typename LinkedBinaryTree<E>::Node	*LinkedBinaryTree<E>::root(void) const
 {
 	return (this->_root);
@@ -268,21 +322,21 @@ void	LinkedBinaryTree<E>::addRoot(const E &e)
 }
 
 template <typename E>
-void	LinkedBinaryTree<E>::inorder(const Node &p, List<Node> &snapshot) const
+void	LinkedBinaryTree<E>::inorder(Node *p, List<typename ITree<E>::Node*> &snapshot) const
 {
-	if (p._left)
-		this->inorder(p._left, snapshot);
+	if (p->_left)
+		this->inorder(p->_left, snapshot);
 	snapshot.insertBack(p);
-	if (p._right)
-		this->inorder(p._right, snapshot);
+	if (p->_right)
+		this->inorder(p->_right, snapshot);
 }
 
 template <typename E>
-List<typename LinkedBinaryTree<E>::Node>	*LinkedBinaryTree<E>::nodes(void) const
+List<typename ITree<E>::Node*>	LinkedBinaryTree<E>::nodes(void) const
 {
-	List<Node>	*snapshot = new List<Node>;
+	List<typename ITree<E>::Node*>	snapshot;
 	if (!this->empty())
-		this->inorder(*this->_root, snapshot);
+		this->inorder(this->_root, snapshot);
 	return (snapshot);
 }
 
@@ -295,8 +349,11 @@ typename LinkedBinaryTree<E>::Iterator	LinkedBinaryTree<E>::begin(void) const
 template <typename E>
 void	LinkedBinaryTree<E>::destruct(Node *root)
 {
-	this->destruct(root->_left);
-	this->destruct(root->_right);
+	if (root)
+	{
+		this->destruct(root->_left);
+		this->destruct(root->_right);
+	}
 	delete root;
 }
 
