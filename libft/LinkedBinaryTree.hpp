@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LINKEDBINARYTREE
-# define LINKEDBINARYTREE
+#ifndef LINKEDBINARYTREE_HPP
+# define LINKEDBINARYTREE_HPP
 
 # include "IBinaryTree.hpp"
 # include "IIterator.hpp"
@@ -25,8 +25,8 @@ class	LinkedBinaryTree : public IBinaryTree<E>
 		class	Node : public IBinaryTree<E>::IBinaryNode
 		{
 			public:
-				virtual ~Node(void);
-				Node(const Node &copy) : _data(copy._data), _par(copy._par), _left(copy._left), _right(copy._right) {}
+				virtual ~Node(void) {}
+				Node(const Node &copy) : _par(copy._par), _left(copy._left), _right(copy._right), _data(copy._data) {}
 				E				&operator*(void);
 				Node			&operator=(const Node &rhs);
 				Node			*left(void)			const;
@@ -39,17 +39,13 @@ class	LinkedBinaryTree : public IBinaryTree<E>
 				bool			isExternal(void)	const;
 				bool			isInternal(void)	const;
 				void			setElement(const E &e);
-				void			addLeft(const E &e);
-				void			addRight(const E &e);
-				void			remove(void);
 				friend class	LinkedBinaryTree;
 			private:
-				Node(void) : _par(NULL), _left(NULL), _right(NULL), _tree(NULL), _data() {}
-				Node(const E &_data, LinkedBinaryTree *_tree) : _par(NULL), _left(NULL), _right(NULL), _tree(_tree), _data(_data) {}
+				Node(void) : _par(NULL), _left(NULL), _right(NULL), _data() {}
+				Node(const E &_data) : _par(NULL), _left(NULL), _right(NULL), _data(_data) {}
 				Node				*_par;
 				Node				*_left;
 				Node				*_right;
-				LinkedBinaryTree	*_tree;
 				E					_data;
 		};
 		class	Iterator : public IIterator<E>
@@ -78,9 +74,14 @@ class	LinkedBinaryTree : public IBinaryTree<E>
 		List<typename ITree<E>::Node*>
 			nodes(void)								const;
 		Iterator			begin(void)				const;
+		void				print(void)				const;
 		void				addRoot(const E &e);
+		void				addLeft(Node *p, const E &e);
+		void				addRight(Node *p, const E &e);
+		void				remove(Node *p);
 	private:
 		void				destruct(Node *root);
+		void				print_node(Node *root, int offset)	const;
 		void				inorder(Node *p, List<typename ITree<E>::Node*> &snapshot) const;
 		Node				*_root;
 		int					_n;
@@ -89,20 +90,12 @@ class	LinkedBinaryTree : public IBinaryTree<E>
 // LinkedBinaryTree::Node
 
 template <typename E>
-LinkedBinaryTree<E>::Node::~Node(void)
-{
-	delete this->_left;
-	delete this->_right;
-}
-
-template <typename E>
 typename LinkedBinaryTree<E>::Node	&LinkedBinaryTree<E>::Node::operator=(const Node &rhs)
 {
 	this->_data = rhs._data;
 	this->_par = rhs._par;
 	this->_left = rhs._left;
 	this->_right = rhs._right;
-	this->_tree = rhs._tree;
 	return (*this);
 }
 
@@ -178,56 +171,10 @@ void	LinkedBinaryTree<E>::Node::setElement(const E &e)
 }
 
 template <typename E>
-void	LinkedBinaryTree<E>::Node::addLeft(const E &e)
+std::ostream	&operator<<(std::ostream &o, const typename LinkedBinaryTree<E>::Node &n)
 {
-	if (!this->_tree)
-		throw std::logic_error("node operated is not a part of a tree");
-	if (this->_left)
-		throw std::logic_error("attempting to overwrite an already existing left child");
-	this->_left = new Node(e, this->_tree);
-	this->_tree->_n++;
-}
-
-template <typename E>
-void	LinkedBinaryTree<E>::Node::addRight(const E &e)
-{
-	if (!this->_tree)
-		throw std::logic_error("node operated is not a part of a tree");
-	if (this->_right)
-		throw std::logic_error("attempting to overwrite an already existing right child");
-	this->_right = new Node(e, this->_tree);
-	this->_tree->_n++;
-}
-
-/**
- * @brief removes the node from its tree and replaces with its child, if any,
- * and frees its memory; trying to operate on it will result in undefined
- * behavior
- * 
- * @tparam E 
- */
-template <typename E>
-void	LinkedBinaryTree<E>::Node::remove(void)
-{
-	if (this->_left && this->_right)
-		throw std::logic_error("node operated on is no longer in a tree");
-	Node	child = (this->_left ? this->_left : this->_right);
-	if (child)
-		child._par = this->_par;
-	if (this == this->_tree->_root)
-		this->_tree->_root = child;
-	else
-	{
-		Node	parent = this->_par;
-		if (this == parent._left)
-			parent._left = child;
-		else
-			parent._right = child;
-	}
-	this->_tree->_n--;
-	this->_left = NULL;
-	this->_right = NULL;
-	this->_tree = NULL;
+	o << *n;
+	return (o);
 }
 
 // LinkedBinaryTree::Iterator
@@ -317,7 +264,7 @@ void	LinkedBinaryTree<E>::addRoot(const E &e)
 {
 	if (!this->empty())
 		throw std::logic_error("cannot add root to a non-empty tree");
-	this->_root = new Node(e, this);
+	this->_root = new Node(e);
 	this->_n = 1;
 }
 
@@ -361,6 +308,93 @@ template <typename E>
 LinkedBinaryTree<E>::~LinkedBinaryTree(void)
 {
 	this->destruct(this->_root);
+}
+
+template <typename E>
+void	LinkedBinaryTree<E>::addLeft(Node *p, const E &e)
+{
+	if (!p)
+		return ;
+	if (p->_left)
+		throw std::logic_error("attempting to overwrite an already existing left child");
+	p->_left = new Node(e);
+	this->_n++;
+}
+
+template <typename E>
+void	LinkedBinaryTree<E>::addRight(Node *p, const E &e)
+{
+	if (!p)
+		return ;
+	if (p->_right)
+		throw std::logic_error("attempting to overwrite an already existing right child");
+	p->_right = new Node(e);
+	this->_n++;
+}
+
+/**
+ * @brief removes the node from its tree and replaces with its child, if any,
+ * and frees its memory; trying to operate on it will result in undefined
+ * behavior
+ * 
+ * @tparam E 
+ */
+template <typename E>
+void	LinkedBinaryTree<E>::remove(Node *p)
+{
+	if (!p)
+		return ;
+	if (p->_left && p->_right)
+		throw std::logic_error("cannot remove a node that has 2 children");
+	Node	*child = (p->_left ? p->_left : p->_right);
+	if (child)
+		child->_par = p->_par;
+	if (p == this->_root)
+		this->_root = child;
+	else
+	{
+		Node	*parent = p->_par;
+		if (p == parent._left)
+			parent._left = child;
+		else
+			parent._right = child;
+	}
+	this->_n--;
+	delete p;
+}
+
+
+template <typename E>
+void	LinkedBinaryTree<E>::print_node(Node *root, int offset) const
+{
+	if (!root)
+		return ;
+	for (int i = 0; i < offset; i++)
+		std::cout << "  ";
+	std::cout << **root;
+	if (root->isInternal())
+		std::cout << " ( " ;
+	std::cout << std::endl;
+	this->print_node(root->left(), offset + 2);
+	this->print_node(root->right(), offset + 2);
+	if (root->isInternal())
+	{
+		for (int i = 0; i < offset + 1; i++)
+			std::cout << "  ";
+		std::cout << ")" << std::endl;
+	}
+}
+
+template <typename E>
+void	LinkedBinaryTree<E>::print(void) const
+{
+	if (this->empty())
+	{
+		std::cout << "(null)" << std::endl;
+		return ;
+	}
+	std::cout << "size: " << this->_n << std::endl;
+	this->print_node(this->_root, 0);
 }
 
 #endif

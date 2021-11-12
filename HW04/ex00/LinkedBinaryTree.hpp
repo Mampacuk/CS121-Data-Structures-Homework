@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LINKEDBINARYTREE
-# define LINKEDBINARYTREE
+#ifndef LINKEDBINARYTREE_HPP
+# define LINKEDBINARYTREE_HPP
 
 # include "../../libft/IBinaryTree.hpp"
 # include "../../libft/IIterator.hpp"

@@ -11,18 +11,44 @@
 /* ************************************************************************** */
 
 #include "../../libft/IBinaryTree.hpp"
+#include "../../libft/DynamicArrayDeque.hpp"
 
-template <typename E>
-int	ft_tree_nullcount(const IBinaryTree<E> &tree)
-{
-	return (ft_subtree_nullcount(tree.root()));
-}
+/*
+ * You can bring this in the header in the ../../libft folder,
+ * if you wish to use templates to introduce generics. Otherwise
+ * settle for the less :) (parametrized over int* only)
+ */
 
-template <typename E>
-int	ft_subtree_nullcount(IBinaryTree<E>::Node *tree_node)
+static int	ft_subtree_nullcount(typename IBinaryTree<int*>::IBinaryNode *tree_node)
 {
 	if (!tree_node)
 		return (0);
 	return ((*(*tree_node) == NULL) + ft_subtree_nullcount(tree_node->left())
 		+ ft_subtree_nullcount(tree_node->right()));
+}
+
+int	ft_tree_nullcount_recursive(const IBinaryTree<int*> &tree)
+{
+	return (ft_subtree_nullcount(dynamic_cast<IBinaryTree<int*>::IBinaryNode*>(tree.root())));
+}
+
+int	ft_tree_nullcount_iterative(const IBinaryTree<int*> &tree)
+{
+	int										result;
+	DynamicArrayDeque<ITree<int*>::Node*>	deque;
+
+	result = 0;
+	deque.insertFront(tree.root());
+	while (!deque.empty())
+	{
+		IBinaryTree<int*>::IBinaryNode	*front_node = dynamic_cast<IBinaryTree<int*>::IBinaryNode*>(deque.front());
+		if (front_node->left())
+			deque.insertBack(front_node->left());
+		if (front_node->right())
+			deque.insertBack(front_node->right());
+		if (*(*front_node) == NULL)
+			result++;
+		deque.eraseFront();
+	}
+	return (result);
 }
