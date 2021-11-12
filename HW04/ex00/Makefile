@@ -37,6 +37,6 @@ clean:
 fclean: clean
 	@$(RM) $(DFL)
 
-re: fclean all test
+re: fclean all
 
 .PHONY: clean fclean re all

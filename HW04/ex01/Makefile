@@ -5,33 +5,38 @@
 #                                                     +:+ +:+         +:+      #
 #    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/09/19 14:37:00 by aisraely          #+#    #+#              #
-#    Updated: 2021/09/19 19:58:31 by aisraely         ###   ########.fr        #
+#    Created: 2021/11/10 23:37:00 by aisraely          #+#    #+#              #
+#    Updated: 2021/11/10 23:37:00 by aisraely         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	= libft.a
+DFL			= grandchildren
 
-CC		= c++
-CFLAGS	= -Wall -Wextra -Werror
-SRCS	= $(wildcard *.cpp)
-OBJS	= $(SRCS:.cpp=.o)
-AR		= ar rc
-RM		= rm -rf
+SRCS		= ${wildcard *.cpp}
+OBJS		= $(SRCS:.cpp=.o)
+CC			= c++
+CFLAGS		= -Wall -Wextra -Werror
+RM			= rm -rf
+LIBFT		= ../../libft/libft.a
 
-all: $(NAME)
+all: $(DFL)
 
-$(NAME): $(OBJS)
-	@$(CC) $(CFLAGS) -c $(SRCS)
-	@$(AR) $(NAME) $(OBJS)
-	@ranlib $(NAME)
+.cpp.o:
+	@$(CC) $(CFLAGS) -c $< -o $(<:.cpp=.o) 
+
+$(LIBFT):
+	@$(MAKE) -C ../../libft
+
+$(DFL): $(OBJS) $(LIBFT)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(DFL)
 
 clean:
+	@$(MAKE) -C ../../libft fclean
 	@$(RM) $(OBJS)
 
 fclean: clean
-	@$(RM) $(NAME)
+	@$(RM) $(DFL)
 
-re: fclean all
+re: fclean all test
 
 .PHONY: clean fclean re all
