@@ -16,12 +16,7 @@ SRCS		= main.cpp
 OBJS		= $(SRCS:.cpp=.o)
 CC			= g++
 CFLAGS		= -Wall -Wextra -Werror
-
-ifeq ($(OS), Windows_NT)
-	RM		= del /f >nul 2>&1
-else
-	RM		= rm -rf
-endif
+RM			= rm -rf
 
 all: $(DFL)
 
@@ -34,13 +29,8 @@ $(DFL): $(OBJS)
 clean:
 	@$(RM) $(OBJS)
 
-ifeq ($(OS), Windows_NT)
-fclean: clean
-	@$(RM) $(addsuffix .exe,$(DFL))
-else
 fclean: clean
 	@$(RM) $(DFL)
-endif
 
 re: fclean all test
 

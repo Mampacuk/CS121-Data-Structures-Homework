@@ -18,10 +18,11 @@ StringArrayPositionalList::SortedIterator::SortedIterator(Position *pos, int siz
 	this->_pos[size] = NULL;
 	for (int i = 0; i < size; i++)
 		this->_pos[i] = &pos[i];
+	this->_i = 0;
 	this->ft_quicksort(this->_pos, 0, size - 1);
 }
 
-std::string	&StringArrayPositionalList::SortedIterator::operator*(void)
+std::string	&StringArrayPositionalList::SortedIterator::operator*(void) const
 {
 	return (*(this->_pos[this->_i]->_str));
 }
@@ -73,7 +74,7 @@ bool	StringArrayPositionalList::empty(void) const
 	return (!this->_n);
 }
 
-std::string	&StringArrayPositionalList::Position::operator*(void)
+std::string	&StringArrayPositionalList::Position::operator*(void) const
 {
 	return (*this->_str);
 }

@@ -22,11 +22,10 @@ template <typename E>
 class	LinkedBinaryTree : public IBinaryTree<E>
 {
 	public:
-		class	Node : public IBinaryTree<E>::IBinaryNode
+		class	Node : public IBinaryTree<E>::Node
 		{
 			public:
 				virtual ~Node(void) {}
-				Node(const Node &copy) : _par(copy._par), _left(copy._left), _right(copy._right), _data(copy._data) {}
 				E				&operator*(void);
 				Node			&operator=(const Node &rhs);
 				Node			*left(void)			const;
@@ -44,7 +43,8 @@ class	LinkedBinaryTree : public IBinaryTree<E>
 				friend class	LinkedBinaryTree;
 			private:
 				Node(void) : _par(NULL), _left(NULL), _right(NULL), _data() {}
-				Node(const E &_data) : _par(NULL), _left(NULL), _right(NULL), _data(_data) {}
+				Node(const E &_data, Node *_par) : _par(_par), _left(NULL), _right(NULL), _data(_data) {}
+				Node(const Node &copy) : _par(copy._par), _left(copy._left), _right(copy._right), _data(copy._data) {}
 				Node				*_par;
 				Node				*_left;
 				Node				*_right;
@@ -288,7 +288,7 @@ void	LinkedBinaryTree<E>::addRoot(const E &e)
 {
 	if (!this->empty())
 		throw std::logic_error("cannot add root to a non-empty tree");
-	this->_root = new Node(e);
+	this->_root = new Node(e, NULL);
 	this->_n = 1;
 }
 
@@ -341,7 +341,7 @@ void	LinkedBinaryTree<E>::addLeft(Node *p, const E &e)
 		return ;
 	if (p->_left)
 		throw std::logic_error("attempting to overwrite an already existing left child");
-	p->_left = new Node(e);
+	p->_left = new Node(e, p);
 	this->_n++;
 }
 
@@ -352,7 +352,7 @@ void	LinkedBinaryTree<E>::addRight(Node *p, const E &e)
 		return ;
 	if (p->_right)
 		throw std::logic_error("attempting to overwrite an already existing right child");
-	p->_right = new Node(e);
+	p->_right = new Node(e, p);
 	this->_n++;
 }
 
@@ -378,10 +378,10 @@ void	LinkedBinaryTree<E>::remove(Node *p)
 	else
 	{
 		Node	*parent = p->_par;
-		if (p == parent._left)
-			parent._left = child;
+		if (p == parent->_left)
+			parent->_left = child;
 		else
-			parent._right = child;
+			parent->_right = child;
 	}
 	this->_n--;
 	delete p;

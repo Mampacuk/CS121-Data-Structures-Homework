@@ -19,12 +19,12 @@ template <typename E>
 class	IBinaryTree : virtual public ITree<E>
 {
 	public:
-		class	IBinaryNode : virtual public ITree<E>::Node
+		class	Node : virtual public ITree<E>::Node
 		{
 			public:
-				virtual IBinaryNode		*left(void)		const = 0;
-				virtual IBinaryNode		*right(void)	const = 0;
-				virtual IBinaryNode		*sibling(void)	const = 0;
+				virtual Node		*left(void)		const = 0;
+				virtual Node		*right(void)	const = 0;
+				virtual Node		*sibling(void)	const = 0;
 		};
 };
 

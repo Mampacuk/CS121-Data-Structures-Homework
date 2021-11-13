@@ -19,7 +19,7 @@
  * settle for the less :) (parametrized over int* only)
  */
 
-static int	ft_subtree_nullcount(typename IBinaryTree<int*>::IBinaryNode *tree_node)
+static int	ft_subtree_nullcount(typename IBinaryTree<int*>::Node *tree_node)
 {
 	if (!tree_node)
 		return (0);
@@ -29,7 +29,7 @@ static int	ft_subtree_nullcount(typename IBinaryTree<int*>::IBinaryNode *tree_no
 
 int	ft_tree_nullcount_recursive(const IBinaryTree<int*> &tree)
 {
-	return (ft_subtree_nullcount(dynamic_cast<IBinaryTree<int*>::IBinaryNode*>(tree.root())));
+	return (ft_subtree_nullcount(dynamic_cast<IBinaryTree<int*>::Node*>(tree.root())));
 }
 
 int	ft_tree_nullcount_iterative(const IBinaryTree<int*> &tree)
@@ -41,7 +41,7 @@ int	ft_tree_nullcount_iterative(const IBinaryTree<int*> &tree)
 	deque.insertFront(tree.root());
 	while (!deque.empty())
 	{
-		IBinaryTree<int*>::IBinaryNode	*front_node = dynamic_cast<IBinaryTree<int*>::IBinaryNode*>(deque.front());
+		IBinaryTree<int*>::Node	*front_node = dynamic_cast<IBinaryTree<int*>::Node*>(deque.front());
 		if (front_node->left())
 			deque.insertBack(front_node->left());
 		if (front_node->right())

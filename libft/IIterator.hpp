@@ -17,8 +17,8 @@ template <typename D>
 class	IIterator
 {
 	public:
-		virtual D			&operator*(void) = 0;
 		virtual IIterator	&operator++(void) = 0;
+		virtual D			&operator*(void)					const = 0;
 		virtual bool		operator==(const IIterator &rhs)	const = 0;
 		virtual bool		operator!=(const IIterator &rhs)	const = 0;
 		virtual IIterator	&operator--(void) = 0;

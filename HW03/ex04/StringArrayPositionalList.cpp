@@ -29,7 +29,7 @@ bool	StringArrayPositionalList::empty(void) const
 	return (!this->_n);
 }
 
-std::string	&StringArrayPositionalList::Position::operator*(void)
+std::string	&StringArrayPositionalList::Position::operator*(void) const
 {
 	return (*this->_str);
 }

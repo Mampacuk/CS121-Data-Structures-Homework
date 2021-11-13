@@ -22,7 +22,7 @@ class	StringArrayPositionalList : public IList<std::string>
 		class	Position : IIterator<std::string>
 		{
 			public:
-				std::string		&operator*(void);
+				std::string		&operator*(void)							const;
 				bool			operator==(const IIterator<std::string> &p)	const;
 				bool			operator!=(const IIterator<std::string> &p)	const;
 				Position		&operator++(void);

@@ -21,11 +21,7 @@ bool	ft_isproper_btree(Integer **arr, int arr_len);
 int	main(void)
 {
 	srand(time(0));
-	// Integer	**ptr = new Integer *[1];
-	// *ptr = new Integer;
-	// std::cout << "returned " << ft_isproper_btree(ptr, 1) << std::endl;
-	// return (0);
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		int		tree_size;
 		Integer	**ptrs;
@@ -54,6 +50,7 @@ int	main(void)
 			std::cout << "TRUE" << std::endl;
 		else
 			std::cout << "FALSE" << std::endl;
+		std::cout << std::endl;
 		/*
 		 * cleaning up memory because I'm not irresponsible and/or lazy
 		 */

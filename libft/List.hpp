@@ -31,16 +31,16 @@ class	List : public IList<D>
 		{
 			public:
 				Iterator(const Iterator &copy);
+				Iterator(void) : _ptr(NULL) {}
 				~Iterator(void) {}
 				Iterator		&operator=(const Iterator &rhs);
-				D				&operator*(void);
+				D				&operator*(void)					const;
 				bool			operator==(const IIterator<D> &p)	const;
 				bool			operator!=(const IIterator<D> &p)	const;
 				Iterator		&operator++(void);
 				Iterator		&operator--(void);
 				friend class	List;
 			private:
-				Iterator(void) : _ptr(NULL) {}
 				Iterator(Node *node);
 				Node			*_ptr; 
 		};
@@ -75,6 +75,7 @@ template <typename D>
 typename List<D>::Iterator	&List<D>::Iterator::operator=(const Iterator &rhs)
 {
 	this->_ptr = rhs._ptr;
+	return (*this);
 }
 
 template <typename D>
@@ -98,7 +99,7 @@ bool	List<D>::Iterator::operator!=(const IIterator<D> &p) const
 }
 
 template <typename D>
-D	&List<D>::Iterator::operator*(void)
+D	&List<D>::Iterator::operator*(void) const
 {
 	return (this->_ptr->data);
 }
@@ -146,6 +147,7 @@ List<D>	&List<D>::operator=(const List &rhs)
 		this->eraseBack();
 	for (Iterator it = rhs.begin(); it != rhs.end(); ++it)
 		this->insertBack(*it);
+	return (*this);
 }
 
 template <typename D>

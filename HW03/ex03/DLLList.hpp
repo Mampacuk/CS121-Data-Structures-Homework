@@ -31,7 +31,7 @@ class	DLLList : public IVector<D>
 			public:
 				Iterator(const Iterator &copy);
 				Iterator		&operator=(const Iterator &rhs);
-				D				&operator*(void);
+				D				&operator*(void)					const;
 				bool			operator==(const IIterator<D> &p)	const;
 				bool			operator!=(const IIterator<D> &p)	const;
 				Iterator		&operator++(void);
@@ -77,7 +77,7 @@ typename DLLList<D>::Iterator	&DLLList<D>::Iterator::operator=(const Iterator &r
 }
 
 template <typename D>
-D	&DLLList<D>::Iterator::operator*(void)
+D	&DLLList<D>::Iterator::operator*(void) const
 {
 	return (this->_ptr->data);
 }

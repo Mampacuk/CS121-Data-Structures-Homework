@@ -27,17 +27,18 @@ static e_state	ft_check_state(Integer *elem)
 	return (present);
 }
 
-static int	ft_isproper_btree(Integer **arr, int arr_len, int i)
+static e_state	ft_isproper_btree(Integer **arr, int arr_len, int i)
 {
-	int	left_state;
-	int	right_state;
+	e_state	left_state;
+	e_state	right_state;
 
 	if (i >= arr_len)
 		return (out_of_bounds);
 	left_state = ft_isproper_btree(arr, arr_len, 2 * i + 1);
 	right_state = ft_isproper_btree(arr, arr_len, 2 * i + 2);
-	if (left_state == error || right_state == error || (left_state == present && right_state == out_of_bounds)
-		|| (left_state == present && right_state == absent)
+	if (left_state == error || right_state == error
+		|| (ft_check_state(arr[i]) == absent && (left_state == present || right_state == present))
+		|| (left_state == present && (right_state == absent || right_state == out_of_bounds))
 		|| (left_state == absent && right_state == present))
 		return (error);
 	return (ft_check_state(arr[i]));

@@ -22,13 +22,12 @@ template <typename E>
 class	LinkedBinaryTree : public IBinaryTree<E>
 {
 	public:
-		class	Node : public IBinaryTree<E>::IBinaryNode
+		class	Node : public IBinaryTree<E>::Node
 		{
 			public:
 				virtual ~Node(void) {}
-				Node(const Node &copy) : _par(copy._par), _left(copy._left), _right(copy._right), _data(copy._data) {}
-				E				&operator*(void);
 				Node			&operator=(const Node &rhs);
+				E				&operator*(void)	const;
 				Node			*left(void)			const;
 				Node			*right(void)		const;
 				Node			*sibling(void)		const;
@@ -41,28 +40,31 @@ class	LinkedBinaryTree : public IBinaryTree<E>
 				void			setElement(const E &e);
 				friend class	LinkedBinaryTree;
 			private:
+				Node(const Node &copy) : _par(copy._par), _left(copy._left), _right(copy._right), _data(copy._data) {}
 				Node(void) : _par(NULL), _left(NULL), _right(NULL), _data() {}
-				Node(const E &_data) : _par(NULL), _left(NULL), _right(NULL), _data(_data) {}
+				Node(const E &_data, Node *_par) : _par(_par), _left(NULL), _right(NULL), _data(_data) {}
 				Node				*_par;
 				Node				*_left;
 				Node				*_right;
 				E					_data;
 		};
-		class	Iterator : public IIterator<E>
+		class	Iterator : public IIterator<typename ITree<E>::Node*>
 		{
 			public:
 				Iterator(const Iterator &copy);
 				~Iterator(void);
 				Iterator		&operator=(const Iterator &rhs);
-				E				&operator*(void);
-				bool			operator==(const IIterator<E> &p)	const;
-				bool			operator!=(const IIterator<E> &p)	const;
+				typename ITree<E>::Node*	
+								&operator*(void)											const;
+				bool			operator==(const IIterator<typename ITree<E>::Node*> &p)	const;
+				bool			operator!=(const IIterator<typename ITree<E>::Node*> &p)	const;
 				Iterator		&operator++(void);
 				Iterator		&operator--(void);
+				friend class	LinkedBinaryTree;
 			private:
-				Iterator(List<Node> *nodes);
-				List<Node>						*_nodes;
-				typename List<Node>::Iterator	_iter;
+				Iterator(List<typename ITree<E>::Node*> nodes);
+				List<typename ITree<E>::Node*>						_nodes;
+				typename List<typename ITree<E>::Node*>::Iterator	_iter;
 		};
 		LinkedBinaryTree(void);
 		~LinkedBinaryTree(void);
@@ -74,6 +76,7 @@ class	LinkedBinaryTree : public IBinaryTree<E>
 		List<typename ITree<E>::Node*>
 			nodes(void)								const;
 		Iterator			begin(void)				const;
+		Iterator			end(void)				const;
 		void				print(void)				const;
 		void				addRoot(const E &e);
 		void				addLeft(Node *p, const E &e);
@@ -81,7 +84,7 @@ class	LinkedBinaryTree : public IBinaryTree<E>
 		void				remove(Node *p);
 	private:
 		void				destruct(Node *root);
-		void				print_node(Node *root, int offset)	const;
+		void				print_node(const Node *root, int offset)	const;
 		void				inorder(Node *p, List<typename ITree<E>::Node*> &snapshot) const;
 		Node				*_root;
 		int					_n;
@@ -100,9 +103,9 @@ typename LinkedBinaryTree<E>::Node	&LinkedBinaryTree<E>::Node::operator=(const N
 }
 
 template <typename E>
-E	&LinkedBinaryTree<E>::Node::operator*(void)
+E	&LinkedBinaryTree<E>::Node::operator*(void) const
 {
-	return (this->_data);
+	return (const_cast<E&>(this->_data));
 }
 
 template <typename E>
@@ -180,10 +183,19 @@ std::ostream	&operator<<(std::ostream &o, const typename LinkedBinaryTree<E>::No
 // LinkedBinaryTree::Iterator
 
 template <typename E>
-LinkedBinaryTree<E>::Iterator::Iterator(List<Node> *nodes) : _nodes(nodes), _iter(_nodes->begin()) {}
+LinkedBinaryTree<E>::Iterator::Iterator(List<typename ITree<E>::Node*> nodes)
+{
+	this->_nodes = nodes;
+	this->_nodes.insertBack(NULL);
+	this->_iter = this->_nodes.begin();
+}
 
 template <typename D>
-LinkedBinaryTree<D>::Iterator::Iterator(const Iterator &copy) : _nodes(new List<Node>(copy._nodes)), _iter(_nodes->begin()) {}
+LinkedBinaryTree<D>::Iterator::Iterator(const Iterator &copy)
+{
+	this->_nodes = copy._nodes;
+	this->_iter = this->_nodes.begin();
+}
 
 template <typename D>
 typename LinkedBinaryTree<D>::Iterator	&LinkedBinaryTree<D>::Iterator::operator=(const Iterator &rhs)
@@ -193,13 +205,10 @@ typename LinkedBinaryTree<D>::Iterator	&LinkedBinaryTree<D>::Iterator::operator=
 }
 
 template <typename D>
-LinkedBinaryTree<D>::Iterator::~Iterator(void)
-{
-	delete this->_nodes;
-}
+LinkedBinaryTree<D>::Iterator::~Iterator(void) {}
 
 template <typename E>
-bool	LinkedBinaryTree<E>::Iterator::operator==(const IIterator<E> &p) const
+bool	LinkedBinaryTree<E>::Iterator::operator==(const IIterator<typename ITree<E>::Node*> &p) const
 {
 	if (typeid(p) != typeid(Iterator))
 		throw std::bad_typeid();
@@ -208,7 +217,7 @@ bool	LinkedBinaryTree<E>::Iterator::operator==(const IIterator<E> &p) const
 }
 
 template <typename E>
-bool	LinkedBinaryTree<E>::Iterator::operator!=(const IIterator<E> &p) const
+bool	LinkedBinaryTree<E>::Iterator::operator!=(const IIterator<typename ITree<E>::Node*> &p) const
 {
 	if (typeid(p) != typeid(Iterator))
 		throw std::bad_typeid();
@@ -217,7 +226,7 @@ bool	LinkedBinaryTree<E>::Iterator::operator!=(const IIterator<E> &p) const
 }
 
 template <typename E>
-E	&LinkedBinaryTree<E>::Iterator::operator*(void)
+typename ITree<E>::Node*	&LinkedBinaryTree<E>::Iterator::operator*(void) const
 {
 	return (*this->_iter);
 }
@@ -264,7 +273,7 @@ void	LinkedBinaryTree<E>::addRoot(const E &e)
 {
 	if (!this->empty())
 		throw std::logic_error("cannot add root to a non-empty tree");
-	this->_root = new Node(e);
+	this->_root = new Node(e, NULL);
 	this->_n = 1;
 }
 
@@ -294,6 +303,12 @@ typename LinkedBinaryTree<E>::Iterator	LinkedBinaryTree<E>::begin(void) const
 }
 
 template <typename E>
+typename LinkedBinaryTree<E>::Iterator	LinkedBinaryTree<E>::end(void) const
+{
+	return (Iterator(List<typename ITree<E>::Node*>()));
+}
+
+template <typename E>
 void	LinkedBinaryTree<E>::destruct(Node *root)
 {
 	if (root)
@@ -317,7 +332,7 @@ void	LinkedBinaryTree<E>::addLeft(Node *p, const E &e)
 		return ;
 	if (p->_left)
 		throw std::logic_error("attempting to overwrite an already existing left child");
-	p->_left = new Node(e);
+	p->_left = new Node(e, p);
 	this->_n++;
 }
 
@@ -328,7 +343,7 @@ void	LinkedBinaryTree<E>::addRight(Node *p, const E &e)
 		return ;
 	if (p->_right)
 		throw std::logic_error("attempting to overwrite an already existing right child");
-	p->_right = new Node(e);
+	p->_right = new Node(e, p);
 	this->_n++;
 }
 
@@ -354,10 +369,10 @@ void	LinkedBinaryTree<E>::remove(Node *p)
 	else
 	{
 		Node	*parent = p->_par;
-		if (p == parent._left)
-			parent._left = child;
+		if (p == parent->_left)
+			parent->_left = child;
 		else
-			parent._right = child;
+			parent->_right = child;
 	}
 	this->_n--;
 	delete p;
@@ -365,7 +380,7 @@ void	LinkedBinaryTree<E>::remove(Node *p)
 
 
 template <typename E>
-void	LinkedBinaryTree<E>::print_node(Node *root, int offset) const
+void	LinkedBinaryTree<E>::print_node(const Node *root, int offset) const
 {
 	if (!root)
 		return ;
