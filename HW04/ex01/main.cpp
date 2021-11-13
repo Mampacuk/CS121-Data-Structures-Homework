@@ -15,6 +15,9 @@
 int	ft_tree_nullcount_recursive(const IBinaryTree<int*> &tree);
 int	ft_tree_nullcount_iterative(const IBinaryTree<int*> &tree);
 
+/*
+ * This program features random generation: you can (should) run it multiple times to correct the work
+ */
 int	main(void)
 {
 	srand(time(0));

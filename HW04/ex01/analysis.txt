@@ -54,4 +54,4 @@ int	ft_tree_nullcount_iterative(const IBinaryTree<int*> &tree)
 		deque.eraseFront();
 	}
 	return (result);
-}															IS LINEAR AF!!!
+}															IS LINEAR, O(n), AF!!!
