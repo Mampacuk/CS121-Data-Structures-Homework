@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ITREE
-# define ITREE
+#ifndef ITREE_HPP
+# define ITREE_HPP
 
 # include "List.hpp"
 

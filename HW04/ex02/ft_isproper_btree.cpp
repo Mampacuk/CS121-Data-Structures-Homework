@@ -16,7 +16,7 @@ enum	e_state
 {
 	present,
 	absent,
-	out_of_bounds,
+	out_of_range,
 	error
 };
 
@@ -33,12 +33,12 @@ static e_state	ft_isproper_btree(Integer **arr, int arr_len, int i)
 	e_state	right_state;
 
 	if (i >= arr_len)
-		return (out_of_bounds);
+		return (out_of_range);
 	left_state = ft_isproper_btree(arr, arr_len, 2 * i + 1);
 	right_state = ft_isproper_btree(arr, arr_len, 2 * i + 2);
 	if (left_state == error || right_state == error
 		|| (ft_check_state(arr[i]) == absent && (left_state == present || right_state == present))
-		|| (left_state == present && (right_state == absent || right_state == out_of_bounds))
+		|| (left_state == present && (right_state == absent || right_state == out_of_range))
 		|| (left_state == absent && right_state == present))
 		return (error);
 	return (ft_check_state(arr[i]));

@@ -12,8 +12,8 @@
 
 #include "../../libft/libft.hpp"
 
-int	ft_tree_nullcount_recursive(const IBinaryTree<int*> &tree);
-int	ft_tree_nullcount_iterative(const IBinaryTree<int*> &tree);
+int	ft_tree_non_nullcount_recursive(const ITree<int*> &tree);
+int	ft_tree_non_nullcount_iterative(const ITree<int*> &tree);
 
 /*
  * This program features random generation: you can (should) run it multiple times to correct the work
@@ -23,7 +23,7 @@ int	main(void)
 	srand(time(0));
 	LinkedBinaryTree<int*>	tree;
 	int						*ptrs[10] = {};
-	int						null_count = 0;
+	int						non_null_count = 0;
 
 	for (int i = 0; i < 10; i++)
 	{
@@ -31,9 +31,8 @@ int	main(void)
 		{
 			ptrs[i] = new int;
 			*(ptrs[i]) = i; 
+			non_null_count++;
 		}
-		else
-			null_count++;
 	}
 	std::cout << "Generated the following entries:" << std::endl;
 	for (int i = 0; i < 10; i++)
@@ -58,15 +57,15 @@ int	main(void)
 	tree.addLeft(tree.root()->left()->right(), ptrs[9]);
 	std::cout << std::endl << "The constructed tree is:" << std::endl;
 	tree.print();
-	int	result = ft_tree_nullcount_recursive(tree);
-	std::cout << std::endl << "ft_tree_nullcount_recursive() returned " << result << std::endl;
-	if (null_count == result)
+	int	result = ft_tree_non_nullcount_recursive(tree);
+	std::cout << std::endl << "ft_tree_non_nullcount_recursive() returned " << result << std::endl;
+	if (non_null_count == result)
 		std::cout << ">>>>>>> SUCCESS <<<<<<<" << std::endl;
 	else
 		std::cout << ">>>>>>> FAILURE <<<<<<<" << std::endl;
-	result = ft_tree_nullcount_iterative(tree);
-	std::cout << std::endl << "ft_tree_nullcount_iterative() returned " << result << std::endl;
-	if (null_count == result)
+	result = ft_tree_non_nullcount_iterative(tree);
+	std::cout << std::endl << "ft_tree_non_nullcount_iterative() returned " << result << std::endl;
+	if (non_null_count == result)
 		std::cout << ">>>>>>> SUCCESS <<<<<<<" << std::endl;
 	else
 		std::cout << ">>>>>>> FAILURE <<<<<<<" << std::endl;

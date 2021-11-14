@@ -18,7 +18,6 @@ int	main(void)
 
 	tree.addRoot(1);
 	tree.addLeft(tree.root(), 2);
-	// tree.addRight(tree.root(), 3);
 	tree.print();
 	tree.remove(tree.root());
 	tree.print();
@@ -40,4 +39,6 @@ int	main(void)
 		it != tree.end();
 		++it)
 		std::cout << *(*(*it)) << std::endl;
+	
+
 }
