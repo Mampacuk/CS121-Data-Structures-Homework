@@ -55,7 +55,6 @@ int	main(void)
 		 * cleaning up memory because I'm not irresponsible and/or lazy
 		 */
 		for (int j = 0; j < tree_size; j++)
-
 			delete ptrs[j];
 		delete [] ptrs;
 	}

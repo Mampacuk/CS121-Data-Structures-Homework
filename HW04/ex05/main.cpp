@@ -90,4 +90,6 @@ int	main(void)
 		it != breadthfirst.end();
 		++it)
 		std::cout << *(*(*it)) << std::endl;
+
+	std::cout << "after " << **array_tree.root()->left()->left() << " comes " << **array_tree.inorderAfter(array_tree.root()->left()->left()) << std::endl;
 }

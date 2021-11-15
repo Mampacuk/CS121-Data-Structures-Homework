@@ -12,3 +12,12 @@
 
 ATTENTION: if the view is scrambled, tweak the tab spacing!
 
+							q
+						/		\
+						b		z
+					/	 \		 \
+					v	 x		 b
+					 \    \       \
+					 g     c       p
+					 /\           /
+					i  o		 y

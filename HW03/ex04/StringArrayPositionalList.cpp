@@ -97,7 +97,6 @@ void	StringArrayPositionalList::insert(const IIterator<std::string> &p, const st
 		throw std::out_of_range("Index is out of bounds");
 	if (this->size() == this->_capacity)
 		this->reserve(ft_max(1, this->_capacity * 2));
-
 	int	j = this->size() - 1;
 	while (j >= 0 && j >= it->_i)
 	{
@@ -116,7 +115,6 @@ void	StringArrayPositionalList::erase(const IIterator<std::string> &p)
 	const StringArrayPositionalList::Position	*it = reinterpret_cast<const StringArrayPositionalList::Position*>(&p);
 	if (it->_i < 0 || it->_i >= this->size())
 		throw std::out_of_range("Index is out of bounds");
-
 	int	i = it->_i + 1;
 	while (i < this->size())
 	{

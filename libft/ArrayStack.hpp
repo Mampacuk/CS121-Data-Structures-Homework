@@ -15,10 +15,7 @@
 
 # define DEFAULT_STACK_CAPACITY 10
 
-# include "../../libft/IStack.hpp"
-# include "StackFull.hpp"
-# include "StackEmpty.hpp"
-# include "StackInvalidCapacity.hpp"
+# include "IStack.hpp"
 # include <iostream>
 
 template <typename D>
@@ -35,6 +32,30 @@ class	ArrayStack : public IStack<D>
 		void	push(const D &e);
 		void	pop(void);
 	private:
+		class StackEmpty : public std::exception
+		{
+			public:
+				virtual const char *what(void) const throw()
+				{
+					return ("Can't peek at/pop from an empty stack.");
+				}
+		};
+		class StackFull : public std::exception
+		{
+			public:
+				virtual const char *what(void) const throw()
+				{
+					return ("Can't push to a full stack.");
+				}
+		};
+		class StackInvalidCapacity : public std::exception
+		{
+			public:
+				virtual const char *what(void) const throw()
+				{
+					return ("Capacity must be at least 1.");
+				}
+		};
 		D	*_arr;
 		int	_cap;
 		int	_top;
@@ -104,38 +125,6 @@ void	ArrayStack<D>::print(void) const
 		i = this->_top;
 		while (i >= 0)
 			std::cout << this->_arr[i--] << std::endl;
-	}
-}
-
-template <typename D>
-void	ft_reverse_stack(ArrayStack<D> &a)
-{
-	ArrayStack<D>	b(a.size());
-	ArrayStack<D>	c(a.size());
-	
-	/*
-	 * b after a while contains a's elements in reversed order
-	 */
-	while (!a.empty())
-	{
-		b.push(a.top());
-		a.pop();
-	}
-	/*
-	 * c after a while contains a's elements in original order
-	 */
-	while (!b.empty())
-	{
-		c.push(b.top());
-		b.pop();
-	}
-	/*
-	 * a after a while contains a's elements in reversed order
-	 */
-	while (!c.empty())
-	{
-		a.push(c.top());
-		c.pop();
 	}
 }
 

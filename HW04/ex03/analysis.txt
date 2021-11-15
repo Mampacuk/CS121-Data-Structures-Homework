@@ -1,126 +1,33 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ArrayBinaryTree.hpp                                :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/13 12:07:27 by aisraely          #+#    #+#             */
-/*   Updated: 2021/11/13 12:07:27 by aisraely         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    analysis.txt                                       :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/11/14 21:11:41 by aisraely          #+#    #+#              #
+#    Updated: 2021/11/14 21:11:41 by aisraely         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-#ifndef ARRAYBINARYTREE_HPP
-# define ARRAYBINARYTREE_HPP
-
-# include "../../libft/IBinaryTree.hpp"
-# include "../../libft/IIterator.hpp"
-# include "../../libft/DynamicArrayDeque.hpp"
-# include "../../libft/ArrayVector.hpp"
-# include "../../libft/libft.hpp"
-
-# define DEFAULT_TREE_CAPACITY 17
-
-template <typename E>
-class	ArrayBinaryTree : public IBinaryTree<E>
-{
-	public:
-		class	Node : public IBinaryTree<E>::Node
-		{
-			public:
-				virtual ~Node(void) {}
-				E					&operator*(void)	const;
-				Node				*left(void)			const;
-				Node				*right(void)		const;
-				Node				*sibling(void)		const;
-				Node				*parent(void)		const;
-				bool				isRoot(void)		const;
-				bool				isExternal(void)	const;
-				bool				isInternal(void)	const;
-				int					height(void)		const;
-				int					depth(void)			const;
-				void				setElement(const E &e);
-				List<typename ITree<E>::Node*>
-					children(void)						const;
-				friend class		ArrayBinaryTree;
-			private:
-				int					depth(const Node *ptr)	const;
-				int					height(const Node *ptr)	const;
-				Node(void) {}
-				Node(int _i, E _data, ArrayVector<Node*> &_nodes) : _i(_i), _data(_data), _nodes(_nodes) {}
-				int					_i;
-				E					_data;
-				ArrayVector<Node*>	&_nodes;
-		};
-		class	Iterator : public IIterator<E>
-		{
-			public:
-				Iterator(const Iterator &copy);
-				~Iterator(void);
-				Iterator		&operator=(const Iterator &rhs);
-				E				&operator*(void)					const;
-				bool			operator==(const IIterator<E> &p)	const;
-				bool			operator!=(const IIterator<E> &p)	const;
-				Iterator		&operator++(void);
-				Iterator		&operator--(void);
-				friend class	ArrayBinaryTree;
-			private:
-				Iterator(List<typename ITree<E>::Node*> nodes);
-				List<typename ITree<E>::Node*>						_nodes;
-				typename List<typename ITree<E>::Node*>::Iterator	_iter;
-		};
-		ArrayBinaryTree(void);
-		ArrayBinaryTree(int capacity);
-		~ArrayBinaryTree(void) {}
-		ArrayBinaryTree(const ArrayBinaryTree &copy);
-		ArrayBinaryTree	&operator=(const ArrayBinaryTree &rhs);
-		int					size(void)				const;
-		bool				empty(void) 			const;
-		Node				*root(void)				const;
-		List<typename ITree<E>::Node*>
-			nodes(void)								const;
-		List<typename ITree<E>::Node*>
-			preorder(void)							const;
-		List<typename ITree<E>::Node*>
-			postorder(void)							const;
-		List<typename ITree<E>::Node*>
-			inorder(void)							const;
-		List<typename ITree<E>::Node*>
-			breadthfirst(void)						const;
-		Iterator			begin(void)				const;
-		Iterator			end(void)				const;
-		void				print(void)				const;
-		int					height(void)			const;
-		void				addRoot(const E &e);
-		void				addLeft(Node *p, const E &e);
-		void				addRight(Node *p, const E &e);
-		void				remove(Node *p);
-	private:
-		void				print_node(const Node *root, int offset)						const;
-		void				preorder(Node *p, List<typename ITree<E>::Node*> &snapshot)		const;
-		void				postorder(Node *p, List<typename ITree<E>::Node*> &snapshot)	const;
-		void				inorder(Node *p, List<typename ITree<E>::Node*> &snapshot)		const;
-		ArrayVector<Node*>	_nodes;
-		int					_n;
-};
-
-// ArrayBinaryTree::Node
-
+// O(1)
 template <typename E>
 E	&ArrayBinaryTree<E>::Node::operator*(void) const
 {
-	return (const_cast<E&>(this->_data));
+	return (const_cast<E&>(this->_data)); //const
 }
 
+// O(1)
 template <typename E>
 typename ArrayBinaryTree<E>::Node	*ArrayBinaryTree<E>::Node::left(void) const
 {
 	int	left = 2 * this->_i + 1;
-	if (left >= this->_nodes.size())
+	if (left >= this->_nodes.size())	// from List analysis, List::size() is O(1)
 		return (NULL);
 	return (this->_nodes[left]);
 }
 
+// O(1)
 template <typename E>
 typename ArrayBinaryTree<E>::Node	*ArrayBinaryTree<E>::Node::right(void) const
 {
@@ -130,6 +37,7 @@ typename ArrayBinaryTree<E>::Node	*ArrayBinaryTree<E>::Node::right(void) const
 	return (this->_nodes[right]);
 }
 
+// O(1)
 template <typename E>
 typename ArrayBinaryTree<E>::Node	*ArrayBinaryTree<E>::Node::parent(void) const
 {
@@ -138,6 +46,7 @@ typename ArrayBinaryTree<E>::Node	*ArrayBinaryTree<E>::Node::parent(void) const
 	return (this->_nodes[(this->_i - 1) / 2]);
 }
 
+// O(1)
 template <typename E>
 typename ArrayBinaryTree<E>::Node	*ArrayBinaryTree<E>::Node::sibling(void) const
 {
@@ -148,69 +57,76 @@ typename ArrayBinaryTree<E>::Node	*ArrayBinaryTree<E>::Node::sibling(void) const
 	return (this->parent()->left());
 }
 
+// O(1)
 template <typename E>
 List<typename ITree<E>::Node*>	ArrayBinaryTree<E>::Node::children(void) const
 {
-	List<typename ITree<E>::Node*>	family;
+	List<typename ITree<E>::Node*>	family; // from List analysis, List::List() is O(1)
 
 	if (this->left())
-		family.insertBack(this->left());
+		family.insertBack(this->left());	// from List analysis, insertion methods are O(1)
 	if (this->right())
-		family.insertBack(this->right());
+		family.insertBack(this->right());	// from List analysis, insertion methods are O(1)
 	return (family);
 }
 
+// O(1)
 template <typename E>
 bool	ArrayBinaryTree<E>::Node::isRoot(void) const
 {
 	return (!this->_i);
 }
 
+// O(1)
 template <typename E>
 bool	ArrayBinaryTree<E>::Node::isExternal(void) const
 {
 	return (!this->left() && !this->right());
 }
 
+// O(1)
 template <typename E>
 bool	ArrayBinaryTree<E>::Node::isInternal(void) const
 {
 	return (!this->isExternal());
 }
 
+// O(1)
 template <typename E>
 void	ArrayBinaryTree<E>::Node::setElement(const E &e)
 {
 	this->_data = e;
 }
 
-// ArrayBinaryTree::Iterator
-
+// O(n)
 template <typename E>
 ArrayBinaryTree<E>::Iterator::Iterator(List<typename ITree<E>::Node*> nodes)
 {
-	this->_nodes = nodes;
+	this->_nodes = nodes;				// from List analysis, assignment operation takes O(n) time
 	this->_nodes.insertBack(NULL);
-	this->_iter = this->_nodes.begin();
+	this->_iter = this->_nodes.begin(); // from List analysis, creating iterators is O(1)
 }
 
+// O(n)
 template <typename D>
 ArrayBinaryTree<D>::Iterator::Iterator(const Iterator &copy)
 {
-	this->_nodes = copy._nodes;
+	this->_nodes = copy._nodes;			// from List analysis, assignment operation takes O(n) time
 	this->_iter = this->_nodes.begin();
 }
 
+// O(n)
 template <typename D>
 typename ArrayBinaryTree<D>::Iterator	&ArrayBinaryTree<D>::Iterator::operator=(const Iterator &rhs)
 {
-	this->_nodes = rhs._nodes;
+	this->_nodes = rhs._nodes;			// from List analysis, assignment operation takes O(n) time
 	this->_iter = rhs._iter;
 }
 
 template <typename D>
 ArrayBinaryTree<D>::Iterator::~Iterator(void) {}
 
+// O(1)
 template <typename E>
 bool	ArrayBinaryTree<E>::Iterator::operator==(const IIterator<E> &p) const
 {
@@ -220,6 +136,7 @@ bool	ArrayBinaryTree<E>::Iterator::operator==(const IIterator<E> &p) const
 	return (*this->_iter == *it._iter);
 }
 
+// O(1)
 template <typename E>
 bool	ArrayBinaryTree<E>::Iterator::operator!=(const IIterator<E> &p) const
 {
@@ -229,38 +146,44 @@ bool	ArrayBinaryTree<E>::Iterator::operator!=(const IIterator<E> &p) const
 	return (*this->_iter != *it._iter);
 }
 
+// O(1)
 template <typename E>
 E	&ArrayBinaryTree<E>::Iterator::operator*(void) const
 {
-	return (*(*(*this->_iter)));
+	return (*(*(*this->_iter)));	// from List analysis, dereferencing list iterator takes O(1) time
 }
 
+// O(1)
 template <typename D>
 typename ArrayBinaryTree<D>::Iterator	&ArrayBinaryTree<D>::Iterator::operator++(void)
 {
-	++this->_iter;
+	++this->_iter;	// from List analysis, incrementing list iterator takes O(1) time
 	return (*this);
 }
 
+// O(1)
 template <typename D>
 typename ArrayBinaryTree<D>::Iterator	&ArrayBinaryTree<D>::Iterator::operator--(void)
 {
-	--this->_iter;
+	--this->_iter;	// from List analysis, decrementing list iterator takes O(1) time
 	return (*this);
 }
 
+// O(1)
 template <typename E>
 int	ArrayBinaryTree<E>::size(void) const
 {
 	return (this->_n);
 }
 
+// O(1)
 template <typename E>
 bool	ArrayBinaryTree<E>::empty(void) const
 {
 	return (!this->_n);
 }
 
+// O(1)
 template <typename E>
 typename ArrayBinaryTree<E>::Node	*ArrayBinaryTree<E>::root(void) const
 {
@@ -269,34 +192,43 @@ typename ArrayBinaryTree<E>::Node	*ArrayBinaryTree<E>::root(void) const
 	return (NULL);
 }
 
+// O(1)
 template <typename E>
 void	ArrayBinaryTree<E>::addRoot(const E &e)
 {
 	if (!this->empty())
 		throw std::logic_error("cannot add root to a non-empty tree");
 	this->_nodes.insert(0, new Node(0, e, this->_nodes));
+		// from ArrayVector analysis, inserting into empty vector takes O(1) time
 	this->_n = 1;
 }
 
+// O(n)
+// if we sum up across all the calls, preorder() will be called on each node,
+// thus it takes linear time
 template <typename E>
 void	ArrayBinaryTree<E>::preorder(Node *p, List<typename ITree<E>::Node*> &snapshot) const
 {
-	snapshot.insertBack(p);
+	snapshot.insertBack(p); // from List analysis, insertion methods are O(1)
 	if (p->left())
 		this->preorder(p->left(), snapshot);
 	if (p->right())
 		this->preorder(p->right(), snapshot);
 }
 
+// O(n)
 template <typename E>
 List<typename ITree<E>::Node*>	ArrayBinaryTree<E>::preorder(void) const
 {
 	List<typename ITree<E>::Node*>	snapshot;
 	if (!this->empty())
-		this->preorder(this->root(), snapshot);
+		this->preorder(this->root(), snapshot);	// is O(n)
 	return (snapshot);
 }
 
+// O(n)
+// if we sum up across all the calls, postorder() will be called on each node,
+// thus it takes linear time
 template <typename E>
 void	ArrayBinaryTree<E>::postorder(Node *p, List<typename ITree<E>::Node*> &snapshot) const
 {
@@ -307,15 +239,21 @@ void	ArrayBinaryTree<E>::postorder(Node *p, List<typename ITree<E>::Node*> &snap
 	snapshot.insertBack(p);
 }
 
+// O(n)
+// if we sum up across all the calls, postorder() will be called on each node,
+// thus it takes linear time
 template <typename E>
 List<typename ITree<E>::Node*>	ArrayBinaryTree<E>::postorder(void) const
 {
 	List<typename ITree<E>::Node*>	snapshot;
 	if (!this->empty())
-		this->postorder(this->root(), snapshot);
+		this->postorder(this->root(), snapshot); // is O(n)
 	return (snapshot);
 }
 
+// O(n)
+// if we sum up across all the calls, inorder() will be called on each node,
+// thus it takes linear time
 template <typename E>
 void	ArrayBinaryTree<E>::inorder(Node *p, List<typename ITree<E>::Node*> &snapshot) const
 {
@@ -326,24 +264,26 @@ void	ArrayBinaryTree<E>::inorder(Node *p, List<typename ITree<E>::Node*> &snapsh
 		this->inorder(p->right(), snapshot);
 }
 
+// O(n)
 template <typename E>
 List<typename ITree<E>::Node*>	ArrayBinaryTree<E>::inorder(void) const
 {
 	List<typename ITree<E>::Node*>	snapshot;
 	if (!this->empty())
-		this->inorder(this->root(), snapshot);
+		this->inorder(this->root(), snapshot);	// is O(n)
 	return (snapshot);
 }
 
+// O(n)
 template <typename E>
 List<typename ITree<E>::Node*>	ArrayBinaryTree<E>::breadthfirst(void) const
 {
-	DynamicArrayDeque<typename ITree<E>::Node*>	deque(this->size());
-	List<typename ITree<E>::Node*>				snapshot;
+	DynamicArrayDeque<typename ITree<E>::Node*>	deque(this->size());	// DynamicArrayDeque's arg ctor takes linear time, so it's O(n)
+	List<typename ITree<E>::Node*>				snapshot;				// O(1)
 	if (!this->empty())
 	{
-		deque.insertBack(this->root());
-		while (!deque.empty())
+		deque.insertBack(this->root());									// O(1)
+		while (!deque.empty())											// will iterate n times, O(1) * O(n) = O(n)
 		{
 			typename IBinaryTree<E>::Node	*front_node = dynamic_cast<typename IBinaryTree<E>::Node*>(deque.front());
 			if (front_node->left())
@@ -357,38 +297,44 @@ List<typename ITree<E>::Node*>	ArrayBinaryTree<E>::breadthfirst(void) const
 	return (snapshot);
 }
 
+// O(n)
 template <typename E>
 List<typename ITree<E>::Node*>	ArrayBinaryTree<E>::nodes(void) const
 {
-	return (this->preorder());
+	return (this->preorder());							// is O(n)
 }
 
+// Օ(n)
 template <typename E>
 typename ArrayBinaryTree<E>::Iterator	ArrayBinaryTree<E>::begin(void) const
 {
-	return (Iterator(this->nodes()));
+	return (Iterator(this->nodes()));					// O(n) for nodes + O(n) for iterator ctor
 }
 
+// O(1)
 template <typename E>
 typename ArrayBinaryTree<E>::Iterator	ArrayBinaryTree<E>::end(void) const
 {
-	return (Iterator(List<typename ITree<E>::Node*>()));
+	return (Iterator(List<typename ITree<E>::Node*>())); // O(1) for void List ctor and O(1) for empty assignment in Iterator
 }
 
+// O(DEFAULT_TREE_CAPACITY)
 template <typename E>
 ArrayBinaryTree<E>::ArrayBinaryTree(void) : _n(0)
 {
-	for (int i = 0; i < DEFAULT_TREE_CAPACITY; i++)
-		this->_nodes.insert(this->_nodes.size(), NULL);
+	for (int i = 0; i < DEFAULT_TREE_CAPACITY; i++)		// runs `DEFAULT_TREE_CAPACITY` times
+		this->_nodes.insert(this->_nodes.size(), NULL);	// inserting at the end is best-case of ArrayVector implementation, takes O(1) time
 }
 
+// O(capacity)
 template <typename E>
 ArrayBinaryTree<E>::ArrayBinaryTree(int capacity) : _n(0)
 {
-	for (int i = 0; i < capacity; i++)
-		this->_nodes.insert(this->_nodes.size(), NULL);
+	for (int i = 0; i < capacity; i++)					// runs `capacity` times
+		this->_nodes.insert(this->_nodes.size(), NULL);	// inserting at the end is best-case of ArrayVector implementation, takes O(1) time
 }
 
+// amortized O(1)
 template <typename E>
 void	ArrayBinaryTree<E>::addLeft(Node *p, const E &e)
 {
@@ -397,12 +343,13 @@ void	ArrayBinaryTree<E>::addLeft(Node *p, const E &e)
 	if (p->left())
 		throw std::logic_error("attempting to overwrite an already existing left child");
 	int	set_index = 2 * p->_i + 1;
-	while (this->_nodes.size() < set_index)
-		this->_nodes.insert(this->_nodes.size(), NULL);
-	this->_nodes.set(set_index, new Node(set_index, e, this->_nodes));
+	while (this->_nodes.size() < set_index)				// this loop, if summed across many-many calls, will become amortized O(1)
+		this->_nodes.insert(this->_nodes.size(), NULL);	// because when we expand the underlying vector, subsequent calls can avoid entering this loop
+	this->_nodes.set(set_index, new Node(set_index, e, this->_nodes));	// ArrayVector::set() takes O(1) time
 	this->_n++;
 }
 
+// amortized O(1)
 template <typename E>
 void	ArrayBinaryTree<E>::addRight(Node *p, const E &e)
 {
@@ -411,26 +358,31 @@ void	ArrayBinaryTree<E>::addRight(Node *p, const E &e)
 	if (p->right())
 		throw std::logic_error("attempting to overwrite an already existing right child");
 	int	set_index = 2 * p->_i + 2;
-	while (this->_nodes.size() < set_index)
-		this->_nodes.insert(this->_nodes.size(), NULL);
-	this->_nodes.set(set_index, new Node(set_index, e, this->_nodes));
+	while (this->_nodes.size() < set_index)				// this loop, if summed across many-many calls, will become amortized O(1)
+		this->_nodes.insert(this->_nodes.size(), NULL);	// because when we expand the underlying vector, subsequent calls can avoid entering this loop
+	this->_nodes.set(set_index, new Node(set_index, e, this->_nodes));	// ArrayVector::set() takes O(1) time
 	this->_n++;
 }
 
+// O(dn) where dn stands for depth of the position in the tree,
+// in worst case can be O(n)
 template <typename E>
 int	ArrayBinaryTree<E>::Node::depth(const Node *ptr) const
 {
 	if (ptr->isRoot())
 		return (0);
-	return (1 + this->depth(ptr->parent()));
+	return (1 + this->depth(ptr->parent()));				// recursion is invoked dp - 1 times, everything else takes O(1)
 }
 
+// O(dn),
+// in worst-case can be O(n)
 template <typename E>
 int	ArrayBinaryTree<E>::Node::depth(void) const
 {
-	return (this->depth(this));
+	return (this->depth(this));	// is O(dn), in worst-case can be O(n)
 }
 
+// O(n)
 template <typename E>
 int	ArrayBinaryTree<E>::Node::height(const Node *ptr) const
 {
@@ -440,23 +392,26 @@ int	ArrayBinaryTree<E>::Node::height(const Node *ptr) const
 		return (0);
 	if (ptr->isExternal())
 		return (0);
-	h = ft_max(0, this->height(ptr->left()));
-	h = ft_max(h, this->height(ptr->right()));
-	return (h + 1);
+	h = ft_max(0, this->height(ptr->left()));	// these two calls on children
+	h = ft_max(h, this->height(ptr->right()));	// ensure that in worst-case (when called on the root)
+	return (h + 1);								// every node gets inspected
 }
 
+// O(n)
 template <typename E>
 int	ArrayBinaryTree<E>::Node::height(void) const
 {
-	return (this->height(this));
+	return (this->height(this));				// is O(n)
 }
 
+// O(n)
 template <typename E>
 int	ArrayBinaryTree<E>::height(void) const
 {
-	return (this->root()->height() + 1);
+	return (this->root()->height() + 1);		// is O(n)
 }
 
+// O(n)
 template <typename E>
 void	ArrayBinaryTree<E>::remove(Node *p)
 {
@@ -464,12 +419,13 @@ void	ArrayBinaryTree<E>::remove(Node *p)
 		return ;
 	if (p->left() && p->right())
 		throw std::logic_error("cannot remove a node that has 2 children");
-	DynamicArrayDeque<Node*>	deque(this->size());
+	DynamicArrayDeque<Node*>	deque;
 	if (p->right())
 		deque.insertBack(p->right());
 	if (p->left())
-		deque.insertBack(p->left());
-	while (!deque.empty())
+		deque.insertBack(p->left()); // O(1) so far
+	while (!deque.empty())			 // this will iterate the number of descendants the node has,
+									 // which is equal to n in worst-case when the root is deleted
 	{
 		int		set_index;
 		Node	*front = deque.front();
@@ -487,27 +443,35 @@ void	ArrayBinaryTree<E>::remove(Node *p)
 	delete p;
 }
 
+// O(n * h), where 
+		n is the size of the subtree rooted at Node *root;
+		h is the height of that tree;
+// This can easily evaluate to O(n^2)
 template <typename E>
 void	ArrayBinaryTree<E>::print_node(const Node *root, int offset) const
 {
 	if (!root)
 		return ;
-	for (int i = 0; i < offset; i++)
+	for (int i = 0; i < offset; i++)			// iterates h times
 		std::cout << "  ";
 	std::cout << **root;
 	if (root->isInternal())
 		std::cout << " ( " ;
 	std::cout << std::endl;
-	this->print_node(root->left(), offset + 2);
-	this->print_node(root->right(), offset + 2);
+	this->print_node(root->left(), offset + 2); // is summoned on each
+	this->print_node(root->right(), offset + 2);// node of the subtree
 	if (root->isInternal())
 	{
-		for (int i = 0; i < offset + 1; i++)
+		for (int i = 0; i < offset + 1; i++)	// iterates h times
 			std::cout << "  ";
 		std::cout << ")" << std::endl;
 	}
 }
 
+// O(n * h), where 
+		n is the size of the tree;
+		h is the height of the tree;
+// This can easily evaluate to O(n^2)
 template <typename E>
 void	ArrayBinaryTree<E>::print(void) const
 {
@@ -517,7 +481,7 @@ void	ArrayBinaryTree<E>::print(void) const
 		return ;
 	}
 	std::cout << "size: " << this->_n << ", height: " << this->height() << std::endl;
-	this->print_node(this->root(), 0);
+	this->print_node(this->root(), 0);	// is O(n * h)
 }
 
 #endif

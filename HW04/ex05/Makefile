@@ -5,19 +5,19 @@
 #                                                     +:+ +:+         +:+      #
 #    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/10/19 21:06:04 by aisraely          #+#    #+#              #
-#    Updated: 2021/10/19 21:06:41 by aisraely         ###   ########.fr        #
+#    Created: 2021/11/10 23:37:00 by aisraely          #+#    #+#              #
+#    Updated: 2021/11/10 23:37:00 by aisraely         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-DFL			= remove_dupes
+DFL			= array_binary_tree
 
-SRCS		= main.cpp ft_remove_dupes.cpp
+SRCS		= ${wildcard *.cpp}
 OBJS		= $(SRCS:.cpp=.o)
-CC			= g++
+CC			= c++
 CFLAGS		= -Wall -Wextra -Werror
-LIBFT		= ../../libft/libft.a
 RM			= rm -rf
+LIBFT		= ../../libft/libft.a
 
 all: $(DFL)
 
@@ -37,6 +37,6 @@ clean:
 fclean: clean
 	@$(RM) $(DFL)
 
-re: fclean all test
+re: fclean all
 
-.PHONY: clean fclean re all test
+.PHONY: clean fclean re all

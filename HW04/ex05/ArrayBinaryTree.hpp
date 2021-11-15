@@ -16,6 +16,7 @@
 # include "../../libft/IBinaryTree.hpp"
 # include "../../libft/IIterator.hpp"
 # include "../../libft/DynamicArrayDeque.hpp"
+# include "../../libft/ArrayStack.hpp"
 # include "../../libft/ArrayVector.hpp"
 # include "../../libft/libft.hpp"
 
@@ -85,6 +86,7 @@ class	ArrayBinaryTree : public IBinaryTree<E>
 			postorder(void)							const;
 		List<typename ITree<E>::Node*>
 			inorder(void)							const;
+		Node				*inorderAfter(Node *p)	const;
 		List<typename ITree<E>::Node*>
 			breadthfirst(void)						const;
 		Iterator			begin(void)				const;
@@ -518,6 +520,36 @@ void	ArrayBinaryTree<E>::print(void) const
 	}
 	std::cout << "size: " << this->_n << ", height: " << this->height() << std::endl;
 	this->print_node(this->root(), 0);
+}
+
+template <typename E>
+typename ArrayBinaryTree<E>::Node	*ArrayBinaryTree<E>::inorderAfter(Node *p) const
+{
+	List<Node*>			nodes;
+	ArrayStack<Node*>	stack;
+	Node				*curr;
+
+	curr = this->root();
+	while (curr != NULL || !stack.empty())
+	{
+		while (curr)
+		{
+			stack.push(curr);
+			curr = curr->left();
+		}
+		curr = stack.top();
+		stack.pop();
+		nodes.insertBack(curr);
+		curr = curr->right();
+	}
+	for (typename List<Node*>::Iterator	it = nodes.begin();
+		it != nodes.end();
+		++it)
+	{
+		if (*it == p)
+			return (*(++it));
+	}
+	return (NULL);
 }
 
 #endif
