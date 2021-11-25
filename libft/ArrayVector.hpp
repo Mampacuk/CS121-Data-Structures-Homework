@@ -159,7 +159,7 @@ void	ArrayVector<D>::insert(int i, const D &e)
 	if (i < 0 || i > this->size())
 		throw std::out_of_range("Index is out of bounds");
 	if (this->size() == this->_capacity)
-		this->reserve(ft_max(1, this->_capacity * 2));
+		this->reserve(std::max(1, this->_capacity * 2));
 	j = this->size() - 1;
 	while (j >= 0 && j >= i)
 	{

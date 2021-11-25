@@ -1,0 +1,38 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    analysis.txt                                       :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/11/25 17:23:51 by aisraely          #+#    #+#              #
+#    Updated: 2021/11/25 17:23:51 by aisraely         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+To get the max, one has to empty the list to access the maximum.
+This requires popping from the list n - 1 times.
+Therefore this process is linear, and an N factor is unavoidable.
+
+The reasoning behind choosing SortedPQ is the following:
+	Methods max() and removeMax() are dependent on the removing methods.
+	Out of the 3 options (SortedPQ, UnsortedPQ, HeapPQ),
+		1) Removing in SortedPQ takes O(1) time, since list's eraseFront() is O(1);
+		2) Removing in HeapPQ takes O(logn) time, since height traversal downHeap() takes O(logn);
+		3) Removing in UnsortedPQ takes O(n) time, since removeMin() traverses the container in O(n) time.
+	Therefore SortedPQ was the optimal choice.
+
+Hence, following from the point 3 and the first paragraph, in UnsortedPQ,
+	ctor is gonna take constant O(1) time since UnsortedPQ's ctor is constant (initialization of empty list);
+	max() is going to take O(n) * O(n) = O(n^2) time;
+							^	   ^
+		    	traversal factor  removal factor
+
+	removeMax() is going to take O(n) * O(n) = O(n^2) time;
+							      ^	     ^
+					traversal factor	removal factor
+
+	insert() is going to take O(1) time, because it just calls UnsortedPQ::insert() which is O(1);
+	size() is O(1) time, it calls UnsortedPQ::size() which is O(1);
+	empty() is O(1) time, it calls UnsortedPQ::empty() which is O(1);
+	print() is O(n) time, it calls UnsortedPQ::print() which traverses the container resulting in O(n) time.

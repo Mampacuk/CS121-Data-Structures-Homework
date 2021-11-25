@@ -26,26 +26,20 @@
 # include <string>
 # include <cstdlib>
 # include <ctime>
+# include <cmath>
+# include <algorithm>
 
 # include <stdio.h>
 # include <stdlib.h>
-# include <tgmath.h>
 
 # include "IQueue.hpp"
 # include "IDeque.hpp"
 # include "IStack.hpp"
 
-template <typename T>
-const T	&ft_max(const T &a, const T &b)
-{
-	if (b > a)
-		return (b);
-	return (a);
-}
-
 # include "ArrayVector.hpp"
 # include "List.hpp"
 # include "LinkedBinaryTree.hpp"
+# include "UnsortedPriorityQueue.hpp"
 
 int		ft_isspace(int c);
 int		ft_isdigit(int c);
