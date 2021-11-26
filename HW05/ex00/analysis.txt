@@ -19,6 +19,7 @@ The reasoning behind choosing SortedPQ is the following:
 	Out of the 3 options (SortedPQ, UnsortedPQ, HeapPQ),
 		1) Removing in SortedPQ takes O(1) time, since list's eraseFront() is O(1);
 		2) Removing in HeapPQ takes O(logn) time, since height traversal downHeap() takes O(logn);
+			^ thus removeMax() would take O(nlogn) time
 		3) Removing in UnsortedPQ takes O(n) time, since removeMin() traverses the container in O(n) time.
 	Therefore SortedPQ was the optimal choice.
 
@@ -31,6 +32,12 @@ Hence, following from the point 3 and the first paragraph, in UnsortedPQ,
 	removeMax() is going to take O(n) * O(n) = O(n^2) time;
 							      ^	     ^
 					traversal factor	removal factor
+
+	!! notice that unlike sorted implementation, during the emptying of the queue, no auxiliary container is required,
+	!! since the removed min() can be safely inserted again (at the end of the queue), which is O(1).
+	!! unsorted implementation doesn't waste linear space, but is O(n^2).
+	!! sorted implementation wastes linear space with a container but the container operations are
+	!! constant. we still prefer (O(n) time + O(n) space) over (O(n^2) time + O(1) space).
 
 	insert() is going to take O(1) time, because it just calls UnsortedPQ::insert() which is O(1);
 	size() is O(1) time, it calls UnsortedPQ::size() which is O(1);

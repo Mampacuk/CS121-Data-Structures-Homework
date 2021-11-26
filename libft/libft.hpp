@@ -40,6 +40,8 @@
 # include "List.hpp"
 # include "LinkedBinaryTree.hpp"
 # include "UnsortedPriorityQueue.hpp"
+# include "SortedPriorityQueue.hpp"
+# include "HeapPriorityQueue.hpp"
 
 int		ft_isspace(int c);
 int		ft_isdigit(int c);

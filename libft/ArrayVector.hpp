@@ -14,7 +14,7 @@
 # define ARRAYVECTOR_HPP
 
 # include "IVector.hpp"
-# include "stdlib.h"
+# include "IIterator.hpp"
 # include <exception>
 # include <iostream>
 # include <algorithm>
@@ -23,15 +23,34 @@ template <typename D>
 class	ArrayVector : public IVector<D>
 {
 	public:
+		class	Iterator : public IIterator<D>
+		{
+			public:
+				Iterator(const Iterator &copy);
+				Iterator(void) : _ptr(NULL) {}
+				~Iterator(void) {}
+				Iterator		&operator=(const Iterator &rhs);
+				D				&operator*(void)					const;
+				bool			operator==(const IIterator<D> &p)	const;
+				bool			operator!=(const IIterator<D> &p)	const;
+				Iterator		&operator++(void);
+				Iterator		&operator--(void);
+				friend class	ArrayVector;
+			private:
+				Iterator(D *_ptr);
+				D			*_ptr; 
+		};
 		ArrayVector(void);
 		~ArrayVector(void);
 		ArrayVector(const ArrayVector &copy);
 		ArrayVector	&operator=(const ArrayVector &rhs);
-		const D		&operator[](int i)	const;
-		const D		&at(int i)			const;
+		D			&operator[](int i)	const;
+		D			&at(int i)			const;
 		int			size(void)			const;
 		bool		empty(void)			const;
 		void		print(void)			const;
+		Iterator	begin(void)			const;
+		Iterator	end(void)			const;
 		void		erase(int i);
 		void		insert(int i, const D &e);
 		void		set(int i, const D &e);
@@ -41,6 +60,71 @@ class	ArrayVector : public IVector<D>
 		int			_n;
 		D			*_data;
 };
+
+template <typename D>
+ArrayVector<D>::Iterator::Iterator(D *_ptr) : _ptr(_ptr) {}
+
+template <typename D>
+ArrayVector<D>::Iterator::Iterator(const Iterator &copy) : _ptr(copy._ptr) {}
+
+template <typename D>
+typename ArrayVector<D>::Iterator	&ArrayVector<D>::Iterator::operator=(const Iterator &rhs)
+{
+	this->_ptr = rhs._ptr;
+	return (*this);
+}
+
+template <typename D>
+bool	ArrayVector<D>::Iterator::operator==(const IIterator<D> &p) const
+{
+	if (typeid(p) != typeid(Iterator))
+		throw std::bad_typeid();
+	const Iterator	&it = dynamic_cast<const Iterator&>(p);
+
+	return (this->_ptr == it._ptr);
+}
+
+template <typename D>
+bool	ArrayVector<D>::Iterator::operator!=(const IIterator<D> &p) const
+{
+	if (typeid(p) != typeid(Iterator))
+		throw std::bad_typeid();
+	const Iterator	&it = dynamic_cast<const Iterator&>(p);
+
+	return (this->_ptr != it._ptr);
+}
+
+template <typename D>
+D	&ArrayVector<D>::Iterator::operator*(void) const
+{
+	return (*this->_ptr);
+}
+
+template <typename D>
+typename ArrayVector<D>::Iterator	&ArrayVector<D>::Iterator::operator++(void)
+{
+	this->_ptr++;
+	return (*this);
+}
+
+template <typename D>
+typename ArrayVector<D>::Iterator	&ArrayVector<D>::Iterator::operator--(void)
+{
+	this->_ptr--;
+	return (*this);
+}
+
+template <typename D>
+typename ArrayVector<D>::Iterator	ArrayVector<D>::begin(void) const
+{
+	return (Iterator(this->_data));
+}
+
+template <typename D>
+typename ArrayVector<D>::Iterator	ArrayVector<D>::end(void) const
+{
+	return (Iterator(this->_data + this->_n));
+}
 
 template <typename D>
 ArrayVector<D>::ArrayVector(void) : _capacity(0), _n(0), _data(NULL) {}
@@ -95,13 +179,13 @@ bool	ArrayVector<D>::empty(void) const
 }
 
 template <typename D>
-const D	&ArrayVector<D>::operator[](int i) const
+D	&ArrayVector<D>::operator[](int i) const
 {
 	return (this->_data[i]);
 }
 
 template <typename D>
-const D	&ArrayVector<D>::at(int i) const
+D	&ArrayVector<D>::at(int i) const
 {
 	if (i < 0 || i >= this->size())
 		throw std::out_of_range("Index is out of bounds");
@@ -173,8 +257,15 @@ void	ArrayVector<D>::insert(int i, const D &e)
 template <typename D>
 void	ArrayVector<D>::print(void) const
 {
-	for (int i = 0; i < this->size(); i++)
-		std::cout << this->_data[i] << std::endl;
+	if (this->empty())
+	{
+		std::cout << "(null)";
+		return ;
+	}
+	std::cout << "(";
+	for (int i = 0; i < this->size() - 1; i++)
+		std::cout << this->_data[i] << " ";
+	std::cout << this->_data[this->size() - 1] << ")";
 }
 
 #endif

@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   IVector.hpp                                        :+:      :+:    :+:   */
+/*   PQEntry.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/17 15:34:15 by aisraely          #+#    #+#             */
-/*   Updated: 2021/10/18 16:29:30 by aisraely         ###   ########.fr       */
+/*   Created: 2021/11/26 13:59:22 by aisraely          #+#    #+#             */
+/*   Updated: 2021/11/26 13:59:22 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef IVECTOR_HPP
-# define IVECTOR_HPP
+#ifndef PQENTRY_HPP
+# define PQENTRY_HPP
 
-template <typename D>
-class	IVector
+# include "../../libft/IPriorityQueue.hpp"
+
+template <typename K, typename V>
+class	PQEntry : virtual public IPriorityQueue<K, V>::Entry
 {
 	public:
-		virtual D		&at(int i)			const = 0;
-		virtual D		&operator[](int i)	const = 0;
-		virtual void	set(int i, const D &e) = 0;
-		virtual void	insert(int i, const D &e) = 0;
-		virtual void	erase(int i) = 0;
+		PQEntry(K _k, V _v) : _k(_k), _v(_v) {}
+		const K	&getKey(void)	const { return (this->_k); }
+		const V	&getValue(void)	const { return (this->_v); }
+	private:
+		K		_k;
+		V		_v;
 };
 
 #endif

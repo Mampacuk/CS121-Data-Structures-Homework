@@ -1,0 +1,82 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    analysis.txt                                       :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/11/25 20:59:21 by aisraely          #+#    #+#              #
+#    Updated: 2021/11/25 20:59:21 by aisraely         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+// time:	O(1)
+// space:	O(1)
+// because construction of an empty vector and the abstract base class takes constant time
+ArrayListSortedPriorityQueue(void) : APriorityQueue<K, V>() {}
+explicit ArrayListSortedPriorityQueue(IComparator<K> *comparator) : APriorityQueue<K, V>(comparator) {}
+
+// time:	O(1)
+// space:	O(1)
+// ArrayVector::size(), ArrayVector::at() and ArrayVector::empty() are O(1), hence it's O(1).
+template <typename K, typename V>
+typename IPriorityQueue<K, V>::Entry	*ArrayListSortedPriorityQueue<K, V>::min(void) const
+{
+	if (this->_vector.empty())
+		return (NULL);
+	return (this->_vector.at(this->_vector.size() - 1));
+}
+
+// time:	O(n)
+// space:	O(1)
+template <typename K, typename V>
+void	ArrayListSortedPriorityQueue<K, V>::insert(const K &key, const V &value)
+{
+	typename APriorityQueue<K, V>::PQEntry	*entry = new typename APriorityQueue<K, V>::PQEntry(key, value);
+													  ^ ctor of PQEntry is O(1)
+	int	insert_index = 0;							// constant time
+	for (typename ArrayVector<typename IPriorityQueue<K, V>::Entry*>::Iterator	it = this->_vector.begin();
+		it != this->_vector.end();
+		++it, insert_index++)						// in worst case, this loop runs n times
+		if (!this->compare(*entry, **it))			// this is O(1), 'cause compare() is O(1) and vector iterator * operator is O(1)
+			break ;
+	this->_vector.insert(insert_index, entry);		// in worst case, this takes O(n) time
+}													// in worst case, we visit each element once inside the vector, hence the linear factor.
+
+// time:	O(1)
+// space:	O(1)
+// ArrayVector::erase(n - 1) takes O(1) time, since removing at the end requires no shifting to right
+template <typename K, typename V>
+void	ArrayListSortedPriorityQueue<K, V>::removeMin(void)
+{
+	if (this->_vector.empty())
+		return ;
+	this->_vector.erase(this->_vector.size() - 1);
+}
+
+// time:	O(1)
+// space:	O(1)
+// ArrayVector::size() is O(1)
+template <typename K, typename V>
+int	ArrayListSortedPriorityQueue<K, V>::size(void) const
+{
+	return (this->_vector.size());
+}
+
+// time:	O(n)
+// space:	O(1)
+// linear factor since the container is traversed and printed out
+template <typename K, typename V>
+void	ArrayListSortedPriorityQueue<K, V>::print(void) const
+{
+	if (!this->empty())
+		for (typename ArrayVector<typename IPriorityQueue<K, V>::Entry*>::Iterator it = this->_vector.begin();
+			it != this->_vector.end();
+			++it)
+			std::cout << "key:" << (*it)->getKey() << "\tval:" << (*it)->getValue() << std::endl;
+	else
+		std::cout << "(null)" << std::endl;
+}
+
+ArrayListSortedPriorityQueue<K, V>::empty() is implemented in APriorityQueue and depends on size(),
+which takes O(1) time and O(1) space.
