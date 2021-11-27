@@ -76,11 +76,12 @@ bool	Triangle::operator<(const Triangle &rhs) const
 	{
 		if (this_sides.min()->getKey() > rhs_sides.min()->getKey())
 			return (false);
-		else if (this_sides.min()->getKey() == rhs_sides.min()->getKey())
-			this_sides.removeMin();
+		else if (this_sides.min()->getKey() < rhs_sides.min()->getKey())
+			return (true);
+		this_sides.removeMin();
 		rhs_sides.removeMin();
 	}
-	return (true);
+	return (false);
 }
 
 std::ostream	&operator<<(std::ostream &o, const Triangle &t)

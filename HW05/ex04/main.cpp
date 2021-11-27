@@ -11,31 +11,34 @@
 /* ************************************************************************** */
 
 #include <ctime>
-#include "../../libft/ArrayVector.hpp"
 #include "PQEntry.hpp"
+#include "DefaultComparator.hpp"
 
-void	heapsort(ArrayVector<IPriorityQueue<char, char>::Entry*> &vector);
+template <typename K, typename V>
+typename IPriorityQueue<K, V>::Entry	**ft_k_max_entries(typename IPriorityQueue<K, V>::Entry **arr, const IComparator<K> &comp, int n, int k);
 
-void	ft_print_keys(ArrayVector<IPriorityQueue<char, char>::Entry*> &vector)
+static typename IPriorityQueue<int, int>::Entry	**ft_generate_arr(int size)
 {
-	if (vector.empty())
-	{
-		std::cout << "(null)";
-		return ;
-	}
-	std::cout << "(";
-	for (int i = 0; i < vector.size() - 1; i++)
-		std::cout << static_cast<int>(vector[i]->getKey()) << " ";
-	std::cout << static_cast<int>(vector[vector.size() - 1]->getKey()) << ")";
+	typename IPriorityQueue<int, int>::Entry	**arr;
+
+	arr = new IPriorityQueue<int, int>::Entry *[size + 1];
+	arr[size] = NULL;
+	for (int i = 0; i < size; i++)
+		arr[i] = new PQEntry<int, int>(rand() % 100 - 50, 0);
+	return (arr);
 }
 
-static ArrayVector<IPriorityQueue<char, char>::Entry*>	ft_generate_vector(int size)
+static void	ft_free_memory(IPriorityQueue<int, int>::Entry **arr)
 {
-	ArrayVector<IPriorityQueue<char, char>::Entry*>	vector;
-
-	for (int i = 0; i < size; i++)
-		vector.insert(vector.size(), new PQEntry<char, char>(static_cast<char>(rand() % 95 + 32), static_cast<char>(0)));
-	return (vector);
+	IPriorityQueue<int, int>::Entry	**ptr = arr;
+	if (!ptr)
+		return ;
+	while (*ptr)
+	{
+		delete *ptr;
+		ptr++;
+	}
+	delete [] arr;
 }
 
 int	main(void)
@@ -43,12 +46,17 @@ int	main(void)
 	srand(time(0));
 	for (int i = 1; i <= 10; i++)
 	{
-		ArrayVector<IPriorityQueue<char, char>::Entry*>	vector = ft_generate_vector(i);
-		std::cout << "The vector generated -> the vector sorted: ";
-		ft_print_keys(vector);
-		std::cout << " -> ";
-		heapsort(vector);
-		ft_print_keys(vector);
-		std::cout << std::endl;
+		IPriorityQueue<int, int>::Entry **arr = ft_generate_arr(i);
+		std::cout << "The arr generated: ";
+		ft_print_keys<int, int>(arr);
+		for (int j = 1; j <= i; j++)
+		{
+			IPriorityQueue<int, int>::Entry **subarr = ft_k_max_entries<int, int>(arr, DefaultComparator<int>(), i, j);
+			std::cout << std::endl << "Printing subarray with length " << j << ": ";
+			ft_print_keys<int, int>(subarr);
+			delete [] subarr;
+		}
+		ft_free_memory(arr);
+		std::cout << std::endl << std::endl;
 	}
 }

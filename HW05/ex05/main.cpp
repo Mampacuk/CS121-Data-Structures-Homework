@@ -23,6 +23,10 @@ int	ft_generate_key(int nb)
 	return (ft_generate_key(nb / 10) + ft_generate_key(nb % 10));
 }
 
+/*
+ * run `bash tester.sh`, `./tester.sh` (make sure to `chmod` the x rights),
+ * or `make test` to input 1,000 numbers using `seq` tool (`man seq`)
+ */
 int	main(void)
 {
 	std::unordered_map<int, int>	hashmap;
@@ -30,7 +34,7 @@ int	main(void)
 	int								key;
 	double							diff;
 	std::cout << "INPUT 1,000 INTEGERS." << std::endl;
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 1000; i++)
 	{
 		std::cin >> val;
 		if (std::cin.fail())

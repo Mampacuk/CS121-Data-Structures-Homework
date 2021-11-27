@@ -39,4 +39,7 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: clean fclean re all
+test:
+	bash tester.sh
+
+.PHONY: clean fclean re all test

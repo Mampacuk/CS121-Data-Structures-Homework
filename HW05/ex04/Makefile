@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-DFL			= heapsort
+DFL			= k_max_entries
 
 SRCS		= ${wildcard *.cpp}
 OBJS		= $(SRCS:.cpp=.o)

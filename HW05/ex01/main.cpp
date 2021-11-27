@@ -32,9 +32,11 @@ Triangle	ft_generate_triangle(void)
 
 int	main(void)
 {
+	srand(time(0));
+
 	std::vector<Triangle>	triangles1;
 	triangles1.reserve(5);
-	srand(time(0));
+	
 	for (int i = 0; i < 5; i++)
 		triangles1.push_back(ft_generate_triangle());
 	std::cout << "Generated the following entries:" << std::endl;

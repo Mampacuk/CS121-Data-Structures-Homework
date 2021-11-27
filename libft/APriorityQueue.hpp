@@ -52,6 +52,7 @@ class	APriorityQueue : virtual public IPriorityQueue<K, V>
 		}
 	public:
 		bool	empty(void)	const { return (!this->size()); }
+		virtual	~APriorityQueue(void) {}
 };
 
 #endif
