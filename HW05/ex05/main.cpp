@@ -101,7 +101,8 @@ int	main(void)
 	diff = static_cast<double>(std::chrono::duration_cast<std::chrono::microseconds>(upq_end - upq_insertion).count()) / 1000000.0;
 	std::cout << "Removal time: " << diff << std::endl;
 	diff = static_cast<double>(std::chrono::duration_cast<std::chrono::microseconds>(upq_end - upq_start).count()) / 1000000.0;
-	std::cout << "TOTAL: " << diff << std::endl << std::endl;
+	std::cout << "TOTAL: " << diff << " seconds" << std::endl;
+	std::cout << "or " << std::chrono::duration_cast<std::chrono::microseconds>(upq_end - upq_start).count() << " microseconds " << std::endl << std::endl;
 
 	diff = static_cast<double>(std::chrono::duration_cast<std::chrono::microseconds>(spq_insertion - spq_start).count()) / 1000000.0;
 	std::cout << "Sorted Priority Queue" << std::endl;
@@ -109,7 +110,8 @@ int	main(void)
 	diff = static_cast<double>(std::chrono::duration_cast<std::chrono::microseconds>(spq_end - spq_insertion).count()) / 1000000.0;
 	std::cout << "Removal time: " << diff << std::endl;
 	diff = static_cast<double>(std::chrono::duration_cast<std::chrono::microseconds>(spq_end - spq_start).count()) / 1000000.0;
-	std::cout << "TOTAL: " << diff << std::endl << std::endl;
+	std::cout << "TOTAL: " << diff << " seconds" << std::endl;
+	std::cout << "or " << std::chrono::duration_cast<std::chrono::microseconds>(spq_end - spq_start).count() << " microseconds " << std::endl << std::endl;
 
 	diff = static_cast<double>(std::chrono::duration_cast<std::chrono::microseconds>(hpq_insertion - hpq_start).count()) / 1000000.0;
 	std::cout << "Heap Priority Queue" << std::endl;
@@ -117,5 +119,6 @@ int	main(void)
 	diff = static_cast<double>(std::chrono::duration_cast<std::chrono::microseconds>(hpq_end - hpq_insertion).count()) / 1000000.0;
 	std::cout << "Removal time: " << diff << std::endl;
 	diff = static_cast<double>(std::chrono::duration_cast<std::chrono::microseconds>(hpq_end - hpq_start).count()) / 1000000.0;
-	std::cout << "TOTAL: " << diff << std::endl << std::endl;
+	std::cout << "TOTAL: " << diff << " seconds" << std::endl;
+	std::cout << "or " << std::chrono::duration_cast<std::chrono::microseconds>(hpq_end - hpq_start).count() << " microseconds " << std::endl << std::endl;
 }
