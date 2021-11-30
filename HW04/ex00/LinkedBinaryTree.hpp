@@ -27,18 +27,19 @@ class	LinkedBinaryTree : public IBinaryTree<E>
 			public:
 				virtual ~Node(void) {}
 				Node			&operator=(const Node &rhs);
-				E				&operator*(void)	const;
-				Node			*left(void)			const;
-				Node			*right(void)		const;
-				Node			*sibling(void)		const;
-				Node			*parent(void)		const;
+				E				&operator*(void)		const;
+				Node			*left(void)				const;
+				Node			*right(void)			const;
+				Node			*sibling(void)			const;
+				Node			*parent(void)			const;
 				List<typename ITree<E>::Node*>
-					children(void)					const;
+					children(void)						const;
 				List<typename ITree<E>::Node*>
-					grandchildren(void)				const;
-				bool			isRoot(void)		const;
-				bool			isExternal(void)	const;
-				bool			isInternal(void)	const;
+					grandchildren(void)					const;
+				bool			isRoot(void)			const;
+				bool			isExternal(void)		const;
+				bool			isInternal(void)		const;
+				int				numberOfChildren(void)	const;
 				void			setElement(const E &e);
 				friend class	LinkedBinaryTree;
 			private:
@@ -149,6 +150,12 @@ List<typename ITree<E>::Node*>	LinkedBinaryTree<E>::Node::children(void) const
 	if (this->_right)
 		family.insertBack(this->_right);
 	return (family);
+}
+
+template <typename E>
+int	LinkedBinaryTree<E>::Node::numberOfChildren(void) const
+{
+	return ((this->left() != NULL) + (this->right() != NULL));
 }
 
 template <typename E>

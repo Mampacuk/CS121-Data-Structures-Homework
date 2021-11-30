@@ -29,19 +29,20 @@ class	ArrayBinaryTree : public IBinaryTree<E>
 		{
 			public:
 				virtual ~Node(void) {}
-				E					&operator*(void)	const;
-				Node				*left(void)			const;
-				Node				*right(void)		const;
-				Node				*sibling(void)		const;
-				Node				*parent(void)		const;
-				bool				isRoot(void)		const;
-				bool				isExternal(void)	const;
-				bool				isInternal(void)	const;
-				int					height(void)		const;
-				int					depth(void)			const;
+				E					&operator*(void)		const;
+				Node				*left(void)				const;
+				Node				*right(void)			const;
+				Node				*sibling(void)			const;
+				Node				*parent(void)			const;
+				bool				isRoot(void)			const;
+				bool				isExternal(void)		const;
+				bool				isInternal(void)		const;
+				int					numberOfChildren(void)	const;
+				int					height(void)			const;
+				int					depth(void)				const;
 				void				setElement(const E &e);
 				List<typename ITree<E>::Node*>
-					children(void)						const;
+					children(void)							const;
 				friend class		ArrayBinaryTree;
 			private:
 				int					depth(const Node *ptr)	const;
@@ -158,6 +159,12 @@ List<typename ITree<E>::Node*>	ArrayBinaryTree<E>::Node::children(void) const
 	if (this->right())
 		family.insertBack(this->right());
 	return (family);
+}
+
+template <typename E>
+int	ArrayBinaryTree<E>::Node::numberOfChildren(void) const
+{
+	return ((this->left() != NULL) + (this->right() != NULL));
 }
 
 template <typename E>
@@ -440,8 +447,8 @@ int	ArrayBinaryTree<E>::Node::height(const Node *ptr) const
 		return (0);
 	if (ptr->isExternal())
 		return (0);
-	h = ft_max(0, this->height(ptr->left()));
-	h = ft_max(h, this->height(ptr->right()));
+	h = std::max(0, this->height(ptr->left()));
+	h = std::max(h, this->height(ptr->right()));
 	return (h + 1);
 }
 

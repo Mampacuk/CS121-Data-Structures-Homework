@@ -22,11 +22,13 @@ class	ITree
 		class	Node
 		{
 			public:
-				virtual E			&operator*(void) 	const = 0;
-				virtual Node		*parent(void)		const = 0;
-				virtual List<Node*>	children(void)		const = 0;
-				virtual bool		isRoot(void)		const = 0;
-				virtual bool		isExternal(void)	const = 0;
+				virtual E			&operator*(void) 		const = 0;
+				virtual Node		*parent(void)			const = 0;
+				virtual List<Node*>	children(void)			const = 0;
+				virtual int			numberOfChildren(void)	const = 0;
+				virtual bool		isRoot(void)			const = 0;
+				virtual bool		isExternal(void)		const = 0;
+				virtual bool		isInternal(void)		const = 0;
 		};
 		virtual int			size(void)		const = 0;
 		virtual bool		empty(void)		const = 0;

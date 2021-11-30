@@ -14,7 +14,7 @@ CS121C Data Structures Course Homework Assignments by Alexander Israelyan
 ### Testing and Compilation
 *	PLEASE use the Makefile for compilation. There are two rules you may be interested in, along with other tools:
 	* Running `make`, which will invoke the `all` rule, compiles the program to be turned in.
-	* Running `make test`, which will invoke the `test` rule, if present, compiles a tester for the problem to help you evaluate this work.
+	* Running `make test`, which will invoke the `test` rule, if present, compiles a tester for the problem, or starts a script, to help you evaluate this work.
 	* Running `tester.sh` to feed to the program some arguments.
 *	There are others standard rules at your disposal, such that `clean`, `fclean`, `re` and so on that are completely interoperable (even though it is preferred if you run this on UNIX-like systems).
 
@@ -27,10 +27,14 @@ CS121C Data Structures Course Homework Assignments by Alexander Israelyan
 *	Use the `tester.sh` provided by me to test the algorithms! Be wary; they may contain mistakes, so be sure to double-check.
 ### Homework 3
 *	Please be aware that _it's impossible to return a NULL reference to indicate failure of an inspecting function (such as DoublyLinkedList<D>::back(), DoublyLinkedList<D>::front() and so on)_. Thus it is your and only __your__ responsibility if the program causes segmentation fault when you try to call DoublyLinkedList<D>::front() on an empty DoublyLinkedList object. (Note that the alternative textbook uses the same approach)
+*	The stack reversal could've been done without creating any data structures by using recursion.
 ### Homework 4
 *	Please note that several checks about types and boundaries are omitted which is compliant with the textbook solutions.
 *	Notice that in "ex03", it's part of _C++ philosophy_ that getting out of bounds of a container is the programmer's responsibility. If a programmer tries to dereference an `end()` iterator, it's a guaranteed segmentation fault and is not the developer's (mine) fault. Thus I do not check for sizes when creating such odd-walking iterators.
 Hence usage of `end()` as a delimiter for `begin()` is not possible (you can't initialize a `begin()` and put `end()` as a loop condition) -- this is contradictory to the design of the problem.
+### Homework 5
+*	The tree classes should inherit from `ABinaryTree` and `ABinaryTree::Node`, it's just that I implemented the hierarchy after the deadline and am too lazy to rewrite the old code.
+*	The last exercise's function must've climbed up/down from the received node without traversing inorderly the whole tree.
 
 ## References and Materials
 This is a good read if you don't find my code readable:

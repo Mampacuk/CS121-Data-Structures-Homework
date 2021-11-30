@@ -107,7 +107,7 @@ typename IPriorityQueue<K, V>::Entry	**ft_k_max_entries(typename IPriorityQueue<
 	typename IPriorityQueue<K, V>::Entry	**copy;
 	typename IPriorityQueue<K, V>::Entry	**result;
 
-	if (n < 1 || k < 1)
+	if (n < 1 || k < 1 || k > n || !arr || !(*arr))
 		return (NULL);
 	copy = new typename IPriorityQueue<K, V>::Entry *[n + 1];
 	copy[n] = NULL;

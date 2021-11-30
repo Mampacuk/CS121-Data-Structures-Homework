@@ -13,16 +13,17 @@
 #ifndef LINKEDBINARYTREE_HPP
 # define LINKEDBINARYTREE_HPP
 
-# include "IBinaryTree.hpp"
+# include "ABinaryTree.hpp"
 # include "IIterator.hpp"
 
 # include <exception>
+# include <algorithm>
 
 template <typename E>
-class	LinkedBinaryTree : public IBinaryTree<E>
+class	LinkedBinaryTree : public ABinaryTree<E>
 {
 	public:
-		class	Node : public IBinaryTree<E>::Node
+		class	Node : public ABinaryTree<E>::Node
 		{
 			public:
 				virtual ~Node(void) {}
@@ -30,13 +31,7 @@ class	LinkedBinaryTree : public IBinaryTree<E>
 				E				&operator*(void)	const;
 				Node			*left(void)			const;
 				Node			*right(void)		const;
-				Node			*sibling(void)		const;
 				Node			*parent(void)		const;
-				List<typename ITree<E>::Node*>
-					children(void)					const;
-				bool			isRoot(void)		const;
-				bool			isExternal(void)	const;
-				bool			isInternal(void)	const;
 				void			setElement(const E &e);
 				friend class	LinkedBinaryTree;
 			private:
@@ -71,7 +66,6 @@ class	LinkedBinaryTree : public IBinaryTree<E>
 		LinkedBinaryTree(const LinkedBinaryTree &copy);
 		LinkedBinaryTree	&operator=(const LinkedBinaryTree &rhs);
 		int					size(void)				const;
-		bool				empty(void) 			const;
 		Node				*root(void)				const;
 		List<typename ITree<E>::Node*>
 			nodes(void)								const;
@@ -121,50 +115,9 @@ typename LinkedBinaryTree<E>::Node	*LinkedBinaryTree<E>::Node::right(void) const
 }
 
 template <typename E>
-typename LinkedBinaryTree<E>::Node	*LinkedBinaryTree<E>::Node::sibling(void) const
-{
-	if (!this->_par)
-		return (NULL);
-	if (this == this->_par->_left)
-		return (this->_par->_right);
-	return (this->_par->_left);
-}
-
-template <typename E>
 typename LinkedBinaryTree<E>::Node	*LinkedBinaryTree<E>::Node::parent(void) const
 {
 	return (this->_par);
-}
-
-
-template <typename E>
-List<typename ITree<E>::Node*>	LinkedBinaryTree<E>::Node::children(void) const
-{
-	List<typename ITree<E>::Node*>	family;
-
-	if (this->_left)
-		family.insertBack(this->_left);
-	if (this->_right)
-		family.insertBack(this->_right);
-	return (family);
-}
-
-template <typename E>
-bool	LinkedBinaryTree<E>::Node::isRoot(void) const
-{
-	return (!this->_par);
-}
-
-template <typename E>
-bool	LinkedBinaryTree<E>::Node::isExternal(void) const
-{
-	return (!this->_left && !this->_right);
-}
-
-template <typename E>
-bool	LinkedBinaryTree<E>::Node::isInternal(void) const
-{
-	return (!this->isExternal());
 }
 
 template <typename E>
@@ -254,12 +207,6 @@ template <typename E>
 int	LinkedBinaryTree<E>::size(void) const
 {
 	return (this->_n);
-}
-
-template <typename E>
-bool	LinkedBinaryTree<E>::empty(void) const
-{
-	return (!this->_n);
 }
 
 template <typename E>
