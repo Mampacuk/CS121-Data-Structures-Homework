@@ -66,6 +66,7 @@ int	main(void)
 		reversed_students->advance();
 		size--;
 	}
+	delete reversed_students;
 	while (!students->empty())
 	{
 		students->front().printName();

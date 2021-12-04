@@ -17,10 +17,10 @@
 # include "IBinaryTree.hpp"
 
 template <typename E>
-class	ABinaryTree : virtual public ATree<E>, virtual public IBinaryTree<E>
+class	ABinaryTree : public ATree<E>, public IBinaryTree<E>
 {
 	public:
-		class	Node : virtual public ATree<E>::Node, virtual public IBinaryTree<E>::Node
+		class	Node : public ATree<E>::Node, public IBinaryTree<E>::Node
 		{
 			public:
 				typename IBinaryTree<E>::Node	*sibling(void) const

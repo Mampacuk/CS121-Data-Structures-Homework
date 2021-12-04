@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_swap.cpp                                        :+:      :+:    :+:   */
+/*   ASortedMap.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisraely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/18 17:39:19 by aisraely          #+#    #+#             */
-/*   Updated: 2021/09/19 14:29:27 by aisraely         ###   ########.fr       */
+/*   Created: 2021/12/05 00:13:52 by aisraely          #+#    #+#             */
+/*   Updated: 2021/12/05 00:13:52 by aisraely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.hpp"
+#ifndef ASORTEDMAP_HPP
+# define ASORTEDMAP_HPP
 
-void	ft_swap(char **s1, char **s2)
+# include "AMap.hpp"
+# include "ISortedMap.hpp"
+
+template <typename K, typename V>
+class	ASortedMap : public ISortedMap<K, V>, public AMap<K, V>
 {
-	char	*temp;
+	
+};
 
-	if (!s1 || !s2 || !(*s1) || !(*s2))
-		return ;
-	temp = *s1;
-	*s1 = *s2;
-	*s2 = temp;
-}
+#endif

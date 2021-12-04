@@ -17,7 +17,7 @@
 # include "List.hpp"
 
 template <typename K, typename V>
-class	UnsortedPriorityQueue : virtual public APriorityQueue<K, V>
+class	UnsortedPriorityQueue : public APriorityQueue<K, V>
 {
 	private:
 		List<typename IPriorityQueue<K, V>::Entry*>	_list;

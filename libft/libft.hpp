@@ -31,6 +31,7 @@
 
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
 
 # include "IQueue.hpp"
 # include "IDeque.hpp"
@@ -46,7 +47,6 @@
 int		ft_isspace(int c);
 int		ft_isdigit(int c);
 int		ft_strcmp(const char *s1, const char *s2);
-void	ft_swap(char **s1, char **s2);
 int		ft_atoi(const char *str);
 int		ft_isdigitstr(char *str);
 int		ft_recursive_power(int nb, int power);

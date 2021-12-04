@@ -18,7 +18,7 @@
 # include <algorithm>
 
 template <typename K, typename V>
-class	APriorityQueue : virtual public IPriorityQueue<K, V>
+class	APriorityQueue : public IPriorityQueue<K, V>
 {
 	private:
 		IComparator<K>	*_comp;

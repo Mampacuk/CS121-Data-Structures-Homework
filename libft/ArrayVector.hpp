@@ -53,6 +53,7 @@ class	ArrayVector : public IVector<D>
 		Iterator	end(void)			const;
 		void		erase(int i);
 		void		insert(int i, const D &e);
+		void		push_back(const D &e);
 		void		set(int i, const D &e);
 		void		reserve(int n);
 	private:
@@ -252,6 +253,12 @@ void	ArrayVector<D>::insert(int i, const D &e)
 	}
 	this->_data[i] = e;
 	this->_n++;
+}
+
+template <typename D>
+void	ArrayVector<D>::push_back(const D &e)
+{
+	this->insert(this->size(), e);
 }
 
 template <typename D>
