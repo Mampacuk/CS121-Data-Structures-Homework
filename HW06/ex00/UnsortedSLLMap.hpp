@@ -50,15 +50,15 @@ class	UnsortedSLLMap : public AMap<K, V>
 		explicit UnsortedSLLMap(IComparator<K> *comparator) : AMap<K, V>(comparator), _head(NULL), _size(0) {}
 		~UnsortedSLLMap();
 		int			size() const;
-		V			&at(const K &key) const;
+		const V		&at(const K &key) const;
 		Iterator 	find(const K &k) const;
-		V			&put(const K &k, const V &v);
+		const V		&put(const K &k, const V &v);
 		Iterator	insert(const K &k, const V &v);
 		void		erase(const K &k);
 		void		erase(const IIterator<typename IMap<K, V>::Entry*> &p);
 		Iterator	begin();
 		Iterator	end();
-		ArrayVector<typename IMap<K, V>::Entry*>	entries() const;
+		List<typename IMap<K, V>::Entry*>	entries() const;
 	private:
 		Node		*locateNode(const K &k)	const;
 };
@@ -116,7 +116,7 @@ typename UnsortedSLLMap<K, V>::Iterator	UnsortedSLLMap<K, V>::insert(const K &k,
 }
 
 template <typename K, typename V>
-V	&UnsortedSLLMap<K, V>::put(const K &k, const V &v)
+const V	&UnsortedSLLMap<K, V>::put(const K &k, const V &v)
 {
 	return ((*this->insert(k, v))->getValue());
 }
@@ -153,7 +153,7 @@ typename UnsortedSLLMap<K, V>::Iterator	UnsortedSLLMap<K, V>::find(const K &k) c
 }
 
 template <typename K, typename V>
-V	&UnsortedSLLMap<K, V>::at(const K &k) const
+const V	&UnsortedSLLMap<K, V>::at(const K &k) const
 {
 	typename IMap<K, V>::Entry	*ptr = *this->find(k);
 	if (!ptr)
@@ -197,14 +197,14 @@ void	UnsortedSLLMap<K, V>::erase(const IIterator<typename IMap<K, V>::Entry*> &p
 }
 
 template <typename K, typename V>
-ArrayVector<typename IMap<K, V>::Entry*>	UnsortedSLLMap<K, V>::entries() const
+List<typename IMap<K, V>::Entry*>	UnsortedSLLMap<K, V>::entries() const
 {
-	ArrayVector<typename IMap<K, V>::Entry*>	entries;
+	List<typename IMap<K, V>::Entry*>	entries;
 	Node	*curr = this->_head;
 
 	while (curr)
 	{
-		entries.push_back(curr->entry);
+		entries.insertBack(curr->entry);
 		curr = curr->next;
 	}
 	return (entries);

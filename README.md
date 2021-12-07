@@ -19,6 +19,9 @@ CS121C Data Structures Course Homework Assignments by Alexander Israelyan
 *	There are others standard rules at your disposal, such that `clean`, `fclean`, `re` and so on that are completely interoperable (even though it is preferred if you run this on UNIX-like systems).
 
 ## Notes
+### General
+*	Make use of `Position<>` class! Make your nodes/positions inherit from it so that it makes the operator* function mandatory to implement, and so that your objects become more reusable! I followed a bad practice by not keeping that in mind!
+*	Get rid of disgusting lengthy `typename` types by employing more `typedef`s! For some reason I figured this out only starting from HW06/ex01.
 ### Homework 1
 *	Notice that in "ex05", the starting coordinates are rather swapped. This shouldn't be an issue though.
 ### Homework 2

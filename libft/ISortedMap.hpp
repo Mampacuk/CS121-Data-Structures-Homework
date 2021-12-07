@@ -14,7 +14,6 @@
 # define ISORTEDMAP_HPP
 
 # include "IMap.hpp"
-# include "ArrayVector.hpp"
 
 template <typename K, typename V>
 class	ISortedMap : virtual IMap<K, V>
@@ -26,7 +25,7 @@ class	ISortedMap : virtual IMap<K, V>
 		virtual typename IMap<K, V>::Entry	*floorEntry(const K&) const = 0;
 		virtual typename IMap<K, V>::Entry	*lowerEntry(const K&) const = 0;
 		virtual typename IMap<K, V>::Entry	*higherEntry(const K&) const = 0;
-		virtual ArrayVector<typename IMap<K, V>::Entry*> submap(const K &k1, const K &k2) const = 0;
+		virtual List<typename IMap<K, V>::Entry*>	submap(const K &k1, const K &k2) const = 0;
 };
 
 #endif

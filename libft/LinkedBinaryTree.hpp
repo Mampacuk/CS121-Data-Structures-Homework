@@ -18,6 +18,7 @@
 
 # include <exception>
 # include <algorithm>
+# include <utility>
 
 template <typename E>
 class	LinkedBinaryTree : public ABinaryTree<E>
@@ -26,7 +27,7 @@ class	LinkedBinaryTree : public ABinaryTree<E>
 		class	Node : public ABinaryTree<E>::Node
 		{
 			public:
-				virtual ~Node(void) {}
+				virtual ~Node() {}
 				Node			&operator=(const Node &rhs);
 				E				&operator*(void)	const;
 				Node			*left(void)			const;
@@ -38,6 +39,7 @@ class	LinkedBinaryTree : public ABinaryTree<E>
 				Node(const Node &copy) : _par(copy._par), _left(copy._left), _right(copy._right), _data(copy._data) {}
 				Node(void) : _par(NULL), _left(NULL), _right(NULL), _data() {}
 				Node(const E &_data, Node *_par) : _par(_par), _left(NULL), _right(NULL), _data(_data) {}
+				Node(Node *_par) : _par(_par), _left(NULL), _right(NULL), _data() {}
 				Node				*_par;
 				Node				*_left;
 				Node				*_right;
@@ -73,8 +75,11 @@ class	LinkedBinaryTree : public ABinaryTree<E>
 		Iterator			end(void)				const;
 		void				print(void)				const;
 		void				addRoot(const E &e);
+		void				addRoot();
 		void				addLeft(Node *p, const E &e);
+		void				addLeft(Node *p);
 		void				addRight(Node *p, const E &e);
+		void				addRight(Node *p);
 		void				remove(Node *p);
 	private:
 		void				destruct(Node *root);
@@ -124,13 +129,6 @@ template <typename E>
 void	LinkedBinaryTree<E>::Node::setElement(const E &e)
 {
 	this->_data = e;
-}
-
-template <typename E>
-std::ostream	&operator<<(std::ostream &o, const typename LinkedBinaryTree<E>::Node &n)
-{
-	o << *n;
-	return (o);
 }
 
 // LinkedBinaryTree::Iterator
@@ -224,6 +222,18 @@ void	LinkedBinaryTree<E>::addRoot(const E &e)
 	this->_n = 1;
 }
 
+/*
+ * Adds a default-constructed root 
+ */
+template <typename E>
+void	LinkedBinaryTree<E>::addRoot()
+{
+	if (!this->empty())
+		throw std::logic_error("cannot add root to a non-empty tree");
+	this->_root = new Node;
+	this->_n = 1;
+}
+
 template <typename E>
 void	LinkedBinaryTree<E>::inorder(Node *p, List<typename ITree<E>::Node*> &snapshot) const
 {
@@ -284,6 +294,17 @@ void	LinkedBinaryTree<E>::addLeft(Node *p, const E &e)
 }
 
 template <typename E>
+void	LinkedBinaryTree<E>::addLeft(Node *p)
+{
+	if (!p)
+		return ;
+	if (p->_left)
+		throw std::logic_error("attempting to overwrite an already existing left child");
+	p->_left = new Node(p);
+	this->_n++;
+}
+
+template <typename E>
 void	LinkedBinaryTree<E>::addRight(Node *p, const E &e)
 {
 	if (!p)
@@ -291,6 +312,17 @@ void	LinkedBinaryTree<E>::addRight(Node *p, const E &e)
 	if (p->_right)
 		throw std::logic_error("attempting to overwrite an already existing right child");
 	p->_right = new Node(e, p);
+	this->_n++;
+}
+
+template <typename E>
+void	LinkedBinaryTree<E>::addRight(Node *p)
+{
+	if (!p)
+		return ;
+	if (p->_right)
+		throw std::logic_error("attempting to overwrite an already existing right child");
+	p->_right = new Node(p);
 	this->_n++;
 }
 
@@ -324,7 +356,6 @@ void	LinkedBinaryTree<E>::remove(Node *p)
 	this->_n--;
 	delete p;
 }
-
 
 template <typename E>
 void	LinkedBinaryTree<E>::print_node(const Node *root, int offset) const

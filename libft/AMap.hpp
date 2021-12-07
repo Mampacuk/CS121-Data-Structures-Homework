@@ -21,25 +21,26 @@
 template <typename K, typename V>
 class AMap : virtual public IMap<K, V>
 {
-	private:
-		IComparator<K>	*_equal_to;
 	protected:
+		IComparator<K>	*_comp;
 		class	DefaultComparator : public IComparator<K>
 		{
 			public:
 				bool	operator()(const K &x, const K &y) const
 				{
-					return (x == y);
+					if (std::max(x, y) == y)
+						return (true);
+					return (false);
 				}
 		};
-		AMap(void) : _equal_to(new DefaultComparator()) {}
-		explicit AMap(IComparator<K> *comparator) : _equal_to(comparator) {}
+		AMap() : _comp(new DefaultComparator) {}
+		explicit AMap(IComparator<K> *_comp) : _comp(_comp) {}
 		class MapEntry : public IMap<K, V>::Entry
 		{
 			public:
 				MapEntry(K _k, V _v) : _k(_k), _v(_v) {}
-				K		&getKey(void) { return (this->_k); }
-				V		&getValue(void) { return (this->_v); }
+				const K		&getKey() const { return (this->_k); }
+				const V		&getValue() const { return (this->_v); }
 				void	setValue(const V &_v) { this->_v = _v; }
 				void	setKey(const K &_k) { this->_k = _k; }
 			private:
@@ -48,34 +49,27 @@ class AMap : virtual public IMap<K, V>
 		};
 		bool	equals(const K &a, const K &b) const
 		{
-			return (this->_equal_to->operator()(a, b));
+			return (this->_comp->operator()(a, b) && this->_comp->operator()(b, a));
 		}
 	public:
-		ArrayVector<K>	keys(void) const
+		List<K>	keys() const
 		{
-			ArrayVector<K>	keys;
-			ArrayVector<typename IMap<K, V>::Entry*>	entries = this->entries();
+			List<K>	keys;
+			List<typename IMap<K, V>::Entry*>	entries = this->entries();
 			for (auto it = entries.begin(); it != entries.end(); ++it)
-				keys.push_back((*it)->getKey());
+				keys.insertBack((*it)->getKey());
 			return (keys);
 		}
-		ArrayVector<V>	values(void) const
+		List<V>	values() const
 		{
-			ArrayVector<V>	vals;
-			ArrayVector<typename IMap<K, V>::Entry*>	entries = this->entries();
+			List<V>	vals;
+			List<typename IMap<K, V>::Entry*>	entries = this->entries();
 			for (auto it = entries.begin(); it != entries.end(); ++it)
-				vals.push_back((*it)->getValue());
+				vals.insertBack((*it)->getValue());
 			return (vals);
 		}
-		bool	empty(void) const { return (!this->size()); }
+		bool	empty() const { return (!this->size()); }
 		virtual ~AMap() {}
 };
-
-template <typename K, typename V>
-std::ostream	&operator<<(std::ostream &o, const typename AMap<K, V>::MapEntry &e)
-{
-	o << e.getKey() << " : " << e.getValue();
-	return (o);
-}
 
 #endif
