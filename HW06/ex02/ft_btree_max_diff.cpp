@@ -62,9 +62,6 @@ static void	ft_calculate_diff(TreeNode *root, LinkedStack<int> &stack, int &resu
 		/*
 		 * Check if it's REALLY external 
 		 */
-		std::cout << "am at " << (**root).get()->getKey() << ", num of children = " << numberOfChildren << ", stack is: ";
-		stack.print();
-		std::cout << std::endl;
 		if (numberOfChildren)	// if Entry has children
 		{
 			int	diff = 0;
@@ -79,13 +76,9 @@ static void	ft_calculate_diff(TreeNode *root, LinkedStack<int> &stack, int &resu
 			stack.push(max + 1);
 			if (diff > result)
 				result = diff;
-			std::cout << "pushed " << (max + 1) << ", diff was " << diff << " and result became " << result << std::endl;
 		}
 		else		// if Entry doesn't have children
 			stack.push(1);
-		std::cout << "stack is: ";
-		stack.print();
-		std::cout << std::endl;
 	}
 }
 
