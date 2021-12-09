@@ -22,7 +22,7 @@ template <typename D>
 class	ArrayStack : public IStack<D>
 {
 	public:
-		ArrayStack(void) : _arr(new D[DEF_CAPACITY]), _cap(DEF_CAPACITY), _top(-1) {}
+		ArrayStack(void) : _arr(new D[DEFAULT_STACK_CAPACITY]), _cap(DEFAULT_STACK_CAPACITY), _top(-1) {}
 		ArrayStack(int cap);
 		~ArrayStack(void);
 		int		size(void)	const;
