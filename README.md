@@ -4,6 +4,8 @@ American University of Armenia
 
 CS121C Data Structures Course Homework Assignments by Alexander Israelyan
 
+Instructor: Varduhi Yeghiazaryan
+
 ## Foreword
 ### Prerequisites
 *	Make sure you have the latest build of `g++`.
@@ -20,8 +22,10 @@ CS121C Data Structures Course Homework Assignments by Alexander Israelyan
 
 ## Notes
 ### General
+*	_MY SOLUTIONS ARE NOT NECESSARILY IDEAL!_ I screwed up here and there. There are a lot of exercises which could've been implemented faster, so double-check yourself before using the solutions!!!
 *	Make use of `Position<>` class! Make your nodes/positions inherit from it so that it makes the operator* function mandatory to implement, and so that your objects become more reusable! I followed a bad practice by not keeping that in mind!
 *	Get rid of disgusting lengthy `typename` types by employing more `typedef`s! For some reason I figured this out only starting from HW06/ex01.
+*	Tend to make the functions generic by moving them in the used class's .hpp file. I know it's ugly, but what can I do?
 ### Homework 1
 *	Notice that in "ex05", the starting coordinates are rather swapped. This shouldn't be an issue though.
 ### Homework 2

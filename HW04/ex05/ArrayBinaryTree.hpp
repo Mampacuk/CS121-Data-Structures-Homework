@@ -340,7 +340,7 @@ List<typename ITree<E>::Node*>	ArrayBinaryTree<E>::inorder(void) const
 template <typename E>
 List<typename ITree<E>::Node*>	ArrayBinaryTree<E>::breadthfirst(void) const
 {
-	DynamicArrayDeque<typename ITree<E>::Node*>	deque(this->size());
+	DynamicArrayDeque<typename ITree<E>::Node*>	deque;
 	List<typename ITree<E>::Node*>				snapshot;
 	if (!this->empty())
 	{

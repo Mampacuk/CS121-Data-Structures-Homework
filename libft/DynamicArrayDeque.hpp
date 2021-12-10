@@ -13,7 +13,7 @@
 #ifndef DYNAMICARRAYDEQUE_HPP
 # define DYNAMICARRAYDEQUE_HPP
 
-# define DEF_CAPACITY 100
+# define DEFAULT_DEQUE_CAPACITY 20
 
 # include "IDeque.hpp"
 # include <iostream>
@@ -22,7 +22,7 @@ template <typename D>
 class	DynamicArrayDeque : public IDeque<D>
 {
 	public:
-		DynamicArrayDeque(void) : _arr(new D[DEF_CAPACITY]), _cap(DEF_CAPACITY), _f(0), _n(0) {}
+		DynamicArrayDeque(void) : _arr(new D[DEFAULT_DEQUE_CAPACITY]), _cap(DEFAULT_DEQUE_CAPACITY), _f(0), _n(0) {}
 		DynamicArrayDeque(int cap);
 		~DynamicArrayDeque(void);
 		int		size(void)		const;

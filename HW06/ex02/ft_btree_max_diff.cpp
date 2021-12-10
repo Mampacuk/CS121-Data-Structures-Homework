@@ -50,7 +50,7 @@ void	ft_draw_tree(BSTMap<int, int> &tree)
 	ft_draw_node(ft_separate_root(tree), 0);
 }
 
-static void	ft_calculate_diff(TreeNode *root, LinkedStack<int> &stack, int &result)
+static void	ft_calculate_diff(TreeNode *root, IStack<int> &stack, int &result)
 {
 	if (root->left())
 		ft_calculate_diff(root->left(), stack, result);
