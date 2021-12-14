@@ -1,0 +1,205 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    solution_2.txt                                     :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/12/14 21:08:05 by aisraely          #+#    #+#              #
+#    Updated: 2021/12/14 21:08:05 by aisraely         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+2)
+
+a., c.
+
+N = 19
+
+0	    1      2      3      4      5      6      7      8      9      10     11     12		13		14		15		16	17		18
+|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|
+
+Output of the program "poly":
+
+$ ./poly.exe 33 december finals holidays grade BST DS pass hash sash shah sentinel gift fun happy me
+A is initialized to 33
+a is initialized to 3
+b is initialized to 4
+p is initialized to 23
+N is initialized to 19
+
+december's hash code is 4396280771799, it's compressed to 13
+
+0	    1      2      3      4      5      6      7      8      9      10     11     12		13		 14		15		16	17		18
+|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|december|(null)|(null)|(null)|(null)|(null)|
+
+finals's hash code is 4120394173, it's compressed to 9
+
+0	    1      2      3      4      5      6      7      8      9      10     11     12		13		 14		15		16	  17		18
+|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|finals|(null)|(null)|(null)|december|(null)|(null)|(null)|(null)|(null)|
+
+holidays's hash code is 4580025861757, it's compressed to 15
+
+0	    1      2      3      4      5      6      7      8      9      10     11     12		13		 14		15		 16	    17		18
+|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|finals|(null)|(null)|(null)|december|(null)|holidays|(null)|(null)|(null)|
+
+grade's hash code is 126355715, it's compressed to 9
+
+0	    1      2      3      4      5      6      7      8      9      10     11     12		13		 14		15		 16	    17		18
+|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|finals|grade|(null)|(null)|december|(null)|holidays|(null)|(null)|(null)|
+
+BST's hash code is 74697, it's compressed to 6
+
+0	    1      2      3      4      5      6      7      8      9      10     11    12		13		 14		15	 16	    17		18
+|(null)|(null)|(null)|(null)|(null)|(null)|BST|(null)|(null)|finals|grade|(null)|(null)|december|(null)|holidays|(null)|(null)|(null)|
+
+DS's hash code is 2327, it's compressed to 16
+
+0	    1      2      3      4      5      6      7      8      9      10     11    12		13		 14		15	 16	   17	18
+|(null)|(null)|(null)|(null)|(null)|(null)|BST|(null)|(null)|finals|grade|(null)|(null)|december|(null)|holidays|DS|(null)|(null)|
+
+pass's hash code is 4134487, it's compressed to 2
+
+0	    1      2      3      4      5      6    7      8      9      10    11    12		13		 14		15	   16  17	  18
+|(null)|(null)|pass|(null)|(null)|(null)|BST|(null)|(null)|finals|grade|(null)|(null)|december|(null)|holidays|DS|(null)|(null)|
+
+hash's hash code is 3846980, it's compressed to 4
+
+0	    1      2      3      4      5   6    7      8      9      10    11    12		13		 14		15   16  17	   18
+|(null)|(null)|pass|(null)|hash|(null)|BST|(null)|(null)|finals|grade|(null)|(null)|december|(null)|holidays|DS|(null)|(null)|
+
+sash's hash code is 4242287, it's compressed to 3
+
+0	    1      2      3    4      5   6    7      8      9      10    11    12		13		 14		15     16  17	   18
+|(null)|(null)|pass|sash|hash|(null)|BST|(null)|(null)|finals|grade|(null)|(null)|december|(null)|holidays|DS|(null)|(null)|
+
+shah's hash code is 4249316, it's compressed to 18
+
+0	    1      2      3    4      5   6    7      8      9      10    11    12		13		 14		15     16  17	   18
+|(null)|(null)|pass|sash|hash|(null)|BST|(null)|(null)|finals|grade|(null)|(null)|december|(null)|holidays|DS|(null)|shah|
+
+sentinel's hash code is 5036005563906, it's compressed to 10
+
+0	    1      2      3    4      5   6    7      8      9      10    11      12		13	 14		15       16  17	   18
+|(null)|(null)|pass|sash|hash|(null)|BST|(null)|(null)|finals|grade|sentinel|(null)|december|(null)|holidays|DS|(null)|shah|
+
+gift's hash code is 3819338, it's compressed to 16
+
+0	    1      2      3    4      5   6    7      8      9      10    11      12		13	 14		15       16  17	   18
+|(null)|(null)|pass|sash|hash|(null)|BST|(null)|(null)|finals|grade|sentinel|(null)|december|(null)|holidays|DS|gift|shah|
+
+fun's hash code is 115049, it's compressed to 13
+
+0	    1      2      3    4      5   6    7      8      9      10    11      12		13	 14		15   16  17	   18
+|(null)|(null)|pass|sash|hash|(null)|BST|(null)|(null)|finals|grade|sentinel|(null)|december|fun|holidays|DS|gift|shah|
+
+happy's hash code is 126947458, it's compressed to 6
+
+0	    1      2      3    4      5   6    7      8      9      10    11      12		13	 14		15   16  17	   18
+|(null)|(null)|pass|sash|hash|(null)|BST|happy|(null)|finals|grade|sentinel|(null)|december|fun|holidays|DS|gift|shah|
+
+me's hash code is 3698, it's compressed to 12
+
+0	    1      2      3    4      5   6    7      8      9      10    11    12		13	 14		15   16  17	   18
+|(null)|(null)|pass|sash|hash|(null)|BST|happy|(null)|finals|grade|sentinel|me|december|fun|holidays|DS|gift|shah|
+	^
+	|
+get("J") compressed to 0
+
+get("J") made no steps whatsoever (or maybe looking whether the entry's NULL is one step)
+
+__________________________________________________________________________________________________________________________
+
+b., d.
+
+0	    1      2      3      4      5      6      7      8      9      10     11     12		13		14		15		16	17		18
+|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|
+
+Output of the program "poly":
+
+$ ./poly.exe 31 december finals holidays grade BST DS pass hash sash shah sentinel gift fun happy me
+A is initialized to 31
+a is initialized to 19
+b is initialized to 8
+p is initialized to 23
+N is initialized to 19
+
+december's hash code is 2843830189093, it's compressed to 0
+
+ 0	       1      2      3      4      5      6      7      8      9      10     11     12		13		14		15	16		17		18
+|december|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|
+
+finals's hash code is 3020516797, it's compressed to 7     
+
+ 0	       1      2      3      4      5      6      7      8      9      10     11     12		13		14		15	16		17		18
+|december|(null)|(null)|(null)|(null)|(null)|(null)|finals|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|
+
+holidays's hash code is 2963016770331, it's compressed to 3
+
+ 0	       1      2      3    	  4      5      6      7      8      9      10     11     12		13	14		15		16	17		18
+|december|(null)|(null)|holidays|(null)|(null)|(null)|finals|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|
+
+grade's hash code is 98615255, it's compressed to 5
+
+ 0	       1      2      3    	  4      5      6      7      8      9      10     11     12		13	14		15		16	17		18
+|december|(null)|(null)|holidays|(null)|grade|(null)|finals|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|
+
+BST's hash code is 66083, it's compressed to 15
+
+ 0	       1      2      3    	  4      5      6      7      8      9      10     11     12		13	14	 15		16	17		18
+|december|(null)|(null)|holidays|(null)|grade|(null)|finals|(null)|(null)|(null)|(null)|(null)|(null)|(null)|BST|(null)|(null)|(null)|
+
+DS's hash code is 2191, it's compressed to 7
+
+ 0	       1      2      3    	  4      5      6      7    8      9    10     11     12	13		14	 15		16	17		18
+|december|(null)|(null)|holidays|(null)|grade|(null)|finals|DS|(null)|(null)|(null)|(null)|(null)|(null)|BST|(null)|(null)|(null)|
+
+pass's hash code is 3433489, it's compressed to 0
+
+ 0	       1      2      3    	  4      5      6      7    8      9    10     11     12	13		14	 15		16	17		18
+|december|pass|(null)|holidays|(null)|grade|(null)|finals|DS|(null)|(null)|(null)|(null)|(null)|(null)|BST|(null)|(null)|(null)|
+
+hash's hash code is 3195150, it's compressed to 2
+
+ 0	       1      2      3  	4      5      6      7  8      9    10     11     12	13		14	 15		16	17		18
+|december|pass|hash|holidays|(null)|grade|(null)|finals|DS|(null)|(null)|(null)|(null)|(null)|(null)|BST|(null)|(null)|(null)|
+
+sash's hash code is 3522851, it's compressed to 14
+
+ 0	       1      2      3  	4      5      6      7  8      9    10     11     12	13		14 15	16		17		18
+|december|pass|hash|holidays|(null)|grade|(null)|finals|DS|(null)|(null)|(null)|(null)|(null)|sash|BST|(null)|(null)|(null)|
+
+shah's hash code is 3529020, it's compressed to 17
+
+ 0	       1      2      3  	4      5      6      7  8      9    10     11     12	13		14 15	16		17	18
+|december|pass|hash|holidays|(null)|grade|(null)|finals|DS|(null)|(null)|(null)|(null)|(null)|sash|BST|(null)|shah|(null)|
+
+sentinel's hash code is 3256848066596, it's compressed to 8
+
+ 0	       1      2      3  	4      5      6      7  8      9    10     11     12	13		14   15	  16	17	  18
+|december|pass|hash|holidays|(null)|grade|(null)|finals|DS|sentinel|(null)|(null)|(null)|(null)|sash|BST|(null)|shah|(null)|
+
+gift's hash code is 3172656, it's compressed to 2
+
+ 0	       1      2      3  	4    5      6      7  8      9    10     11     12		13		14 15	  16	17	  18
+|december|pass|hash|holidays|gift|grade|(null)|finals|DS|sentinel|(null)|(null)|(null)|(null)|sash|BST|(null)|shah|(null)|
+
+fun's hash code is 101759, it's compressed to 3
+
+ 0	       1      2      3  	4    5   6      7  8      9    10     11     12		13		14  15	  16	17	  18
+|december|pass|hash|holidays|gift|grade|fun|finals|DS|sentinel|(null)|(null)|(null)|(null)|sash|BST|(null)|shah|(null)|
+
+happy's hash code is 99047136, it's compressed to 11
+
+ 0	       1      2      3  	4    5   6      7  8      9    10     11     12		13		14  15	  16	17	  18
+|december|pass|hash|holidays|gift|grade|fun|finals|DS|sentinel|(null)|happy|(null)|(null)|sash|BST|(null)|shah|(null)|
+
+me's hash code is 3480, it's compressed to 3
+
+ 0	       1      2      3  	4    5   6      7  8      9    10  11     12	13		14  15	  16	17	  18
+|december|pass|hash|holidays|gift|grade|fun|finals|DS|sentinel|me|happy|(null)|(null)|sash|BST|(null)|shah|(null)|
+																   ^	  ^
+																   |------+
+get("J") compressed to 11 -----------------------------------------+
+
+get("J") made 1 step (following the logic described above), returns NULL

@@ -1,0 +1,189 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    solution.txt                                       :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: aisraely <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/12/14 18:28:06 by aisraely          #+#    #+#              #
+#    Updated: 2021/12/14 18:28:06 by aisraely         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+1)
+
+N = 13
+
+0	    1      2      3      4      5      6      7      8      9      10     11     12
+|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|(null)|
+
+hashcode(december)
+d ^ e ^ c ^ e ^ m ^ b ^ e ^ r = 31
+  1   98  7  106  8  109  31
+
+compress(31) = 31 % 13 = 5
+
+0 	    1      2      3      4      5        6      7      8      9      10     11     12
+|(null)|(null)|(null)|(null)|(null)|december|(null)|(null)|(null)|(null)|(null)|(null)|(null)|
+
+
+hashcode(finals)
+f ^ i ^ n ^ a ^ l ^ s = 31
+  15 97   0  108  31
+
+compress(31) = 31 % 13 = 5
+
+0	    1      2      3       4     5         6      7      8      9      10    11     12
+|(null)|(null)|(null)|(null)|(null)|december|(null)|(null)|(null)|(null)|(null)|(null)|(null)|
+				             		   |
+						            finals
+
+hashcode(holidays)
+h ^ o ^ l ^ i ^ d ^ a ^ y ^ s
+  7  107  2  102  7  126  13
+
+compress(13) = 0
+
+0	      1       2     3       4      5        6      7      8      9     10     11     12
+|holidays|(null)|(null)|(null)|(null)|december|(null)|(null)|(null)|(null)|(null)|(null)|(null)|
+						    |
+						  finals
+
+hashcode(grade)
+g ^ r ^ a ^ d ^ e
+ 21  116  16 117
+
+compress(117) = 0
+
+ 0	      1       2     3       4      5        6      7      8      9     10     11     12
+|holidays|(null)|(null)|(null)|(null)|december|(null)|(null)|(null)|(null)|(null)|(null)|(null)|
+	|								    |
+  grade						          finals
+
+hashcode(BST)
+B ^ S ^ T
+  17 69
+
+compress(69) = 4
+
+ 0	      1       2     3       4      5        6      7      8      9     10     11     12
+|holidays|(null)|(null)|(null)|BST|december|(null)|(null)|(null)|(null)|(null)|(null)|(null)|
+	|								    |
+  grade						          finals
+
+hashcode(DS)
+D ^ S = 23
+
+compress(23) = 10
+
+ 0	      1       2     3       4      5        6      7      8      9  10   11     12
+|holidays|(null)|(null)|(null)|BST|december|(null)|(null)|(null)|(null)|DS|(null)|(null)|
+	|								    |
+  grade						          finals
+
+hashcode(pass)
+p ^ a ^ s ^ s
+  17  98  17
+
+compress(17) = 4
+
+ 0	      1       2     3       4      5        6      7      8      9  10   11     12
+|holidays|(null)|(null)|(null)|BST|december|(null)|(null)|(null)|(null)|DS|(null)|(null)|
+	|							|	    |
+  grade						  pass   finals
+
+hashcode(hash)
+h ^ a ^ s ^ h
+  9  122  18, compressed gives 5
+
+ 0	      1       2     3       4      5        6      7      8      9  10   11     12
+|holidays|(null)|(null)|(null)|BST|december|(null)|(null)|(null)|(null)|DS|(null)|(null)|
+	|							|	    |
+  grade						  pass   finals
+										|
+								      hash
+hashcode(sash)
+s ^ a ^ s ^ h
+  18  97  9, after compression is 9
+
+ 0	      1       2     3       4      5        6      7      8    9  10   11     12
+|holidays|(null)|(null)|(null)|BST|december|(null)|(null)|(null)|sash|DS|(null)|(null)|
+	|							|	    |
+  grade						  pass   finals
+										|
+								      hash
+hashcode(shah)
+s ^ h ^ a ^ h
+ 27  122  18, after compression 5
+
+  0	      1       2     3       4      5        6      7      8    9  10   11     12
+|holidays|(null)|(null)|(null)|BST|december|(null)|(null)|(null)|sash|DS|(null)|(null)|
+	|							|	    |
+  grade						  pass   finals
+										|
+								      hash
+									    |
+									  shah
+hashcode(sentinel)
+s ^ e ^ n ^ t ^ i ^ n ^ e ^ l
+  22 120 12  101  11  110 2, after compression 2
+
+    0	      1       2     3     4      5        6      7      8    9  10   11     12
+|holidays|(null)|sentinel|(null)|BST|december|(null)|(null)|(null)|sash|DS|(null)|(null)|
+	|								|	    |
+  grade							  pass   finals
+											|
+								    	  hash
+									    	|
+									 	  shah
+
+hashcode(gift)
+g ^ i ^ f ^ t
+  14  104 28, after compression 2
+
+    0	      1       2     3     4      5        6      7      8    9  10   11     12
+|holidays|(null)|sentinel|(null)|BST|december|(null)|(null)|(null)|sash|DS|(null)|(null)|
+	|				|				|	    |
+  grade				gift		  pass   finals
+											|
+								    	  hash
+									    	|
+									 	  shah
+
+hashcode(fun)
+f ^ u ^ n
+ 19  125, after compression 8
+
+    0	      1       2     3     4      5        6      7   8    9  10   11     12
+|holidays|(null)|sentinel|(null)|BST|december|(null)|(null)|fun|sash|DS|(null)|(null)|
+	|				|			  |	    |
+  grade				gift		  pass  finals
+											|
+								    	  hash
+									    	|
+									 	  shah
+
+hashcode(happy)
+h ^ a ^ p ^ p ^ y
+ 9  121  9  112, after compression 8
+
+    0	      1       2     3     4      5        6      7   8    9  10   11     12
+|holidays|(null)|sentinel|(null)|BST|december|(null)|(null)|fun|sash|DS|(null)|(null)|
+	|				|		   	  |	    |				     |
+  grade				gift		 pass   finals				happy
+											|
+								    	  hash
+									    	|
+									 	  shah
+
+hashcode(me)
+m ^ e = 8
+
+    0	      1       2     3     4      5        6      7   8    9  10   11     12
+|holidays|(null)|sentinel|(null)|BST|december|(null)|(null)|fun|sash|DS|(null)|(null)|
+	|				|			  |	    |				 |
+  grade				gift		  pass  finals				happy
+											|				 |
+								    	  hash				me
+									    	|
+									 	  shah
