@@ -1,4 +1,4 @@
-# CS121C Data Structures Homework Assignments
+# CS121C Data Structures
 
 American University of Armenia
 
