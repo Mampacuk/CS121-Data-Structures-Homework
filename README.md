@@ -44,6 +44,8 @@ Hence usage of `end()` as a delimiter for `begin()` is not possible (you can't i
 *	The last exercise's function must've climbed up/down from the received node without traversing inorderly the whole tree.
 
 ## References and Materials
+In the folder "slides" at the root of the repository you can find Dr. Yeghiazaryan's slides.
+
 This is a good read if you don't find my code readable:
 *	Arguments for `main()` in C-based languages: https://youtube.com/playlist?list=PLVQYiy6xNUxxDlCkkCX262SI90TsllYUW
 *	Compilation of C-based programs (also `define`s): https://youtube.com/playlist?list=PLVQYiy6xNUxxMI_GiGGb2hxMcd3IwNYRy
